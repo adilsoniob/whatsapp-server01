@@ -1,0 +1,20 @@
+COMO USAR
+
+1. Extraia esta pasta para um local fixo.
+2. De dois cliques em:
+   Iniciar Painel Shortcode Fallback.vbs
+
+FLUXO
+- Inicia o npm start oculto
+- Tenta subir o ngrok com dominio fixo:
+  shortcode.ngrok.app
+- Se falhar, sobe um dominio automatico do ngrok
+- Salva o link em:
+  C:\xampp\htdocs\envio\painel-shortcode\ngrok-output\dominio-ngrok.txt
+- Copia o link para a area de transferencia
+- Abre o link no navegador
+
+IMPORTANTE
+- ngrok precisa estar instalado e no PATH
+- a porta 3000 precisa subir corretamente
+- se o dominio fixo nao estiver disponivel na conta, o fallback automatico entra sozinho

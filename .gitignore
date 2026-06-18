@@ -1,0 +1,5 @@
+.env
+.env.vps
+data/*.json
+data/*.jsonl
+node_modules/

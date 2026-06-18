@@ -1,0 +1,77 @@
+[
+  {
+    "id": "2b9dde34-aa60-41fb-906b-4bfc611affba",
+    "username": "diihjcop",
+    "role": "admin",
+    "allowedAccounts": [
+      "0122C371A",
+      "0122C371B",
+      "0122C371C",
+      "0122C371D"
+    ],
+    "disabled": false,
+    "paused": false,
+    "creditsRemaining": 50000,
+    "password": {
+      "salt": "KGLgDTwj5qoFov96U6olEw==",
+      "hash": "vIut+q1bFzqpbxZGcbIeH6Wx3VqC84ig7neUBk490/0=",
+      "algorithm": "pbkdf2-sha256",
+      "iterations": 120000
+    },
+    "createdAt": "2026-05-02T23:33:51.720Z",
+    "updatedAt": "2026-05-02T23:34:25.550Z"
+  },
+  {
+    "id": "26b9b1c0-b9e0-4d75-981d-aea53beab1ce",
+    "username": "diego",
+    "role": "user",
+    "allowedAccounts": [
+      "0122C371A"
+    ],
+    "disabled": false,
+    "paused": false,
+    "creditsRemaining": 55000,
+    "password": {
+      "salt": "ztbA5dVQHgoz42CgRq0h/A==",
+      "hash": "R5SjZhZW4AhvOup9mt1sq+tSBmVp2YSSTHm7OSSPQE0=",
+      "algorithm": "pbkdf2-sha256",
+      "iterations": 120000
+    },
+    "createdAt": "2026-05-02T23:34:39.386Z",
+    "updatedAt": "2026-05-02T23:51:36.366Z"
+  },
+  {
+    "id": "e5cab99c-5874-400f-92e5-b8a80017c154",
+    "username": "btts",
+    "role": "user",
+    "allowedAccounts": [],
+    "disabled": false,
+    "paused": true,
+    "creditsRemaining": 0,
+    "password": {
+      "salt": "ux23WFWnh2jw1u/n5AL7+Q==",
+      "hash": "ELYuLS1g9ap+MFpnnDW7rMckMqM6cTlENS4JUxUV8cg=",
+      "algorithm": "pbkdf2-sha256",
+      "iterations": 120000
+    },
+    "createdAt": "2026-05-02T23:34:47.468Z",
+    "updatedAt": "2026-05-02T23:34:47.468Z"
+  },
+  {
+    "id": "e63cdc44-6dfa-44e4-9108-ffc5f0eddb04",
+    "username": "nato",
+    "role": "user",
+    "allowedAccounts": [],
+    "disabled": false,
+    "paused": true,
+    "creditsRemaining": 0,
+    "password": {
+      "salt": "r2keM21mH3lCKMApCihDAw==",
+      "hash": "utzC1GMWTtNZVsrfQlnBe/uvqI3CuVJHOrlq1k2ASCM=",
+      "algorithm": "pbkdf2-sha256",
+      "iterations": 120000
+    },
+    "createdAt": "2026-05-02T23:35:11.001Z",
+    "updatedAt": "2026-05-02T23:35:11.001Z"
+  }
+]

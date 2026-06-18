@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel shortcode DiihJcop</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Admin</p>
+          <h1>Painel shortcode DiihJcop</h1>
+          <p class="lede">Organize usuarios, acompanhe o monitor, teste rotas e administre suas contas de envio em um so lugar.</p>
+        </div>
+        <aside class="hero-panel">
+          <span id="me-role">-</span>
+          <strong id="me-user">-</strong>
+          <small>admin logado</small>
+          <button type="button" class="ghost" id="logout">Sair</button>
+        </aside>
+      </section>
+
+      <section class="admin-tabs card">
+        <div class="admin-tablist" role="tablist" aria-label="Abas do painel administrativo">
+          <button type="button" class="admin-tab" id="tab-users" data-tab="users" role="tab" aria-selected="false">Usuarios</button>
+          <button type="button" class="admin-tab" id="tab-monitor" data-tab="monitor" role="tab" aria-selected="false">Monitor</button>
+          <button type="button" class="admin-tab" id="tab-routes" data-tab="routes" role="tab" aria-selected="false">Testar rotas</button>
+          <button type="button" class="admin-tab" id="tab-accounts" data-tab="accounts" role="tab" aria-selected="false">Contas de envio</button>
+          <button type="button" class="admin-tab" id="tab-storefront" data-tab="storefront" role="tab" aria-selected="false">Contato e pacotes</button>
+        </div>
+      </section>
+
+      <section class="admin-panels">
+        <section class="card step-card admin-panel" data-tab-panel="users">
+          <div class="step-title">
+            <span>A</span>
+            <div>
+              <h2>Usuarios</h2>
+              <p>Cadastre usuarios e controle permissoes, creditos e contas liberadas.</p>
+            </div>
+          </div>
+
+          <div id="users" class="recent"></div>
+          <form id="create-user" class="composer admin-inline-form">
+            <section class="card step-card">
+              <div class="step-title">
+                <span>C</span>
+                <div>
+                  <h2>Novo usuario</h2>
+                  <p>Crie um usuario. Depois, use "Editar contas" para vincular uma ou mais contas.</p>
+                </div>
+              </div>
+
+              <label class="single-line">
+                Username
+                <input id="new-username" />
+              </label>
+
+              <label class="single-line">
+                Senha (min 6)
+                <input id="new-password" type="password" />
+              </label>
+
+              <button type="submit" class="primary-action">Criar usuario</button>
+              <p id="form-result" class="result"></p>
+            </section>
+          </form>
+        </section>
+
+        <section class="card step-card admin-panel" data-tab-panel="monitor">
+          <div class="step-title">
+            <span>M</span>
+            <div>
+              <h2>Monitor</h2>
+              <p>Acompanhe a fila, o status das contas e os ultimos envios sem sair do admin.</p>
+            </div>
+          </div>
+
+          <div class="account-actions" style="justify-content:flex-start;">
+            <a class="ghost" href="/admin/monitor" target="_blank" rel="noopener">Abrir monitor em tela cheia</a>
+          </div>
+
+          <iframe class="admin-monitor-frame" src="/admin/monitor" title="Monitor administrativo"></iframe>
+        </section>
+
+        <section class="card step-card admin-panel" data-tab-panel="routes">
+          <div class="step-title">
+            <span>T</span>
+            <div>
+              <h2>Testar rotas</h2>
+              <p>Selecione as contas, informe ate 5 numeros e envie 1 SMS por conta para cada numero.</p>
+            </div>
+          </div>
+
+          <div class="test-routes-grid">
+            <section class="test-routes-block">
+              <div class="message-footer" style="align-items: center;">
+                <p class="user-step" style="margin-bottom: 0;">1. Contas conectadas</p>
+                <div class="template-vars-actions">
+                  <button type="button" class="ghost" id="route-test-select-all">Selecionar todas</button>
+                  <button type="button" class="ghost" id="route-test-clear-all">Limpar</button>
+                </div>
+              </div>
+              <div id="route-test-accounts" class="account-list test-route-account-list"></div>
+            </section>
+
+            <section class="test-routes-block">
+              <p class="user-step">2. Numeros e mensagem</p>
+
+              <label class="single-line">
+                Numeros para teste
+                <textarea id="route-test-numbers" rows="7" placeholder="5511999999999&#10;5511888888888&#10;5511777777777"></textarea>
+              </label>
+              <small class="muted-note">Informe ate 5 numeros, um por linha.</small>
+
+              <label class="single-line">
+                Mensagem de teste
+                <textarea id="route-test-message" rows="7" maxlength="162" placeholder="Mensagem usada para validar as rotas"></textarea>
+              </label>
+
+              <div class="message-footer">
+                <small><strong id="route-test-char-count">0</strong>/162 caracteres</small>
+                <small id="route-test-number-count">0 numero(s)</small>
+              </div>
+
+              <button type="button" class="primary-action" id="route-test-submit">Enviar teste</button>
+              <p id="route-test-result" class="result"></p>
+            </section>
+          </div>
+        </section>
+
+        <section class="card step-card admin-panel" data-tab-panel="accounts">
+          <div class="step-title">
+            <span>B</span>
+            <div>
+              <h2>Contas de envio</h2>
+              <p>Cadastre e visualize as rotas de envio SMS disponiveis no sistema.</p>
+            </div>
+          </div>
+
+          <form id="add-account" class="composer" style="margin-top: 12px;">
+            <label class="single-line">
+              Conta (system id / login)
+              <input id="acc-account" />
+            </label>
+
+            <label class="single-line">
+              Senha do painel (modo panel/mock/api)
+              <input id="acc-panel-password" type="password" />
+            </label>
+
+            <label class="single-line">
+              Senha SMPP (modo smpp)
+              <input id="acc-smpp-password" type="password" />
+            </label>
+
+            <button type="submit" class="primary-action">Adicionar conta</button>
+            <p id="account-result" class="result"></p>
+          </form>
+
+          <div id="accounts" class="recent" style="margin-top: 16px;"></div>
+        </section>
+
+        <section class="card step-card admin-panel" data-tab-panel="storefront">
+          <div class="step-title">
+            <span>D</span>
+            <div>
+              <h2>Contato e pacotes</h2>
+              <p>Configure o WhatsApp e os valores que aparecem no login e no painel do usuario.</p>
+            </div>
+          </div>
+
+          <form id="storefront-form" class="step-card">
+            <label class="single-line">
+              WhatsApp (link ou numero com DDI)
+              <input id="sf-whatsapp" placeholder="Ex: 5511999999999 ou https://wa.me/5511999999999" />
+            </label>
+
+            <div class="storefront-grid">
+              <label class="single-line">
+                Pacote 1 - Envios
+                <input id="sf-p1-sends" type="number" min="1" step="1" />
+              </label>
+              <label class="single-line">
+                Pacote 1 - R$ por envio
+                <input id="sf-p1-price" type="number" min="0.0001" step="0.01" />
+              </label>
+
+              <label class="single-line">
+                Pacote 2 - Envios
+                <input id="sf-p2-sends" type="number" min="1" step="1" />
+              </label>
+              <label class="single-line">
+                Pacote 2 - R$ por envio
+                <input id="sf-p2-price" type="number" min="0.0001" step="0.01" />
+              </label>
+
+              <label class="single-line">
+                Pacote 3 - Envios
+                <input id="sf-p3-sends" type="number" min="1" step="1" />
+              </label>
+              <label class="single-line">
+                Pacote 3 - R$ por envio
+                <input id="sf-p3-price" type="number" min="0.0001" step="0.01" />
+              </label>
+            </div>
+
+            <button type="submit" class="primary-action">Salvar configuracao</button>
+            <p id="storefront-result" class="result"></p>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <script src="/admin.js"></script>
+  </body>
+</html>

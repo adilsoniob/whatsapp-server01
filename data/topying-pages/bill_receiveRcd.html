@@ -1,0 +1,138 @@
+
+
+
+
+
+
+
+
+
+
+<body> 
+  <div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="receiveRcdBtn2">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('receiveRcdTab2','receiveRcdTool2')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Receive Record</span></a> 
+	                  </li>
+	                  <!-- tab2-工具按钮组 -->
+	                  <li class="head-tools-r navbar-right flag-tools" id="receiveRcdTool2">
+	                       <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="receiveRcdTab2-tools-autoRefresh"
+						  	             onclick="refreshModal1('receiveRcdTab2')"><i class="fa fa-refresh"></i><div class="f-t-tips">Only data after the current hour can be queried</div></div>
+	                       <div class="btn f-p-tips danger" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="receiveRcdTab2-tools-clearAll"
+							  	 onclick="clearAllModal('receiveRcdTab2')"><i class="fa fa-eraser"></i><div class="f-t-tips">Delete All</div></div>
+	                  </li>      
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+	                    <div id="receiveRcdTab2" class="flag-tabs tab-pane  in active summary-tab">
+						</div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>   
+	  <script>
+	if(window.SIMPLE == window.SIMPLE_VER){
+	   $("#receiveRcdTab2-tools-autoRefresh").remove();
+	}
+	if(window.UTYPE != window.ADMIN_TYPE){
+	   $("#receiveRcdTab2-tools-clearAll").remove();
+	}
+	
+    g_var.view = '';
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + "/bill/receiveRcd/getView.ajax", 
+				data : {}, 
+				type : "post", 
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				        g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) {
+				}
+			});
+	}
+    try {
+       var selectPermissionsInfo =  g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = ['1', '1', '1', '1', '1', '1'];
+    	permi = ['1', '1', '1', '0', '1', '1'];
+    }
+    
+    /******************************* receiveRcd   begin 	******************************/
+	var t_valFormat = function (value, tips) {
+        var csssStrArray = ["default","primary","danger","success","yellow","info"];
+        return "<span class='label label-" + csssStrArray[value] + "'>" + tips + "</span>";
+    };
+    
+    var valFormat_mmsfiles = function (tipValue, width, value, tableId, rowData) {
+        if(rowData.smstype == 0 || tipValue == ""){
+             return "";
+        }
+		return "<a class='nav-link dropdown-toggle dropdown-toggle-nocaret position-relative' href='javascript:viewMmsfilesInfo(\""+tableId+"\",\""+tipValue+"\",\""+rowData.id+"\")' role='button' data-bs-toggle='dropdown' aria-expanded='false'>"+$.i18n("mmsFile.list_clk_info_tip")+"</a>";
+	};
+    
+	var tableItem_receiveRcd = {
+    		tableKey: "id", i18nPrefix: "db.tbRecvSMSRcd.", trs:[
+    		{name: "id", pk: true, disabled: "A", vali: {stringLength: 128},show: false},
+	        {name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE'],searchQuestionTip:true},
+	        {name: "user", vali: {stringLength: 64}, width:100,advQry: ['LIKE'],comType:"select",comData: "consumerIdSelectVals", isNotLoopGetVal: true, listReadField:"user",topSearch:true},
+	        {name: "supplier", vali: {stringLength: 64}, width:100,advQry: ['LIKE'],comType:"select",comData: "supplierNameSelectVals", isNotLoopGetVal: true, listReadField:"supplier"},
+	        {name: "srctype", vali: {stringLength: 64},show:false, width:100,advQry: ['LIKE'],comType:"select",topSearch:true},
+	        {name: "chanid", type: "S", vali: {stringLength: 11}, width:140,advQry: ['LIKE'],comType:"select",comData: "channelSelectVals",isIdField:true, listReadField:"channel"},
+	        {name: "goipid", vali: {stringLength: 64}, width:100,advQry: ['LIKE'],comType:"select",comData: "devSelectVals",isIdField:true, listReadField:"goip"},
+	        {name: "portnum", type: "I", vali: {stringLength: 11, required:false}, width:60},
+	        {name: "iccid", vali: {stringLength: 24, required:false},noSort:true,advQry: ['LIKE'], width:145},
+	        {name: "sender",noSort:true,advQry: ['LIKE'], width:100,topSearch:true},
+	        {name: "receiver",noSort:true,advQry: ['LIKE'], width:100,topSearch:true},
+	        {name: "chatId", width:145,noSort:true,advQry: ['LIKE'],topSearch:true},
+	        {name: "recvtm", width:140,comType: "timestamp",type: "T"},
+	        {name: "ipaddr", vali: {stringLength: 32, required:false},hideEdit: "A", width:120},
+	        {name: "type", vali: {stringLength: 64}, width:100,comType:"select", advQry: ['LIKE'], valFormat : "t_valFormat",topSearch:true},
+	        {name: "title", vali: {stringLength: 32, required:false},hideEdit: "A", width:120},
+	        
+	        {name: "mmsfiles", vali: {required:true, file:{extension:"png,jpg,jpeg",type: "image/*,audio/mpeg,video/wav,text/plain,application/pdf"},fileCnt:5, fileTotSize: 100 *1024}, width: 160,comType : "upload_preview", questionTip:true, valFormat : "valFormat_mmsfiles"},
+	        {name: "sms",noSort:true, width:650,advQry: ['LIKE'],topSearch:true}
+        ]};
+	var receiveRcdUrl = "/bill/receiveRcd/";
+	var receiveRcdPermi = permiMerge([ '0', '1', '1', '0', '1', '0', '0' ],permi);
+	var hiddenItemArrays = [[window.CONSUMER_TYPE,["user","supplier","srctype","chanid","goipid","portnum","iccid","ipaddr"]],[window.SUPPLIER_TYPE,["chanid", "user", "supplier"]],[window.AGENT_TYPE,["chanid"]],[window.SALESMAN_TYPE,["chanid"]],[window.BUSINESS_MANAGER_TYPE,["chanid"]]];
+	if(window.SIMPLE == window.SIMPLE_VER){
+	    hiddenItemArrays = [[window.CONSUMER_TYPE,["supplier","srctype","chanid"]]];
+	} 
+	if(window.SYS_CHAT_ENABLE == 0){
+	   reomveTableItem(tableItem_receiveRcd, ["chatId"]);
+	}
+	InitTableMoudle("receiveRcdTab2", "receiveRcdTool2", receiveRcdUrl, userTypeHiddenItemFun(tableItem_receiveRcd,hiddenItemArrays), receiveRcdPermi, "1",false,true,false,false,false,true);//,false,window.ADMIN_TYPE == 0   ,false,false,false,false,false,true
+	
+	/******************************* receiveRcd  end   ***************************************/
+    function refreshModal1(tableId){
+        selectFastDate(tableId, 'search-'+tableId+'-beginTime','search-'+tableId+'-endTime','0','0');
+        var btn_f = $("#"+tableId+"-tools-autoRefresh").find("i").hasClass('fa-spin');
+        if(btn_f){
+           $("#search-"+tableId+"-startEndTime").removeAttr("disabled");
+        }else{
+           $("#search-"+tableId+"-startEndTime").attr({"disabled":"disabled"});
+        }
+        autoRefreshModal(tableId);
+    }
+	</script>
+ </body>

@@ -1,0 +1,398 @@
+
+
+
+
+
+
+
+
+
+
+<body>
+
+	<div class="bs-example">
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<div class="widget no-margin-bottom">
+					<div class="widget-body no-padding">
+						<div id="searchable_wrapper">
+							<div class="tabbable">
+								<ul class="nav nav-tabs">
+									<li class="flag-tabs-btn tab-blue active"
+										id="dynamicSmsContentBtn1"><a data-toggle="tab"
+										href="javaScript:void(0)"
+										onclick="sendsms_switchTabAndTools('dynamicSmsContentTab1','dynamicSmsContentTool1', 'dynamicSmsContentBtn1')"><i
+											class="fa fa-list font14"></i> <span class="tab-title">Dynamic Templates </span> </a></li>
+
+									<li class="head-tools-r navbar-right flag-tools"
+										id="dynamicSmsContentTool1"></li>
+								</ul>
+								<div class="tab-content no-padding tabs-flat "
+									style="border-radius:0;">
+									<div id="dynamicSmsContentTab1"
+										class="flag-tabs tab-pane  in active summary-tab"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		g_var.view = '';
+		getView();
+		function getView() {
+			$.ajax({
+				url : window.PATH + "/sendSms/dynamicSmsContent/getView.ajax",
+				data : {},
+				type : "post",
+				dataType : "json",
+				async : false,
+				success : function success(req) {
+					g_var.view = req.data;
+				},
+				error : function error(xhr, type, exception) {}
+			});
+		}
+	
+		function importFilePreviewFormat(tableId) {
+			return "<span style='color:#999;border: 1px dashed #9b9191;width: 100%;display: inline-block;height: 50px;padding-left: 5px;'>" + $.i18n("db.tbSendSmsShortcut.importFilePreview.questionTip") + "</span>";
+		}
+	
+		var tableItem_dynamicSmsShortcut = {
+			tableKey : "id",
+			i18nPrefix : "db.tbSendSmsShortcut.",
+			titleName : "menu.sendSms",
+			sbmtBtnName : "send",
+			trs : [
+				{
+					name : "id",
+					type : "I",
+					pk : true,
+					hideEdit : "A",
+					disabled : "A",
+					vali : {
+						stringLength : 11
+					},
+					show : false
+				},
+				{
+					name : "user",
+					vali : {
+						stringLength : 32
+					},
+					width : 120,
+					comType : "select",
+					comData : "consumerSelectVals"
+				},
+				{
+					name : "smstype",
+					vali : {
+						required : false
+					},
+					comType : "radio",
+					width : 70,
+					noSort : true,
+					defVal : 0
+				}, //,addEventListener:["change","changeSmstype","edit"]
+	
+				{
+					name : "dynamicDoc",
+					vali : {
+						stringLength : 13000,
+						required : false
+					},
+					width : 220,
+					templateFilename : "dynamicDoc.xlsx",
+					fieldHead : [ 'name', 'number' ],
+					comType : "uploadFilePreview",
+					questionTip : true
+				},
+				{
+					name : "skipLines",
+					vali : {
+						stringLength : 32,
+						required : false
+					},
+					width : 120,
+					comType : "select",
+					comData : [ [ 0, 0 ] ],
+					selectHelpHide : true,
+					addEventListener : [ "change", "changeSkipLines", "edit" ]
+				},
+				{
+					name : "importFilePreview",
+					vali : {
+						stringLength : 32,
+						required : false
+					},
+					width : 120,
+					comType : "diy",
+					questionTip : true,
+					noSubmit : true,
+					diyFormat : "importFilePreviewFormat"
+				},
+				{
+					name : "numberColSelection",
+					vali : {
+						stringLength : 32
+					},
+					width : 120,
+					comType : "select",
+					comData : [],
+					selectHelpHide : true
+				},
+	
+				{
+					name : "senderId",
+					vali : {
+						stringLength : 32,
+						required : false
+					},
+					comType : "textDownPrompt",
+					width : 140,
+					questionTip : true
+				},
+				{
+					name : "sms",
+					vali : {
+						stringLength : 2400,
+						required : false
+					},
+					width : 120,
+					show : false,
+					hideEdit : "E",
+					textarea_rows : 8,
+					comType : "content_dynamic"
+				},
+	
+				{
+					name : "plansendtmStr",
+					type : "D",
+					vali : {
+						stringLength : 32,
+						required : false,
+						date : true,
+						dateFormat : "yyyy-MM-dd hh:mm:ss",
+						readonly : true
+					},
+					width : 120
+				},
+	
+				{
+					name : "replace_keyword",
+					vali : {
+						stringLength : 256,
+						required : false
+					},
+					width : 120,
+					show : false,
+					questionTip : true,
+					hideEdit : "E",
+					labelType : "textarea",
+					rows : 1,
+					fieldName : "replace_keyword_field_name"
+				},
+				{
+					name : "replace_arrayStr",
+					vali : {
+						stringLength : 2400,
+						required : false
+					},
+					width : 120,
+					show : false,
+					hideEdit : "E",
+					questionTip : true,
+					labelType : "textarea",
+					fieldName : "replace_array_field_name"
+				}
+			]
+		};
+	
+		var dynamicSmsShortcutUrl = "/sendSms/dynamicSmsContent/";
+		if (!(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.AGENT_TYPE)) {
+			tableItem_dynamicSmsShortcut = userTypeHiddenItem("dynamicSmsContentTab1", tableItem_dynamicSmsShortcut, [ "user" ])
+		}
+		InitAddTableMoudle("dynamicSmsContentTab1", dynamicSmsShortcutUrl, tableItem_dynamicSmsShortcut, "new");
+		/******************************* sendSmsShortcut  end   ***************************************/
+	
+		function initFormModel(tableId) {
+			$("#" + tableId + "-comContent-sms").after('<span id="' + tableId + '-smscnt" style="color:#999;">' + $.i18n("select_sms_billing_tip") + '</span>');
+			$("#" + tableId + "-comContent-skipLines").after('<input type="hidden" id="' + tableId + '-importFileName"><span id="' + tableId + '-skipLinesSelTip" style="color:#999;">' + $.i18n("uploadNumberFilePreview_skipLinesSle", "1") + '</span>');
+			$("#edit-" + tableId + "-sms").after('<div class="editor-btn-wrap-2"><div id="' + tableId + '-sms_placeholder" class="in-popover">' + $.i18n("please_upload_the_dynamic_document_first") + '</div></div>');
+			$("#" + tableId + "-comContent-numberColSelection").after('<span id="' + tableId + '-numberColSelectionTip" style="color:#999;">' + $.i18n("select_the_column_where_the_number_is_in_the_document") + '</span>');
+	
+			$("button[type='submit']").after('&nbsp;<button type="button" class="btn btn-warning" onclick="smsPreview(\'' + tableId + '\')">' + $.i18n("send_SMS_preview") + '&nbsp;<i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>');
+			$("#edit-" + tableId + "-rightModal").html('<h1 style="text-align: center;">' + $.i18n("send_SMS_preview") + '</h1>');
+			changeSmstype(tableId, "0");
+			initSmsTablePositionModel(tableId);
+	
+			$("#edit-" + tableId + "-sms").on("keyup", function() {
+				if (this.innerHTML === "<br>") {
+					this.innerHTML = "";
+				}
+			});
+		}
+	
+		function changeSmstype(tableId, val) {
+			var mmstitle = "edit-" + tableId + "-mmstitle";
+			$("#" + mmstitle).removeAttr("disabled");
+			if (val != "1") {
+				$("#" + mmstitle).attr({
+					"disabled" : "disabled"
+				});
+			}
+		}
+	
+		function initSmsPreview(tableId) {
+			var params = getSubmitData(tableId, "edit");
+			var $_tr = $("#edit-" + tableId + "-importFilePreview").find("tbody tr:first");
+			var smsPre_html = '<div class="smsPreview_div"><h1 style="text-align: center;">' + $.i18n("send_SMS_preview") + '</h1>';
+			if (window.SIMPLE == window.NORMAL_VER && window.UTYPE == window.ADMIN_TYPE) {
+				smsPre_html += '<div><span>' + $.i18n("db.tbSendSmsShortcut.user") + '</span>';
+				smsPre_html += '<pre class="pre_preview">' + params.user + '</pre></div>';
+			}
+	
+			smsPre_html += '<div><span>' + $.i18n("db.tbSendSmsShortcut.smstype") + '</span>';
+			smsPre_html += '<pre class="pre_preview">' + matchComdata2Alias("db.tbSendSmsShortcut.smstype.comData", params.smstype) + '</pre></div>';
+	
+			var tot_row = $("#edit-" + tableId + "-skipLines").attr("totRow");
+			smsPre_html += '<div><span>' + $.i18n("number_of_SMS") + '</span>';
+			smsPre_html += '<pre class="pre_preview">' + (parseInt(tot_row) - parseInt(params.skipLines)) + '</pre>';
+			smsPre_html += '<span style="color:#999;">' + $.i18n("number_of_SMS.tip") + '</span></div>';
+	
+			var numberColSelection_html = $_tr.find("td:eq(" + (parseInt(params.numberColSelection) + 1) + ")").html();
+			smsPre_html += '<div><span>' + $.i18n("db.tbSendSmsShortcut.number") + '</span>';
+			smsPre_html += '<pre class="pre_preview">' + (numberColSelection_html ? numberColSelection_html : '') + '</pre>';
+			smsPre_html += '<span style="color:#999;">' + $.i18n("number_content.tip") + '</span></div>';
+	
+			smsPre_html += '<div><span>' + $.i18n("db.tbSendSmsShortcut.senderId") + '</span>';
+			smsPre_html += '<pre class="pre_preview">' + params.senderId + '</pre>';
+			smsPre_html += '<span style="color:#999;"></span></div>';
+	
+			smsPre_html += '<div><span>' + $.i18n("db.tbSendSmsShortcut.sms") + '</span>';
+			smsPre_html += '<pre class="pre_preview">' + getExecStrs(params.sms, $_tr) + '</pre>';
+			smsPre_html += '<span style="color:#999;">' + $.i18n("sms_content.tip") + '</span></div>';
+	
+			smsPre_html += '<div><span>' + $.i18n("db.tbSMSJob.starttm") + '</span>';
+			var plansendtmStr = $("#edit-" + tableId + "-plansendtmStr").val(); //getSubmitData获取的时间是经过时区处理后的
+			smsPre_html += '<pre class="pre_preview">' + (plansendtmStr ? plansendtmStr : $.i18n("send_SMS_now")) + '</pre>';
+			smsPre_html += '<span style="color:#999;"></span></div>';
+	
+			smsPre_html += '<div><span><button type="button" class="btn btn-primary" onclick="smsSubmit(\'' + tableId + '\')">' + $.i18n("send") + '&nbsp;</button></span></div>';
+			smsPre_html += '</div>';
+			$("#edit-" + tableId + "-rightModal").html(smsPre_html);
+		}
+	
+		function smsPreview(tableId) {
+			var f = $('#' + tableId + '-edit-form').data('bootstrapValidator').resetForm().validate().isValid();
+			if (f) {
+				initSmsPreview(tableId);
+			}
+		}
+	
+		function smsSubmit(tableId) {
+			$("#" + tableId + "-edit-form").find("button[type='submit']").click();
+		}
+	
+		function getExecStrs(sms_content, $_tr) {
+			var reg_g = new RegExp('\{' + $.i18n("column") + '(.*?)\}', 'g');
+			var result = sms_content.match(reg_g);
+			if (result != null) {
+				for (var i = 0; i < result.length; i++) {
+					var item = result[i];
+					var col = item.replace(/[^\d]/g, " ");
+					if (col != null) {
+						col = parseInt(col);
+						sms_content = sms_content.replace(item, '<span style="color:#0e62f0;">' + $_tr.find("td:eq(" + col + ")").html() + '</span>');
+					}
+				}
+			}
+			return sms_content;
+		}
+		
+		function initSmsTablePositionModel(tableId) {
+			var winHeight = document.documentElement.clientHeight;
+			winHeight = winHeight - $(".page-breadcrumbs").height() - $(".navbar-inner").height() - 35;
+			if (window.IS_MOBILE) {
+				winHeight += 10;
+			}
+			$("#" + tableId).css("height", winHeight);
+			$("#edit-" + tableId + "-rightModal").css({
+				"border-left" : "1px solid #ddd",
+				"height" : winHeight - 60
+			});
+		}
+	
+		function changeSkipLines(tableId, val) {
+			var import_fn = $("#edit-" + tableId + "-dynamicDoc-hidden").val();
+			if (import_fn && import_fn != "") {
+				loadPreviewFileTabCol(tableId, parseInt(val));
+			}	 
+		}
+		
+		initFormModel("dynamicSmsContentTab1");
+	</script>
+	<style>
+.goip-dev {
+	padding: 0 !important;
+}
+
+.contentedi_div {
+	padding: 5px 5px 5px 9px;
+	width: calc(100% - 98px);
+	height: 150px;
+}
+
+.editor-btn-wrap-2 .in-popover {
+	padding: 0px 5px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 98px;
+	background-color: #fff;
+	border: 1px solid #f4f3f3;
+	box-shadow: 0 0 10px 0 #eef0f8;
+	border-radius: 4px;
+	height: 150px;
+}
+
+.editor-btn-wrap-2 .in-popover .in-title {
+	padding-bottom: 10px;
+	font-size: 14px;
+	color: #999b9e;
+	font-weight: 400;
+}
+
+.editor-btn-wrap-2 .in-popover .in-list {
+	max-height: 150px;
+	overflow: auto;
+}
+
+.editor-btn-wrap-2 .in-popover .in-list .in-item {
+	margin-top: 5px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #3b3d44;
+	background: #fafbfd;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.editor-btn-wrap-2 .in-item {
+	user-select: none;
+	pointer-events: auto;
+	outline: none;
+}
+
+.editor-btn-wrap-2 .in-item {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+}
+</style>
+</body>

@@ -1,0 +1,392 @@
+
+
+
+
+
+
+
+
+
+
+<body>
+<div class="bs-example">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget no-margin-bottom">
+                <div class="widget-body no-padding">
+                    <div id="searchable_wrapper">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <!-- tab标签组 -->
+                                 <li class="flag-tabs-btn tab-blue active" id="sendQueueBtn1">
+                                    <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('sendQueueTab1','')"><i
+                                            class="fa fa-list font14"></i>
+                                        <span class="tab-title">Information</span></a>
+                                </li>
+                                <li class="flag-tabs-btn tab-blue" id="sendQueueBtn2">
+                                    <a data-toggle="tab" href="javaScript:void(0)" onclick="sendQueueSwitchTabAndTools('sendQueueTab2','sendQueueTool2')"><i
+                                            class="fa fa-list font14"></i>
+                                        <span class="tab-title">Message Queue</span></a>
+                                </li>
+                                <!-- tab2-工具按钮组 -->
+                                <li class="head-tools-r navbar-right flag-tools" id="sendQueueTool1"></li>
+                                <li class="head-tools-r navbar-right flag-tools" style="display:none;" id="sendQueueTool2">
+                                    <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"  id="sendQueueTab2-tools-autoRefresh"
+						  	             onclick="autoRefreshModal('sendQueueTab2')"><i class="fa fa-refresh"></i><div class="f-t-tips">Refresh</div></div> 
+                                    <div class="btn f-p-tips danger" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"  id="sendQueueTab2-tools-clearAll"
+							  	 onclick="clearAllModal('sendQueueTab2')"><i class="fa fa-eraser"></i><div class="f-t-tips">Delete All</div></div>
+                                <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="sendQueueTab1-tools-startq"
+                                         onclick="startOrStopModal('sendQueueTab2','start')"><i class="fa fa-play"></i>
+                                        <div class="f-t-tips">Start</div>
+                                    </div>
+                                    <div class="btn f-p-tips danger" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="sendQueueTab1-tools-stopq"
+                                         onclick="startOrStopModal('sendQueueTab2','stop')"><i class="fa fa-pause"></i>
+                                        <div class="f-t-tips">Stop</div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                            <!-- tab页面组 -->
+                            <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+                                <div id="sendQueueTab1" class="flag-tabs tab-pane  in active summary-tab">
+                                    <div class="row" style="margin: 20px 1px 0px 1px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="widget radius-bordered">
+                                                <div class="widget-header">
+                                                    <span class="widget-caption">Information</span>
+                                                </div>
+                                                <div class="widget-body no-padding table-border-outlineInfo">
+                                                    <div class="row" style="padding:0 15px;">
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="totrcd_cnt">-</span>
+                                                            <div class="databox-text darkgray">Send queue</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="idle_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="idle_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="resend_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="resend_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="ready_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="ready_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="sending_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="sending_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="stop_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="stop_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="wait_cnt">-</span>
+                                                            <div class="databox-text darkgray" id="wait_cnt_i18n">&nbsp;</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="src_smpp_cnt"></span>
+                                                            <div class="databox-text darkgray">SMPP</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="src_http_cnt"></span>
+                                                            <div class="databox-text darkgray">HTTP</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="src_web_cnt"></span>
+                                                            <div class="databox-text darkgray">WEB</div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="flash_cnt"></span>
+                                                            <div class="databox-text darkgray">Flash SMS</div>
+                                                        </div>
+                                                        <!-- <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding">
+                                                            <span class="databox-number sky" style="font-size: 24px">-</span>
+                                                            <div class="databox-text darkgray">&nbsp;</div>
+                                                        </div> -->
+                                                        <div class="col-xs-6 col-sm-4 col-md-2 outline-border-padding cursor:pointer;"
+                                                             onclick="initTabSendQueueInfo()">
+                                                            <span class="databox-number sky" style="font-size: 24px" id="outLineInfo18"></span>
+                                                            <div class="databox-text darkgray">Refresh Time</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="user_sendQueueStatId" class="widget radius-bordered">
+                                                <div class="widget-header">
+                                                    <span class="widget-caption">User sending queue statistics</span>
+                                                </div>
+                                                <div class="widget-body data-tbody" style="padding: 0px;min-height:200px;">
+                                                    <table class="table table-condensed table-bordered table-striped" style="width: 100%;border-top: hidden;">
+                                                        <tbody id="myTbody_querySMSDetails">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sendQueueTab2" class="flag-tabs tab-pane" style="border-radius:0;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    g_var.view = '';
+    getView();
+    function getView() {
+        $.ajax({
+            url: window.PATH + "/sendSms/sendQueue/getView.ajax",
+            data: {},
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function success(req) {
+                g_var.view = req.data;
+            },
+            error: function error(xhr, type, exception) {
+            }
+        });
+    }
+    try {
+        var selectPermissionsInfo = g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+        selectPermissionsInfo.permissions = ['0', '1', '1', '1', '1', '1'];
+        permi = ['0', '1', '1', '0', '1', '1'];
+    }
+     
+    /******************************* 发送队列 begin    ******************************/
+    var sendQueue_state = function (value, tips) {
+        var array = ["default", "info", "warning", "primary", "danger", "warning", "danger", "success"];
+        if(value ==10){
+            return "<span class='label label-warning'>" + tips + "</span>";
+        }
+        return "<span class='label label-" + array[value] + "'>" + tips + "</span>";
+    }
+	
+	var t_valFormat = function (value, tips) {
+        var csssStrArray = ["default","primary"];
+        return "<span class='label label-" + csssStrArray[value] + "'>" + tips + "</span>";
+    }
+    
+    var valFormat_mmsfiles = function (tipValue, width, value, tableId, rowData) {
+        if(rowData.smstype == 0 || tipValue == ""){
+             return "";
+        }
+		return "<div class='tooltipinfo_noImg' tip='mmsFile.list_clk_info_tip' style='cursor: default;'><a class='nav-link dropdown-toggle dropdown-toggle-nocaret position-relative' href='javascript:viewMmsfilesInfo(\""+tableId+"\",\""+tipValue+"\",\""+rowData.id+"\")' role='button' data-bs-toggle='dropdown' aria-expanded='false'>"+tipValue+"</a></div>";
+	};
+	
+    var tableItem_sendQueue = {
+        tableKey: "id", i18nPrefix: "db.tbSMSSendQueue.", trs: [
+            {name: "id", type: "I", pk: true, hideEdit: "E", disabled: "A", vali: {maxlength: 11}, show: false},
+            {name: "startEndTime", vali: {date: true, defStartTime:false},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+            {name: "user", vali: {maxlength: 64}, noSort:true, advQry: ['LIKE'],topSearch:true, width: 120,comType:"select",comData: "consumerNameSelectVals", isNotLoopGetVal: true},
+            {name: "supplier", type: "S", vali: {maxlength: 11}, noSort:true, width: 120},//,comType:"textDownPrompt",downPromptData: "supplierIdSelectVals"
+           // {name: "agent", type: "S", vali: {maxlength: 11}, noSort:true, width: 120},//,comType:"textDownPrompt",downPromptData: "agentSelectVals"
+            {name: "smstype",vali: {stringLength: 32, required: false}, width: 120, comType: "select", advQry: ['LIKE'], valFormat : "t_valFormat"},
+            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+         //   {name: "job", vali: {stringLength: 64}, width:100,comType:"textDownPrompt", advQry: ['LIKE'],downPromptData: "jobSelectVals",isIdField:true},
+            {name: "job", vali: {stringLength: 64}, width:100, advQry: ['LIKE'],topSearch:true, isIdField:true},
+	        
+            
+            {name: "srctype", type: "I", vali: {maxlength: 11}, advQry: ['LIKE'], comType: "select", width: 120},
+            {name: "routeid", type: "S", vali: {maxlength: 11}, noSort:true, width: 120, advQry: ['LIKE'],comType:"select",comData: "routeSelectVals"},
+            {name: "chanid",type: "S",vali: {maxlength: 11}, noSort:true, width: 120, advQry: ['LIKE'],comType:"select",comData: "channelSelectVals"},
+            {name: "goipid", type: "S", vali: {maxlength: 11, required: false}, noSort:true, width: 140, advQry: ['LIKE'],comType:"select",comData: "devSelectVals"},
+            {name: "portnum", type: "I", vali: {maxlength: 11, required: false}, noSort:true, width: 140},
+            {name: "slot", type: "I", vali: {maxlength: 11, required: false}, noSort:true, width: 140},
+            {name: "flashsms", type: "I", vali: {maxlength: 2, required: false}, comType: "select", advQry: ['LIKE'], width: 120},
+            {name: "orireceiver", vali: {maxlength: 64, required: false}, noSort:true, advQry: ['LIKE'], width: 160},
+            {name: "receiver", type: "S", vali: {maxlength: 11, required: false}, noSort:true, advQry: ['LIKE'], width: 160},
+            {name: "dstreceiver", vali: {maxlength: 32, required: false}, noSort:true, advQry: ['LIKE'], width: 145},
+            {name: "sender", vali: {maxlength: 32, required: false, noSort:true}, advQry: ['LIKE'], width: 145},
+            {name: "mcc", type: "I", advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000}, advQry: ['LIKE'],  width:120,valFormat : "_valFormatMcc_img"},
+            {name: "mnc", type: "I", advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000}, advQry: ['LIKE'],  width:120, valFormat : "formatShowMnc",paramArray:["mcc", "operator"]},
+            {name: "retry", type: "I", vali: {maxlength: 11, required: false}, noSort:true, width: 120},
+            {name: "maxretry", type: "I", vali: {maxlength: 11, required: false}, noSort:true, width: 120},
+            {name: "pri", type: "I", vali: {maxlength: 32, required: false}, width: 120},
+            {name: "status", vali: {maxlength: 1}, comType: "select", advQry: ['LIKE'], width: 120, valFormat: "sendQueue_state"},
+            
+            {name: "mmsfiles", vali: {required:true, file:{extension:"png,jpg,jpeg",type: "image/*,audio/mpeg,video/wav,text/plain,application/pdf"},fileCnt:5, fileTotSize: 100 *1024}, width: 160,comType : "upload_preview", questionTip:true, valFormat : "valFormat_mmsfiles"},
+            {name: "mmstitle",vali: {stringLength: 256}, tip:true},
+            {name: "sms", vali: {maxlength: 2400}, advQry: ['LIKE'], noSort:true, width: 120},
+            {name: "planstarttm",comType: "timestamp", width:140},
+            {name: "sendtm",comType: "timestamp", width:140},
+            {name: "submittm",comType: "timestamp", width:140} 
+        ]
+    };
+    var sendQueueUrl = "/sendSms/sendQueue/";
+    var sendQueuePermi = permiMerge(['0', '1', '1', '0', '1', '0'], permi);
+    //tableItem_sendQueue = isEnableOperHiddenItemFun(tableItem_sendQueue, ["btype"]);
+    sendQueuePermi[3] == '1'  ? $("#sendQueueTab2-tools-clearAll").hide() : "";
+    if(permi[2] == '1'){
+        $("#sendQueueTab1-tools-startq,#sendQueueTab1-tools-stopq").remove();
+    }
+    
+    
+    var hiddenItemArrays = [[window.CONSUMER_TYPE,["user","supplier","routeid","chanid","goipid","portnum","retry","maxretry"]],[window.AGENT_TYPE, ["routeid","chanid","supplier","goipid","portnum"]],[window.SALESMAN_TYPE, ["routeid","chanid","supplier","goipid","portnum","slot","flashsms"]]];
+    
+    var isInitSendQueueList = false;
+    function sendQueueSwitchTabAndTools(tableId, toolsAreaId, tabBtnId, uname){
+        if(!isInitSendQueueList){
+           InitTableMoudle(tableId, toolsAreaId, sendQueueUrl, userTypeHiddenItemFun(tableItem_sendQueue, hiddenItemArrays), sendQueuePermi, "1", false, true);
+           document.getElementById(tableId+"-tools-autoRefresh").style.display = ((window.UTYPE ==window.ADMIN_TYPE || window.SIMPLE == window.SIMPLE_VER) ? "" : "none");
+           isInitSendQueueList = true;
+        }else if(uname){
+           $("#search-"+tableId+"-user").select2_val(uname);
+           queryTableDataModel(tableId); 
+        }
+        switchTabAndTools(tableId, toolsAreaId, tabBtnId);
+    }
+    
+    function queryUserSendQueueInfoByUser(uname){
+        var t = "sendQueueTab2";
+        setLocalStorageModel(t, "searchDefVal", {"user":uname});
+        sendQueueSwitchTabAndTools(t, "sendQueueTool2", "sendQueueBtn2", uname);
+    }
+    
+    /******************************* 发送队列 end   ***************************************/
+    
+    function startOrStopModal(tableId, actionName) { 
+        var temp = actionName == "start" ? "confirmStart" : "confirmStop";
+        layer.confirm($.i18n("frame.from.tips." + temp)+" ("+$.i18n("check.nocheck.tip")+")", function (idx) {
+            var loadInx = layer.load(2);
+            var params = {};
+            var ids = deleteRowsList(tableId);
+            if(ids.length>0){
+                params.idList = ids;
+                params["cx_LIKE-|-user"] = $("#search-"+ tableId + "-user").val();
+            }else{
+                params = getSearchParams(tableId);
+            }
+            params.actionName = actionName;
+            $.ajax({
+                url: window.PATH + sendQueueUrl + "startOrStopModal.ajax",
+                dataType: "json",
+                async: true,
+                data: params,
+                type: "POST",
+                success: function (res) {
+                    layer.msg.success(res.message);//message success
+                    queryTableDataModel(tableId);
+                    layer.close(loadInx);
+                },
+                error: function () {
+                    layer.close(loadInx);
+                }
+            });
+            layer.close(idx);//关闭弹窗
+        });
+    }
+    
+    function searchBeforeConditionCheck(tableId){
+        if(window.UTYPE != window.AGENT_TYPE && window.UTYPE != window.SALESMAN_TYPE && window.UTYPE > 0){
+            queryTableDataModel(tableId);
+        }else{
+            var user = $("#search-"+tableId+"-user").val();
+		    if(!user || user == ""){
+		        layer.msg.error($.i18n("please_select_user_query"));	
+		    }else{
+		        queryTableDataModel(tableId);
+		    }
+        }
+	}
+	
+    
+    /***************************************    概要信息   ***********************************/
+    var states = ["idle","resend","ready","sending","stop"];
+    var all_sts = ["cuser","totrcd","idle","resend","ready","sending","stop","wait","src_smpp","src_http","src_web","flash"];
+    
+    function queryUserStatDetails(statArray) {
+        var mySMSDetailsTable = $("#myTbody_querySMSDetails");
+        var tr_thead = [];
+        for(var i=0;i<all_sts.length;i++){
+            var key = all_sts[i];
+             if("wait" == key){
+                 tr_thead.push(matchComdata2Alias("db.tbSMSSendQueue.status.comData", "10"));
+             }else{
+                 var idx = states.indexOf(key);
+                 if(idx == -1){
+                    if(key == "totrcd") {
+                        tr_thead.push($.i18n("db.tbSMSJob.sendQueueNumber"));
+                    }else if(key == "flash"){
+                        tr_thead.push($.i18n("db.tbSMSJob.flash"));
+                    }else if(key == "src_http"){
+                        tr_thead.push("HTTP");
+                    }else if(key == "src_web"){
+                        tr_thead.push("WEB");
+                    }else if(key == "src_smpp"){
+                        tr_thead.push("SMPP");
+                    }else if(key == "cuser"){
+                        tr_thead.push($.i18n("db.tbSMSSendQueue.user"));
+                    }
+                 }else{
+                    tr_thead.push(matchComdata2Alias("db.tbSMSSendQueue.status.comData", idx));
+                 }
+             }
+        }
+        var tb_data = [];
+        $.each(statArray, function (index, obj) {
+            var tr_data = [];
+            for(var j=0;j<all_sts.length;j++){
+               if(all_sts[j] == "cuser"){
+                   var user_name = obj[all_sts[j]];
+                   tr_data.push("<a href='javascript:void(0)' onclick='queryUserSendQueueInfoByUser(\""+user_name+"\")'>"+user_name);
+               }else{
+                   tr_data.push(obj[all_sts[j]]);
+               }
+            }
+            tb_data.push(tr_data);
+        });
+        var html = loadTableHtml(tr_thead, tb_data);
+        mySMSDetailsTable.html(html);
+    }
+
+    function initTabSendQueueInfo() {
+        initTableHeightPositionModel("sendQueueTab1");
+        Utils_ajax({
+            url: window.PATH + sendQueueUrl + "sendQueueStatisticInfo.ajax",
+            dataType: "json",
+            async: true,
+            data: {},
+            type: "POST",
+            success: function (res) {
+                var outlineInfo = res.data;
+                if (outlineInfo) {
+	                for(var i=0;i<all_sts.length;i++){
+	                    var key = all_sts[i];
+	                    $("#" + key+"_cnt").html(outlineInfo[key]);
+	                    if("wait" == key){
+                            $("#" + key+"_cnt_i18n").html(matchComdata2Alias("db.tbSMSSendQueue.status.comData", "10"));
+                        }else{
+                            $("#" + key+"_cnt_i18n").html(matchComdata2Alias("db.tbSMSSendQueue.status.comData", states.indexOf(key)));
+                        }
+	                }
+                    var now_s = new Date().getTime()/1000;
+                    $("#outLineInfo18").html(timeStampToString(now_s, "hh:mm:ss"));
+                    
+                    if(outlineInfo.statArray){
+                       queryUserStatDetails(outlineInfo.statArray);
+                    }else{
+                       $("#user_sendQueueStatId").hide();
+                    } 
+                }
+            }
+        });
+    }
+    initTabSendQueueInfo();
+    
+</script>
+</body>

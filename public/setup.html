@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Setup - Painel SMS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Setup</p>
+          <h1>Criar o primeiro admin</h1>
+          <p class="lede">Depois disso, o admin cria os usuarios e vincula as contas.</p>
+        </div>
+        <aside class="hero-panel">
+          <span>primeiro acesso</span>
+          <strong>Admin</strong>
+          <small>uma vez so</small>
+        </aside>
+      </section>
+
+      <section class="send-layout">
+        <form id="setup-form" class="composer">
+          <section class="card step-card">
+            <div class="step-title">
+              <span>1</span>
+              <div>
+                <h2>Admin</h2>
+                <p>Defina um usuario e senha fortes.</p>
+              </div>
+            </div>
+
+            <label class="single-line">
+              Usuario (min 3)
+              <input id="username" autocomplete="username" />
+            </label>
+
+            <label class="single-line">
+              Senha (min 6)
+              <input id="password" type="password" autocomplete="new-password" />
+            </label>
+
+            <button type="submit" class="primary-action">Criar admin</button>
+            <p id="form-result" class="result"></p>
+          </section>
+        </form>
+      </section>
+    </main>
+
+    <script src="/setup.js"></script>
+  </body>
+</html>
+

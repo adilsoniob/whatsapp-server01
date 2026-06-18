@@ -1,0 +1,14 @@
+● painel-shortcode.service - Painel Shortcode
+     Loaded: loaded (/etc/systemd/system/painel-shortcode.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-05-02 23:41:07 UTC; 14min ago
+   Main PID: 614562 (node)
+      Tasks: 11 (limit: 2273)
+     Memory: 44.0M (peak: 44.2M)
+        CPU: 1.467s
+     CGroup: /system.slice/painel-shortcode.service
+             └─614562 /usr/bin/node server.js
+
+May 02 23:41:07 vps3364868 systemd[1]: Started painel-shortcode.service - Painel Shortcode.
+May 02 23:41:07 vps3364868 node[614562]: SMS Rotator rodando em http://127.0.0.1:3000
+May 02 23:41:07 vps3364868 node[614562]: Modo do provedor: panel
+May 02 23:41:07 vps3364868 node[614562]: Contas configuradas: 4

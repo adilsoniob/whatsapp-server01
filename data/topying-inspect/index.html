@@ -1,0 +1,1436 @@
+
+
+
+
+
+
+
+
+
+
+ <!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.4
+Version: 1.4
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<div id="sLoading_div"></div>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8; X-Content-Type-Options=nosniff" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta name="description" content="Dashboard" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link id="version_type_id" rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M+jPwABAQEAjX9jAAAAABJRU5ErkJggg==" type="image/x-icon">
+    <title id="ID_version_title">&nbsp;</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/sLoading.css?version=NORMAL_S_1037_MDAwMDAwMA=="/>
+    <link rel="stylesheet" type="text/css" href="/assets/css/frameHome.css?version=NORMAL_S_1037_MDAwMDAwMA=="/>
+    <link rel="stylesheet" type="text/css" href="/assets/css/select2.min.css?version=NORMAL_S_1037_MDAwMDAwMA=="/>
+    <script type="text/javascript" src="/assets/js/sLoading.min.js?version=NORMAL_S_1037_MDAwMDAwMA==" charset="utf-8"></script>
+    <script>
+        window.VERSION = "1037";
+        window.DOMAIN = "https://msg.topying.net:443";
+        window.WSHOST = "wss://msg.topying.net";
+        window.WSPORT = "21001";
+        window.PATH = "";
+        window.LANGUAGE = "en_US";
+        window.WEBSVNVER = "NORMAL_S_1037_MDAwMDAwMA==";
+        window.LOGIN_USER_NAME = "0122C371A";
+        window.HIDE_RECHARGE_MENU = "true";
+        
+        
+        window.IS_ALERT_CHANGE_PASSWORD = 0;
+        window.LOGIN_PWD_MODIFY_INTERVAL_TIME = 0;
+        
+        window.RATIO = 1000000;
+        window.RATIO_LEN = 6;
+        
+        window.RATIO_100 = 100;
+        window.TABLE_DATA_LOAD_SIZE = 25;
+        
+        window.IS_SHOW_CUR_ICON = false;
+        
+        window.TO_CURRENCY = "EUR";
+        
+        //SIMPLE:0   Normal version
+        //SIMPLE:1   Simple version
+        window.SIMPLE = 0;
+        window.NORMAL_VER = 0;
+        window.SIMPLE_VER = 1;
+        
+        window.HIDE_INCOME_TURNOVER = 0;
+        window.HIDE_INCOME_COST = 0;
+        window.HIDE_INCOME_GIFT = 0;
+        
+        window.SHOW_BAL = 1;
+        window.HIDE_RATE = 0;
+        
+        window.IS_ENALE_OPER = 1;
+        
+        window.USER_BALANCE = -24000;
+        window.USER_ALARM_THD = 0;
+        window.USER_CREDIT = 1000000;
+        
+        window.IS_PARENT_USER = 1;
+         
+        window.IS_VIEW_CHARGE_RULE = 2;
+        window.IS_VIEW_DR_ENABLE = 0;
+        window.search_mode = "top";
+        window.theme_colors = "gradient-theme-8";
+        window.manufactor = "topYing";
+        window.role_name = "consumer";
+        window.WS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJpbnN0YW5jZSI6IjQ2YjgzYWRlMWJlNjRjOTM5ZjMzMzMzMTM4YmY3NDM3Iiwic3ViIjoiMDEyMkMzNzFBLXwtZjNiZDZkODk1ZWUyMDYxNGM3MmY4ZWRhMGQwNGI2OGYtfC0xNzc2NjI2Nzk4MTkzIiwiaWF0IjoxNzc2NjI2Nzk4LCJleHAiOjE3NzY3MTMxOTh9.nyafgmyB_7ENuRAI_4UL0VgHLK_Qbrf7Hnw2ndt5tWU";
+        
+        window.UPLOAD_FILE_MAX_SIZE = 10;
+        
+        window.IS_SHOW_BILLING_NUMBER = true;
+        
+        window.ISO_MCC = {"m_505":"au","m_626":"st","m_627":"gq","m_748":"uy","m_628":"ga","m_629":"cg","m_622":"td","m_623":"cf","m_744":"py","m_624":"cm","m_625":"cv","m_746":"sr","m_740":"ec","m_620":"gh","m_502":"my","m_621":"ng","m_742":"gf","m_619":"sl","m_615":"tg","m_736":"bo","m_616":"bj","m_617":"mu","m_738":"gy","m_618":"lr","m_611":"gn","m_732":"co","m_612":"ci","m_613":"bf","m_734":"ve","m_614":"ne","m_730":"cl","m_610":"ml","m_528":"bn","m_406":"in","m_648":"zw","m_649":"na","m_401":"kz","m_645":"zm","m_400":"az","m_646":"mg","m_520":"th","m_647":"re","m_640":"tz","m_405":"in","m_641":"ug","m_404":"in","m_525":"sg","m_642":"bi","m_643":"mz","m_402":"bt","m_650":"mw","m_637":"so","m_638":"dj","m_639":"ke","m_633":"sc","m_634":"sd","m_510":"id","m_635":"rw","m_636":"et","m_750":"fk","m_515":"ph","m_630":"cd","m_514":"tl","m_631":"ao","m_632":"gw","m_429":"np","m_308":"pm","m_428":"mn","m_549":"ws","m_544":"as","m_302":"ca","m_422":"om","m_543":"wf","m_421":"ye","m_542":"fj","m_420":"sa","m_541":"vu","m_427":"qa","m_548":"ck","m_426":"bh","m_547":"pf","m_425":"ps","m_546":"nc","m_424":"ae","m_545":"ki","m_430":"ae","m_551":"mh","m_550":"fm","m_419":"kw","m_418":"iq","m_539":"to","m_417":"sy","m_659":"ss","m_412":"af","m_655":"za","m_410":"pk","m_657":"er","m_530":"nz","m_416":"jo","m_537":"pg","m_651":"ls","m_415":"lb","m_536":"nr","m_652":"bw","m_414":"mm","m_535":"gu","m_653":"sz","m_413":"lk","m_534":"mp","m_654":"km","m_540":"sb","m_208":"fr","m_202":"gr","m_206":"be","m_204":"nl","m_452":"vn","m_330":"pr","m_450":"kr","m_434":"uz","m_555":"nu","m_313":"us","m_312":"us","m_432":"ir","m_311":"us","m_431":"ae","m_552":"pw","m_310":"us","m_438":"tm","m_437":"kg","m_316":"us","m_436":"tj","m_315":"us","m_314":"us","m_441":"jp","m_440":"jp","m_225":"va","m_346":"ky","m_467":"kp","m_466":"tw","m_344":"ag","m_222":"it","m_228":"ch","m_348":"vg","m_226":"ro","m_470":"bd","m_232":"at","m_231":"sk","m_352":"gd","m_230":"cz","m_472":"mv","m_350":"bm","m_219":"hr","m_214":"es","m_456":"kh","m_213":"ad","m_334":"mx","m_455":"mo","m_212":"mc","m_454":"hk","m_332":"vi","m_218":"ba","m_338":"jm","m_216":"hu","m_457":"la","m_342":"bb","m_220":"rs","m_340":"mq","m_461":"cn","m_460":"cn","m_247":"lv","m_368":"cu","m_246":"lt","m_366":"dm","m_244":"fi","m_365":"ai","m_248":"ee","m_250":"ru","m_370":"do","m_374":"tt","m_372":"ht","m_235":"gb","m_356":"kn","m_234":"gb","m_354":"ms","m_238":"dk","m_358":"lc","m_360":"vc","m_364":"bs","m_242":"no","m_363":"aw","m_362":"cw","m_240":"se","m_708":"hn","m_704":"gt","m_706":"sv","m_268":"pt","m_702":"bz","m_266":"gi","m_272":"ie","m_270":"lu","m_276":"al","m_274":"is","m_257":"by","m_376":"tc","m_255":"ua","m_259":"md","m_260":"pl","m_262":"de","m_608":"sn","m_609":"mr","m_604":"ma","m_605":"tn","m_606":"ly","m_607":"gm","m_722":"ar","m_602":"eg","m_289":"ge","m_603":"dz","m_724":"br","m_288":"fo","m_294":"mk","m_293":"si","m_292":"sm","m_297":"me","m_295":"li","m_290":"gl","m_714":"pa","m_716":"pe","m_710":"ni","m_712":"cr","m_278":"mt","m_283":"am","m_282":"ge","m_280":"cy","m_286":"tr","m_284":"bg"};
+        
+        window.LIC_VOTP = 0;
+        
+        window.ENABLE_TEST_DEV = 0;
+        
+        //user type
+        window.UTYPE = 1;
+        window.ADMIN_TYPE = 0;
+	    window.CONSUMER_TYPE = 1;
+	    window.AGENT_TYPE = 2;
+	    window.SUPPLIER_TYPE = 3;
+	    window.SALESMAN_TYPE = 4;
+	    window.BUSINESS_MANAGER_TYPE = 5;
+	     
+	    window.BANK = 6;
+        window.PAYPAL = 5;
+        window.UNIONPAY = 4;
+	    window.WECHAT = 3;
+	    window.ALIPAY = 2;
+	    window.NOWPAY = 7;
+    
+        var g_var = g_var || {};
+	 	g_var.homeMenu = [{"iconClass":"fa fa-envelope-o","name":"New Campaign","twoMenu":[{"name":"New Campaign","url":"/sendSms/sendSmsShortcut"},{"name":"Dynamic Templates","url":"/sendSms/dynamicSmsContent"},{"name":"Message Queue","url":"/sendSms/sendQueue"},{"name":"SMS Batches","url":"/sendSms/cycleSmsJob"}]},{"iconClass":"fa fa-book","name":"Billing","twoMenu":[{"name":"Outbox","url":"/bill/sendRcd"},{"name":"Inbox","url":"/bill/receiveRcd"},{"name":"Top-Up History","url":"/bill/topupRcd"}]},{"iconClass":"fa fa-bar-chart-o","name":"Statistics","twoMenu":[{"name":"User Statistics","url":"/count/userStat"}]}];
+        //设置页面属性，不执行默认拖放处理
+        document.ondragend = document.ondrop = document.ondragover = function(e){e.preventDefault();};
+        var LANG_COOKIE_KEY = "language";
+        window.token;
+        window.IS_MOBILE = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+        
+        window.CLIENT_IP_MD5 = "fdafdc8c1e8b62a0";
+        
+        window.ENABLE_AGENT = 0;
+        
+        window.ENABLE_SALER = 1;
+        
+        window.SALER_RECHARGE = 0;
+        
+        window.SPECIFY_RATE_ENABLE = 0;
+        
+        window.BACK_FILL_ENABLE = 0;
+        
+        window.SHOW_OWN_RATE_ENABLE = 1;
+        
+        window.SCODE_MODULE_ENABLE = 0;
+        
+        window.SEND_SMS_MODULE_ENABLE = 1;
+         
+        window.BK_SERVER_RESEND = 0;
+        
+        window.SYS_REGISTER_FLAG = 0;
+        
+        window.REMOTE_ENABLE = 0;
+        
+        window.SHARED_ACCOUNT_ENABLE = 0;
+        
+        window.EJOIN_EIMS = 0;
+        
+        window.ENABLE_ASSIGN_NUMBER = 0;
+        
+        window.OLD_VERSION = "";
+        
+        window.SSE_MSG_TYPE_CHANNEL_ALERT = "channel_sleep_warning";
+	    window.SSE_MSG_TYPE_BILL_AUDIT = "reminder_for_bill_audit";
+	    window.SSE_MSG_TYPE_BILL_AUDIT_FAILURE = "reminder_for_bill_audit_failure";
+	    window.SSE_MSG_TYPE_BILL_RECHARGE = "reminder_for_bill_recharge";
+        
+        window.SSE_MSG_TYPE_STAT_MONITOR_ALARM = "stat_monitor_alarm";
+        
+        window.SSE_MSG_TYPE_BALANCE_ALARM = "balance_alarm";
+        
+        window.WS_MSG_TYPE_CHAT_RECORD_DELETE = "chat-record-delete";
+        window.WS_MSG_TYPE_CHAT_SEND = "chat-send";
+        window.WS_MSG_TYPE_CHAT_RECEIVE = "chat-receive";
+        window.WS_MSG_TYPE_CHAT_SEND_MSG_STATUS = "chat-sendmsg-status";
+        window.WS_MSG_USER_BALANCE_PUSH = "ws-user-bal-push";
+        
+        window.IS_CONNECTED_WEBSOCKET = false;
+        
+        window.SYS_CHAT_ENABLE = 0;
+        window.USER_CHAT_ENABLE = 0;
+        window.LIC_DEV_TEST_SEND_RECV = 0;
+        
+        window.ALL_SUPPORTED_CURRENCIES = [{"name":"CNY","icon":"¥"},{"name":"USD","icon":"$"},{"name":"EUR","icon":"€"},{"name":"IDR","icon":"Rp"},{"name":"BDT","icon":"৳"},{"name":"GBP","icon":"£"}];
+        window.IS_ALERT_PASSWORD_TOOL_SIMPLE = 0
+        
+        
+        window.LOGIN_USER_PUK = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAptf5EBfRfAr4oxdSKuBnufl65uU+zSDb6FFO0Hta2FoUluEV/T7INzVoQt1B0Ry2qtHVGll7KkLOLuh5jvf0iQ+7JrXI3EO6b8+Jbpop1loV8kcSN0zDdyaHWSuri3SlchDbKMgu+nGShvZxfezIKp1UkpkFrMtN6pZnUGiospLMDBufomkh8kIuwGH/zSWxzO2XYHTsA0HWkPjkRE9G64S3M6YzJdcr3MHufof8yi1Nr406hHundFIljG8n7hkHbPDVe5xTl1TKPeFw9fBt9IJf/iYwn8dDFg7EmTGyUaRZwxC8ENyK6F1B5fuarEIlKfwIxtf3kWXa4T1D5gw9KwIDAQAB";
+        window.LOGIN_PWD_REGEXP = "^(?=.*\\d)(?=.*[a-zA-Z])[\\da-zA-Z~@#%^$?&*%:!|{.}!\\-]*$";
+        window.LOGIN_PWD_LENGTH = [8,32];
+    </script>
+
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body class="ng-cloak pace-done" ng-app="default.module" style="overflow-x:hidden;">
+<audio id="ez_audio" controls="true" preload="none" controlslist="nodownload"><source src="/assets/audio/msg_prompt.mp3" type="audio/mpeg"><source src="/assets/audio/msg_prompt.ogg" type="audio/ogg"></audio>
+<div class="rightbar-overlay"></div>
+
+<!-- Main Container -->
+<div class="right-bar">
+   <div data-simplebar="init" class="h-100"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px; left: 0px;"><div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;">
+       <div class="rightbar-title d-flex align-items-center bg-dark p-3">
+           <h5 class="m-0 me-2 text-white">Theme Customizer</h5>
+           <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
+               <i class="fa fa-times"></i>
+           </a>
+       </div>
+       <hr class="m-0">
+       <div class="p-4">
+           <h6 class="mb-3">Search Box</h6>
+           <div id="search_model_id" class="theme-wrapper">
+	          <h6 class="text-muted mb-2">Above table head:</h6>
+	          <div class="theme-item theme-item-top top"  id="idx_searchTopButton"></div>
+	          <h6 class="text-muted mb-2">Below table head:</h6>
+	          <div class="theme-item theme-item-thead thead"  id="idx_searchTheadButton"></div>
+           </div>
+           <h6 class="mb-3">Theme Colors</h6>
+           <div id="theme_colors_model_id"></div>
+       </div>
+ 
+   </div></div></div></div><div class="simplebar-placeholder" style="width: auto;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div></div> <!-- end slimscroll-menu-->
+</div>
+        
+<div class="main-container container-fluid menu-not-compact">
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Page Sidebar -->
+        <div class="page-sidebar t-bg-primary" id="sidebar" style="z-index:199;">
+            <div class="mx-sidenav__brand" id="clkGohomeId">
+                <div class="logo_cls"></div>
+                <div class="menu_close_btn">
+                     <a class="button-menu-mobile navbar-toggle1 open">
+                           <div class="lines">
+                               <span></span>
+                               <span></span>
+                               <span></span>
+                           </div>
+		             </a>
+		        </div>
+	            <a href="javascript:void(0)" class="navbar-brand-companyName">
+                    <span id="ID_companyName" style="font-family:'Georgia' !important;"></span>
+                </a>
+	        </div>
+            <!-- /Page Sidebar Header -->
+            <!-- Sidebar Menu -->
+            <div class="mx-sidenav__menu-container">
+	           <nav class="mx-sidenav__menu"> 
+	            <ul id="sidebar-ul" class="nav sidebar-menu">
+	                <li class="menu-l1 no_sub_menu home_menu">
+                           <a class="twoMenu_a_cls" href="#/home">
+                            <i class="t-mr-15 menu-icon fa fa-home"></i>
+                              <span class="text-nowrap menu-text"> Dashboard </span>
+                          </a>
+                    </li>
+                    
+                    
+                           <li ng-repeat="oneMenu in ::homeMenu" style="position: relative;" class="menu-l1">
+							    <a href="javascript:" class="menu-dropdown">
+			                        <i class="t-mr-15 menu-icon {{::oneMenu.iconClass}}"></i>
+			                            <span class="text-nowrap menu-text">{{::oneMenu.name}}</span>
+			                        <i class="menu-expand"></i>
+			                    </a>
+			                    <ul class="submenu" id="ID_twoMenu">
+			                        <li ng-repeat="twoMenu in ::oneMenu.twoMenu">
+			                            <a class="twoMenu_a_cls" href="{{::'#'+twoMenu.url}}">
+			                                <span class="text-nowrap menu-text">{{::twoMenu.name}}</span>
+			                            </a>
+			                        </li>
+			                    </ul>
+			                </li>
+                    
+	            </ul>
+	           </nav>
+	         </div>
+	         <div class="copyright_div" style=""></div>
+            <!-- /Sidebar Menu -->
+        </div>
+        <!-- /Page Sidebar -->
+        
+        
+       
+        <!-- Help Bar -->
+        <div class="page-help">
+            <div class="margin-10">
+                <i class="fa fa fa-home font-150 clickable-bg" ng-click="goHelpPage('')"></i>
+                {{helpPath}}
+            </div>
+            <div class="help-contacts">
+                <div ng-show="isHomeHelp">
+                    <div ng-repeat="oneMenu in homeMenu">
+                        <i class="{{::oneMenu.iconClass}}"></i>
+                        <span class="menu-text">{{::oneMenu.name}}</span>
+                        
+                        <ul>
+                            <li ng-repeat="twoMenu in oneMenu.twoMenu">
+                                <!--   <a href="javascript:" ng-click="goHelpPage(twoMenu.url)">{{::twoMenu.name+' - '+twoMenu.url}}</a>  更改首页帮助-->
+                                <a href="javascript:void(0);" ng-click="goHelpPage(twoMenu.url)">{{::twoMenu.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="help-html" ng-show="!isHomeHelp"></div>
+            </div>
+        </div>
+        <!-- /Help Bar -->
+        
+        <div id="navbar_ID" class="navbar t-bg-primary" style="display: block;margin-right:0;padding:0;z-index: 199;">
+		    <!-- <div class="d-flex">
+		        <div class="header-item"><i class="fa fa-long-arrow-right" aria-hidden="true" style="font-size: 24px !important;margin: 0 auto;"/></i></div>
+            </div> -->
+		    <div id="id_loginTitleBackground" class="navbar-inner">
+		        <div class="navbar-container">
+		            <!-- Navbar Barnd -->
+		            <div class="navbar-header pull-left" id="sidebar-collapse">
+		                <ul class="list-unstyled">
+				            <li class="float-left">
+		                        <a class="button-menu-mobile navbar-toggle1">
+		                            <div class="lines">
+		                                <span></span>
+		                                <span></span>
+		                                <span></span>
+		                            </div>
+		                        </a>
+		                    </li>
+	                    </ul> 
+		            </div>
+		            <!-- /Navbar Barnd -->
+		            <div id="sidebar-collapse-temp" class="pull-left sidebar-collapse-temp" style="height: 70px;line-height: 70px;font-size: 16px;padding-left: 15px;">
+		            </div>
+		            
+		            
+		            <!-- Account Area and Settings --->
+		            <div class="navbar-header pull-right" >
+		                <div class="navbar-account" style="height: 0px !important;">
+		                    <ul class="account-area" style="right:1px;">
+		                        <li class="primary-nav-list__item border-bottom-0 sys_timezone_li sys_currTimeLi">
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0)" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu">
+                                            <div class="d-flex align-items-center">
+                                                <span class="mx-user mx-user--sm now-time-cls">
+                                                </span>
+                                                <span class="d-none d-lg-inline-block t-ml-8">
+                                                    <span id="currTime_view_id" style="margin-left: 5px;"></span>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                
+		                        <li id="li_timeZone_id" class="border-bottom-0 sys_timezone_li">
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0)" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu">
+                                            <div class="d-flex align-items-center">
+                                                <span class="mx-user mx-user--sm time-zone-cls">
+                                                </span>
+                                                <span class="d-none d-lg-inline-block t-ml-8">
+                                                    <span id="timeZone_view_id"></span>
+                                                    <i class="fa fa-sort-down" style="vertical-align:top;"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+                                        <div id="div_timeZone_select_id" class="dropdown-menu dropdown-menu-right" style="width: 160px;max-height: 300px;overflow-y: auto;padding: 0;margin: 0">
+                                            <ul id="timeZone_select_id" class="t-list mx-author-menu">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+		                        <li id="userBalance_view_li_id" style="display: none;" class="primary-nav-list__item border-bottom-0 sys_info_cls">
+		                            <div class="dropdown" style="height: 100%;">
+		                                <a href="javascript:void(0)" style="height: 100%;" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu text-capitalize">
+			                                <div class="rtl-flag">
+			                                    <i class="fa fa-money" style="width: 30px;height: 30px;font-size: 30px;margin-top:2px;"></i>
+			                                </div>
+		                                </a>
+		                                <div class="dropdown-menu dropdown-menu-right" style="width: 360px;border-radius: 15px !important;">
+											<ul class="t-list">
+												<li style="padding: 0;">
+												  <a class="text-capitalize" href="javascript:void(0)">
+													<div class="bal da-d-flex da-d-flex-between da-d-flex-column da-border-radius-xl da-overflow-hidden da-card-1 da-p-18">
+															<div class="ant-row ant-row-space-between" style="row-gap: 0px;">
+																<div class="ant-col">
+																	<div class="ant-row ant-row-middle" style="row-gap: 0px;">
+																		<div class="ant-col">
+																			<span class="bal-logo ant-avatar ant-avatar-circle ant-avatar-image">
+																			   <i class="stat-icon icon-lg fa fa-money margin-10" style="font-size: 20px;color:#f0bb3c;"></i>
+																			</span>
+																		</div>
+																		<div class="ant-col">
+																			<span class="da-ml-12 da-p1-body da-text-color-black-0">
+																				Balance
+																			</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="ant-col">
+																	<div class="ant-row ant-row-middle" style="row-gap: 0px;">
+																		<div class="ant-col">
+																			<!-- <span class="bal-logo ant-avatar ant-avatar-circle ant-avatar-image">
+																			   <img style="height:20px;width:20px;" src="data:image/png;base64,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" alt="Credit">
+																			   <i class="stat-icon icon-lg fa fa-money margin-10" style="font-size: 20px;color:#f0bb3c;"></i>
+																			</span> -->
+																		</div>
+																		<div class="ant-col">
+																			<!-- <span class="da-ml-12 da-p1-body da-text-color-black-0">
+																				Credit
+																			</span> -->
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="ant-row ant-row-space-between ant-row-middle" style="row-gap: 0px;">
+																<div class="ant-col">
+																	<span id="userBalance_view_id" class="h4 da-text-color-black-0">
+																	</span>
+																</div>
+																<div class="ant-col">
+																    <!-- <span id="userCredit_view_id" class="h4 da-text-color-black-0">
+																	</span> -->
+																	<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAXCAYAAACMLIalAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAK7SURBVHgBtZfRTtNQGMf/53Qw6BgUIgYihhlMvBSuNbH4AuwBTGTBGy95AuQJ3D0mQnwBfALrtTfbvcYSWVzULJXRwdb1HL9T2HTQdfYYf8my9pyec375ztf2K0MC37FgMxhPAWkDzJKAxQCP/l36rwQIDxZRd66Oa+4t2GMZYwMStgAKdK2l2tUYyVARoXibe/b1cNi6LK7xG25tcmCHFi9gBDSBG4CVFnHsKJmMYexQs43RuCS9O7lV24+Z8zefYVl5TL2WkEWkJP/Ed+TjnI2UUOTKZqm2jTgpJTSF3Ds6XEVK8g88ZO/6CBdMBPdmkRa1rVnmr7OS56lz3p8YuZc6Qub9ZiSkMOotZI6aSAulyeq5iNZHX0rlEHVsIiWZ2QDm6slgm3sC7rWRGoZN/9VisS+lkhoaTD1sxLbrRCvy4DyKFv+B28W/ucuuLTzXoV83fnKKlFa0yKO5t2RTkMQGNMiutBL7+WkAHQxDFrnUSG7FsCj14F4HWjD5SOWUlhQbD5MvaCdLD4NLVuDQhI/LxH7WFdBBvcqUlIf/gMwa0MRVUi40CBpjyRdk/kGKwvUeGgT1bGJ/eGMCOpBPlTOwQ53B7U9mYr+wkqWHwdphmc9TyUHHDlIiOxznH+PF1ItZTqTfPibl4eTzepRTKmTb0KBVnSa5wZJMyXSXp6GD7IjII5K6iVoFGmLi1ID/wRpo665YWlESku2qKPWlFPOolSmAu0iJ2sJWNX8pNKOV4Eoot3X8onc+8PCk/FIdKmKpnl1+Je+eibnt7lLOTTNOqnUkL/0pdE3qQqxW7iJcowEHGI2nouujtWa+aZTBxDrVtxRt6WKkDG0X8+9Mbn3Zv9rPkgZf1Ox5+iIRqpyYUV80NKUXQh5xcOfyzo3ljEoQwWkcZ8tkUaCVXCnxUwrumEbT6ZW+cfwCtgH6Jqq4j/4AAAAASUVORK5CYII="
+																	alt="Mastercard">
+																</div>
+															</div>
+														</div>
+												 </a>
+												</li>
+				                             </ul>
+				                         </div>
+		                            </div>
+		                        </li> 
+		                        
+		                        <li class="primary-nav-list__item border-bottom-0 sys_info_cls">
+									<div class="dropdown">
+										<a href="javascript:void(0)" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu text-capitalize">
+	                                        <div class="rtl-flag">
+	                                            <i class="fa fa-comment-o"  style="width: 30px;height: 30px;font-size: 26px;padding-top: 3px;"></i> <!-- <img alt="max" class="img-fluid w-100" src="assets/images/lang/cn.png" style="border-radius: 5px;height: 30px;"> -->
+	                                        </div>
+	                                    </a>
+			                            <div class="dropdown-menu dropdown-menu-right" style="width: 240px;">
+											<ul class="t-list mx-author-menu">
+												<li class="dropdown-header" style="margin-bottom:0px;">
+													<i class="fa fa-bell"></i>Sysconfig Info
+												</li>
+				
+												<li id="eimsiiRunTime_li_id" style="display: none;">
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-history margin-10" style="font-size: 20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="" id="eimsiiRunTime"></span>
+														</span>
+				
+														<span class="msg-time">
+															
+															<span>Run Time</span>
+														</span>
+													</span>
+												 </a>
+												</li>
+				
+												<li id="expried_date_id">
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-clock-o margin-10" style="font-size: 20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="" id="expried_rem_dur_id"></span>
+														</span>
+				
+														<span class="msg-time">
+															<span>License Expried Date</span>
+														</span>
+													</span>
+												</a>
+												</li>
+				
+												<li>
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa margin-10" style="font-size:20px;">V</i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="">991.4.147</span>
+														</span>
+				
+														<span class="msg-time">
+															<span>Version</span>
+														</span>
+													</span>
+												</a>
+												</li>
+												
+												
+												<li id="verReleaseTime_id" style="display: none;">
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-list-alt margin-10" style="font-size: 20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="">2026-03-24 10:19</span>
+														</span>
+				
+														<span class="msg-time">
+															<span>Release Time</span>
+														</span>
+													</span>
+												 </a>
+												</li>
+												
+												<li id="daliy_limit_li_id" style="display: none;">
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-calendar-o margin-10" style="font-size: 20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="" id="daliy_limit_id"></span>
+														</span>
+				
+														<span class="msg-time">
+															<span>Day Limit</span>
+														</span>
+													</span>
+												 </a>
+												</li>
+												
+												<li>
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-volume-control-phone margin-10" style="font-size:20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="" id="lic_votp_id"></span>
+														</span>
+				
+														<span class="msg-time">
+															<span>Voice OTP</span>
+														</span>
+													</span>
+												 </a>
+												</li>
+												<li id="lic_two_way_chat_li_id" style="display: none;">
+												  <a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">
+													<i class="stat-icon icon-lg fa fa-send-o margin-10" style="font-size:20px;"></i>
+													<span class="msg-body">
+														<span class="msg-title">
+															<span class="" id="lic_two_way_chat_id"></span>
+														</span>
+				
+														<span class="msg-time">
+															<span>2-Way SMS</span>
+														</span>
+													</span>
+												 </a>
+												</li>
+											</ul>
+										</div>
+									</li>
+									
+									<li class="primary-nav-list__item border-bottom-0 sys_info_cls">
+										<div class="dropdown">
+											<a href="javascript:void(0)" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu text-capitalize">
+		                                        <div class="rtl-flag">
+		                                            <i id="ID_system_message" class="fa fa-bell-o icon-with-badge" data-text="0"  style="width: 30px;height: 30px;font-size: 26px;padding-top: 3px;"></i>
+		                                        </div>
+		                                    </a>
+				                            <div class="dropdown-menu dropdown-menu-right" style="width: 380px;">
+												<div class="dropdown-header" style="margin-bottom:0px;"><i class="fa fa-bell" style="margin-right: 5px;"></i>System message<div style="float: right;font-size: 12px;"><span id="ID_span_system_pop_up_message_cnt"></span>&nbsp;New</div></div>
+												<ul id="ID_system_message_ul" class="t-list mx-author-menu" style="margin-top: -1px;max-height: 300px;overflow-y: auto;border-radius: 0;">
+												</ul>
+												<div id="ID_system_msg_clear_all" class="empty-header-item1 border-t mt-2 block">
+												     <div class="grid">
+												          <a class="btn btn-danger" href="javascript:clearAllSystemMsg();" style="width: 100%;">Clear</a>
+												     </div>
+												</div>
+										  </div>
+									</li>
+									
+									<li class="primary-nav-list__item border-bottom-0 d-none d-lg-block">
+	                                     <div id="language_id" class="dropdown">
+	                                     </div>
+	                                </li>
+	                                
+	                                <li class="primary-nav-list__item border-bottom-0">
+	                                    <div class="dropdown">
+	                                        <a href="javascript:void(0)" aria-expanded="false" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu">
+	                                            <div class="d-flex align-items-center">
+	                                                <span class="login_user_icon mx-user mx-user--sm user-profile-def">
+	                                                    <!-- <img src="assets/images/user_profile_def.jpg" alt="max" class="img-fluid w-100"> -->
+	                                                </span>
+	                                                <span class="d-none d-lg-inline-block t-ml-8">
+	                                                    <div class="login_user_icon_username" style="display:contents;">0122C371A</div>
+	                                                    <div class="login_user_icon_down"><i class="fa fa-sort-down" style="vertical-align:top;"></i></div>
+	                                                </span>
+	                                            </div>
+	                                        </a>
+	                                        <div class="dropdown-menu dropdown-menu-right" style="width: 160px;margin-top: -1px;">
+	                                            <ul class="t-list mx-author-menu">
+	                                                <li class="mx-author-menu__list">
+	                                                    <a href="javascript:void(0)" class="mx-author-menu__link sm-text" style="text-decoration-line: none;">
+	                                                        <span class="fw-bold d-block t-pt-5">
+	                                                            0122C371A
+	                                                        </span>
+	                                                        <span class="xsm-text d-block mt-1">
+	                                                            consumer
+	                                                        </span>
+	                                                    </a>
+	                                                    <hr class="mx-hr bg-light m-0">
+	                                                </li>
+	                                                <li class="mx-author-menu__list sys_set">
+	                                                    <a href="javascript:void(0)" id="webPageSettings_id" class="mx-author-menu__link text-capitalize">
+	                                                        <div class="d-flex align-items-center">
+	                                                            <span class="xxlg-text t-mr-8 d-inline-block t-line-1">
+	                                                                <i class="fa fa-cog animation_rotation" aria-hidden="true"></i>
+	                                                            </span>
+	                                                            <span class="d-inline-block t-line-1 sm-text">
+	                                                                Settings
+	                                                            </span>
+	                                                        </div>
+	                                                    </a>
+	                                                </li>
+	                                                
+	                                                <li class="mx-author-menu__list mdf_pswd">
+	                                                    <a href="javascript:void(0)" id="idxmodifyPassword_id" class="mx-author-menu__link text-capitalize">
+	                                                        <div class="d-flex align-items-center">
+	                                                            <span class="xxlg-text t-mr-8 d-inline-block t-line-1">
+	                                                                <i class="fa fa-key" aria-hidden="true"></i>
+	                                                            </span>
+	                                                            <span class="d-inline-block t-line-1 sm-text">
+	                                                                Password
+	                                                            </span>
+	                                                        </div>
+	                                                    </a>
+	                                                </li>
+	                                                
+	                                                <li class="mx-author-menu__list">
+	                                                    <a href="javascript:void(0)" id="logout_id" class="mx-author-menu__link text-capitalize">
+	                                                        <div class="d-flex align-items-center">
+	                                                            <span class="xxlg-text t-mr-8 d-inline-block t-line-1">
+	                                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+	                                                            </span>
+	                                                            <span class="d-inline-block t-line-1 sm-text">
+	                                                                Logout
+	                                                            </span>
+	                                                        </div>
+	                                                    </a>
+	                                                </li>
+	                                            </ul>
+	                                        </div>
+	                                    </div>
+	                                </li>
+			                    </ul>
+			                </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+        
+       <!-- Page Content -->
+        <div id="ID_page_content" class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb my-breadcrumb">
+                    <li>
+                        <a href="#/home">
+                            <i class="fa fa-home clickable-bg"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:"></a>
+                    </li>
+                    <li>
+                        <a href="javascript:"></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+
+
+            <!-- Page Body -->
+            <div class="page-content-body page-body ng-cloak" style="padding:0px 2px 0px 2px !important" ng-view></div>
+            <!-- /Page Body -->
+
+        </div>
+        <!-- /Page Content -->  
+    </div>
+</div>
+<button id="copyTextId" style="display: none;" class="btn btn-sm btn-blue btn-d" data-clipboard-text=""></button>
+
+<div id="datagrid-resize-proxy"></div>
+</body>
+<!--  /Body -->
+<script type="text/javascript" src="/assets/bundle/commons.gzjs?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<link href="/assets/js/libs/layui/css/layui.css?version=NORMAL_S_1037_MDAwMDAwMA==" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/assets/bundle/beyond.bundle.gzjs?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script type="text/javascript" src="/assets/bundle/index.bundle.gzjs?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script type="text/javascript" src="/assets/assets/js/tableModelVer.js?version=NORMAL_S_1037_MDAwMDAwMA==" charset="utf-8"></script>
+<script type="text/javascript" src="/assets/js/auth-check.js" charset="utf-8"></script>
+<script src="/assets/js/jsencrypt.min.gzjs"></script>
+<script>
+        var originalHeight = document.documentElement.clientHeight;
+        var loadScmToTimer;
+        var isshowLicRemalt = false;
+        $(function(){
+             loadBodyAddClass();
+             
+             resizeModelHeight();
+             
+             //加载所有系统皮肤html
+             loadThemeColorsModel();
+             
+             initLocalStorageIdx();
+             //加载语言切换html
+             loadLanguageHtml();
+	         
+	         //根据厂商显示logo等信息
+	         loadDaemonVerStr();
+             
+             //系统发布，运行 信息根据条件隐藏显示
+             loadSysReleaseRunInfo();
+             
+             //充值，快捷方式,消费用户费率导航栏根据条件隐藏显示
+             loadSetupWizardAndRechargeAndConsumerRateMenu();
+             
+             //加载铃铛中的消息
+             loadSystemMsg();
+             
+             //加载 是否弹框提示修改密码
+             loadAlertChangePassword();
+             
+             $(window).on('unload', function() {
+				 clearExportTasks();
+				 clearImportTasks();
+			 }); 
+			 is_mobile();
+			 
+			 loadButtonEvent_index();
+			 
+			 createHelper();
+			 
+			 loadAudioAndConnectWebSocket();
+			 
+			 updateCurrTime(getAfterConversionTimeStamp(Date.now()/1000));
+			 
+			 timeZoneDivAddEventListenerFun();
+        });
+        
+        function timeZoneDivAddEventListenerFun(){
+             const $dropdown = $('#div_timeZone_select_id');
+             $("#li_timeZone_id").hover(
+				  function() {
+					   $dropdown.css({
+					       display: 'block',
+					       visibility: 'visible'
+					   });
+					   const $targetLi = $dropdown.find('li.mx-author-menu__list_active');
+		               const targetTop = $targetLi[0].offsetTop;
+					   setTimeout(() => {
+					       $dropdown.animate({ scrollTop: targetTop }, 100);
+					   }, 100);
+				  },
+				  function() {
+					   $dropdown.css({
+					       display: 'none',
+					       visibility: 'hidden'
+					   });
+				  }
+			);
+        }
+        
+        function updateCurrTime(initOffsetTimestamp){
+             var datetime = new Date();
+    	     datetime.setTime(initOffsetTimestamp);
+             $("#currTime_view_id").html(dateFtt("yyyy-MM-dd hh:mm:ss", datetime));
+             setTimeout(function(){
+                 initOffsetTimestamp+=1000;
+			     updateCurrTime(initOffsetTimestamp);
+			 }, 1000);
+        }
+        
+        function loadButtonEvent_index(){
+			 document.getElementById('idx_searchTopButton').addEventListener('click', function() {
+			      setSearchModel('top');
+			 });
+			 document.getElementById('idx_searchTheadButton').addEventListener('click', function() {
+			      setSearchModel('thead');
+			 });
+			 document.getElementById('clkGohomeId').addEventListener('click', function() {
+			      gohome();
+			 });
+			 document.getElementById('webPageSettings_id').addEventListener('click', function() {
+			      webPageSettings();
+			 });
+			 document.getElementById('idxmodifyPassword_id').addEventListener('click', function() {
+			      idxmodifyPassword();
+			 });
+			 document.getElementById('logout_id').addEventListener('click', function() {
+			      logout();
+			 });
+			 
+        }
+        
+        function loadSystemMsgList(datalist){
+             var el = document.getElementById('ID_system_message');
+             var len = datalist ? datalist.length : 0;
+             var html = '';
+             for(var i=0;i<len;i++){
+                 var d = datalist[i];
+                 html += '<li id="'+d.id+'">'+
+						  '<a class="mx-author-menu__link text-capitalize" href="javascript:void(0)">'+
+							'<i class="stat-icon icon-lg fa fa-warning margin-10" style="font-size: 20px;color:#ead63c;"></i>'+
+							'<span class="msg-body" style="max-width:299px;width:100%">'+
+								'<span class="msg-title">'+ $.i18n(d.title) +
+								'</span>'+
+								'<span class="msg-time">'+
+									'<span>'+d.show_content+'</span>'+
+								'</span>'+
+							'</span>'+
+						 '</a>'+
+						'</li>';
+             }
+             $("#ID_system_message_ul").html(html);
+             $("#ID_span_system_pop_up_message_cnt").html(len);
+             if(len>0){
+                 el.dataset.text = len > 99 ? '99+' : len;
+                 $("#ID_system_msg_clear_all").show();
+                 $("#ID_system_message").removeClass("hide-content").addClass("notification-icon-shaking");
+             }else{
+                 $("#ID_system_msg_clear_all").hide();
+                 $("#ID_system_message").removeClass("notification-icon-shaking").addClass("hide-content");
+             }
+        }
+        
+        function clearAllSystemMsg(){
+             removeLocalStorageModel("sys","show_msg_data");
+             loadSystemMsg();
+        }
+        
+        function loadBodyAddClass(){
+             $("body.pace-done").addClass("login_user_type_"+window.UTYPE);
+             $("body.pace-done").addClass("sys_normal_or_simple_"+window.SIMPLE);
+        }
+        
+        function loadAlertChangePassword() {
+		    alertChangePassword(function() {
+		        userAlarmThdTip(function() {
+		            loadAlertPasswordTooSimple();
+		        });
+		    });
+		}
+        
+        function loadAlertPasswordTooSimple(){
+            if(window.IS_ALERT_PASSWORD_TOOL_SIMPLE == 1){
+                  const ALERT_ICON = '<i class="fa fa-warning" style="color: #FF5722; font-size: 24px; margin-right: 10px;"></i>';
+                  const CONTENT_STYLE = 'style="color: #ec6a6a; font-size: 16px; line-height: 1.6;"';
+                 var tip = ALERT_ICON + '<span ' + CONTENT_STYLE + '>' +$.i18n("passwordTooSimple_modification_prompt")+ '</span>';
+                 layer.confirm(tip, {
+                    title: $.i18n('SecurityAlert'),
+                    btnAlign: 'c',
+					btn: ['<span style="color: #fff;">'+$.i18n("ModifyNow")+'</span>',$.i18n("HandleLater")]
+					,yes: function (idx) {
+					    layer.close(idx);
+					    idxmodifyPassword();
+			        }, btn2: function(idx){
+					    layer.close(idx);
+					},cancel: function(idx){ 
+					    layer.close(idx);
+					}
+					});
+             }
+		}
+	
+        // 优化：防抖处理窗口Resize事件
+	    let resizeTimer;
+	    $(window).on("resize", () => {
+	        clearTimeout(resizeTimer);
+	        resizeTimer = setTimeout(resizeModelHeight, 100);
+	    });
+        /* window.onresize = function(){
+             resizeModelHeight(true);
+        } */
+        
+        function resizeModelHeight(isresize){
+             var winHeight = document.documentElement.clientHeight; 
+             if(!window.IS_MOBILE) {
+                winHeight -= $(".copyright_div").height();
+             }
+             $(".mx-sidenav__menu-container,.mx-sidenav__menu").height(winHeight - $(".mx-sidenav__brand").height() - 40);
+             if(isresize){
+	             var idx_page_content_ht = winHeight - $(".page-container").height();
+	             $("#ID_page_content").height(idx_page_content_ht + 30);
+	             var local_href = location.href;
+	             if(local_href.contains("/home") || local_href.contains("/quickconfig/setupWizard")){
+	                 $(".home-div").height(idx_page_content_ht - $(".page-breadcrumbs").height());
+	             }else{
+	                 var active_table = $(".page-content-body .tab-content").find(".tab-pane.active");
+	                 if(active_table && active_table.length >0){
+	                      var active_table_id = active_table[0].id;
+	                      if(active_table_id && active_table_id!=""){
+	                          initTablePositionModel(active_table_id);
+	                      }
+	                 }
+	                 var data_tbody = $(".data-tbody-angularBase");
+	                 if(data_tbody && data_tbody.length >0){
+	                      data_tbody.height(idx_page_content_ht - $(".page-breadcrumbs").height() - $("ul.nav-tabs").height() - $(".row.DTTTFooter").height() + 25);
+	                      data_tbody.find("div.left_div").height(data_tbody.height());
+	                 }
+	             }
+             }
+             
+        }
+        
+        $(window).on("load", function () {
+		     $(".rightbar-overlay,.right-bar-toggle").click(function(){
+			     $("body.pace-done").removeClass("right-bar-enabled");
+			     if(window.IS_MOBILE) {
+			          $("body.pace-done").removeClass("left-menu-enabled");
+			          $("#sidebar-collapse").click();
+			     }
+			 });
+		});
+		
+		function loadThemeColorsModel(){
+		    var cls_prefix = "gradient-theme-";
+		    var cls_suffix_arr = ["1", "2", "5", "6", "3", "4", "7", "8", "9", "10", "11"];
+		    var html = '';
+		    for(var i=0; i<cls_suffix_arr.length; i++){
+		        var themeColors = cls_prefix + cls_suffix_arr[i];
+		        html += '<div class="custom-control custom-radio div-'+themeColors+'" onclick="setThemeColors(this, \''+themeColors+'\')">';
+                html += '<input type="radio" class="custom-control-input" name="layout" id="'+themeColors+'" data-layout="'+themeColors+'">';
+                html += '<label class="custom-control-label" for="'+themeColors+'">'+i+'</label></div>';
+		    }
+		    $("#theme_colors_model_id").html(html);
+		}
+		
+        function loadSetupWizardAndRechargeAndConsumerRateMenu(){
+             var html = '';
+             /* if(window.UTYPE == window.SUPPLIER_TYPE){
+		         html+= loadOneMenuHtml("#/dev/home", "fa fa-dashboard", $.i18n("menu.dev_dashboards"));
+		     } */
+		     
+             //管理员用户，OEM不是6393sysinfo厂家的显示设置向导
+             if(window.LOGIN_USER_NAME == "admin" && window.manufactor != "6393sysinfo" && window.SEND_SMS_MODULE_ENABLE == 1 && window.BK_SERVER_RESEND == 0){
+		         html+= loadOneMenuHtml("#/quickconfig/setupWizard", "glyphicon glyphicon-flag", $.i18n("menu.quickconfig"));
+		     }
+             //用户是消费用户， 并且lic开启了在线支付
+             if(!(window.UTYPE != window.CONSUMER_TYPE || window.HIDE_RECHARGE_MENU == "true")){
+                 html+= '<li style="position: relative;" class="menu-l1">'+
+			                 '<a href="javascript:" class="menu-dropdown">'+
+			                 '<i class="t-mr-15 menu-icon" style="color: red;">'+getCurrencyIcon()+'</i>'+
+			                 '<span class="text-nowrap menu-text" style="padding-left: 5px;">' + $.i18n("recharge_service")+
+			                 '<i class="menu-expand"></i></a>'+
+			                 '<ul class="submenu" id="ID_twoMenu">'+
+				                 loadOneMenuHtml("#/pay/balance", "", $.i18n("label.common.payBalance")) +
+				                 loadOneMenuHtml("#/pay/rechargeRecord", "", $.i18n("menu.pay_rechargeRecord")) +
+			                 '</ul>'+
+		                 '</li>';
+             }
+		     //正常版本下，消费用户，代理商用户 显示短信费率
+		     if((window.UTYPE == window.CONSUMER_TYPE || window.UTYPE == window.AGENT_TYPE) && window.SIMPLE == window.NORMAL_VER && window.SHOW_OWN_RATE_ENABLE == 1){
+		         html+= loadOneMenuHtml("#/user/consumerRate", "fa fa-line-chart", $.i18n("SMSRate"));
+		     }
+		     if((window.SIMPLE == window.NORMAL_VER && window.UTYPE == window.CONSUMER_TYPE && window.ENABLE_ASSIGN_NUMBER == 1) || (window.SIMPLE == window.SIMPLE_VER && window.ENABLE_ASSIGN_NUMBER == 1 && window.SYS_CHAT_ENABLE == 0)){
+		         html+= loadOneMenuHtml("#/sysconfig/consumerMyNumbers", "fa fa-tablet", $.i18n("label.common.assignNumberMap_consumer"));
+		     }
+		     if(window.UTYPE == window.CONSUMER_TYPE && window.SYS_CHAT_ENABLE == 1 && window.USER_CHAT_ENABLE == 1){
+		         //chat_simChat
+		        // html+= loadOneMenuHtml("#/chat/simChat", "fa fa-whatsapp", $.i18n("realTimeChat"));
+		         var message_popup_html =  '<div id="index_message_popup"><div id="index_popup_header"><span id="index_popup_title"></span><span id="index_close_popup" onclick="indexClosePopup()">&times;</span></div><div id="index_popup_content"></div></div>';
+		         $("body").append(message_popup_html);
+		         $("#index_popup_content").click(function () {
+		             var chatId = $("#index_message_popup").find("input[type='hidden'][name='chatId']").val();
+		             if(chatId){
+		                  indexClosePopup();
+		                  var local_href = location.href;
+				   	      if(local_href.contains("/chat/simChat")){
+				   	          dblclickContacts(chatId);
+				   	      }else{
+					   	      setLocalStorageModel("chat", "openWindowContactId", chatId); 
+			                  $("#sidebar").find("a[class='twoMenu_a_cls'][href='#/chat/simChat']").click();
+				   	      }
+		             }
+		         });
+		     }
+		     
+		     $(".home_menu").after(html);
+		     
+		     if(window.SIMPLE == window.SIMPLE_VER){
+		         $("#sidebar-ul").find("li.menu-l1").removeClass("open");
+		     }
+        }
+        
+        function loadOneMenuHtml(url, menuIcon, menuName){
+             var  html = '';
+             if(!menuIcon || menuIcon == ''){
+                 html =  '<li>'+
+			                 '<a class="twoMenu_a_cls" href="'+url+'">'+
+			                 '<span class="text-nowrap menu-text">' + menuName + '</span>'+
+		                 '</li>';
+             }else{
+                 html = '<li class="menu-l1 no_sub_menu">'+
+			                '<a class="twoMenu_a_cls" href="'+url+'">'+  
+			                '<i class="menu-icon t-mr-15 '+menuIcon+'"></i>'+
+			                '<span class="text-nowrap menu-text">&nbsp;' + menuName + '</span>'+
+			                '</a>'+
+		                '</li>';
+             }
+		     return html;
+        }
+        
+        function loadSysReleaseRunInfo(){
+             $("#lic_votp_id").html('0' == '0' ? redString($.i18n("notSupported")) : greenString($.i18n("support")));
+             if(window.UTYPE == window.ADMIN_TYPE){
+                 $("#lic_two_way_chat_li_id").show();
+                 $("#lic_two_way_chat_id").html(window.SYS_CHAT_ENABLE == 0 ? redString($.i18n("notSupported")) : greenString($.i18n("support")));
+                 $("#eimsiiRunTime_li_id,#verReleaseTime_id,#daliy_limit_li_id").show();
+                 $("#daliy_limit_id").html(format_daliy_limit(parseInt('1500000')));
+	             systemRunDuration('');
+		         function systemRunDuration(etms_StartTime_dur){
+			 		etms_StartTime_dur++;
+			 		document.getElementById('eimsiiRunTime').innerHTML = secondToDayHourMinuteSecond(etms_StartTime_dur);
+			        setTimeout(function(){
+						 systemRunDuration(etms_StartTime_dur);
+							}, 1000);
+				 }
+             }
+             if(window.SIMPLE == window.SIMPLE_VER || window.UTYPE != window.ADMIN_TYPE){
+		        $("#expried_date_id").hide();
+		        if(window.SIMPLE == window.SIMPLE_VER){
+		            $("#sidebar-ul").find("li.menu-l1").addClass("open");
+		            $("#sidebar-ul").find("li.menu-l1").find("ul.submenu").show();
+		            $("#daliy_limit_li_id").show();
+                    $("#daliy_limit_id").html(format_daliy_limit(parseInt('1500000')));
+		        }
+		     }else{
+		        expried_rem_dur_fun('-1');
+		        function expried_rem_dur_fun(expried_rem_dur){
+		            if(expried_rem_dur == -4){
+		                document.getElementById('expried_rem_dur_id').innerHTML = redString($.i18n("label.homePage.licLoadFailed"));
+		                if(!isshowLicRemalt){
+		                     layer.alert(redString($.i18n("label.homePage.licLoadFailed.tip")), {shift:2, icon:7});
+	                    }
+	                    isshowLicRemalt = true;
+		            }else if(expried_rem_dur == -3){
+		                document.getElementById('expried_rem_dur_id').innerHTML = redString($.i18n("label.homePage.licVerificationFailed"));
+		                if(!isshowLicRemalt){
+		                     layer.alert(redString($.i18n("label.homePage.licVerificationFailed.tip")), {shift:2, icon:7});
+	                    }
+	                    isshowLicRemalt = true;
+		            }else if(expried_rem_dur == -2){
+		                document.getElementById('expried_rem_dur_id').innerHTML = redString($.i18n("label.homePage.nolic"));
+		                if(!isshowLicRemalt){
+		                     layer.alert(redString($.i18n("label.homePage.nolic.tip")), {shift:2, icon:7});
+	                    }
+	                    isshowLicRemalt = true;
+		            }else if(expried_rem_dur == -1){
+		                document.getElementById('expried_rem_dur_id').innerHTML = greenString($.i18n("permanently_valid"));
+		            }else if(expried_rem_dur ==0){
+		                document.getElementById('expried_rem_dur_id').innerHTML = redString($.i18n("label.homePage.licHasExpried"));
+		                if(!isshowLicRemalt){
+		                     layer.alert(redString($.i18n("label.homePage.licHasExpried.tip")), {shift:2, icon:7});
+	                    }
+	                    isshowLicRemalt = true;
+		            }else{//小于10天的弹开提示
+		                if(expried_rem_dur < 10*3600*24){
+		                     if(!isshowLicRemalt){
+		                         layer.alert($.i18n("label.homePage.alarmLicTimeLowerThreshold.tip", 10), {shift:2, icon:7});
+		                     }
+		                     isshowLicRemalt = true;
+		                }
+		                expried_rem_dur--;
+				 		document.getElementById('expried_rem_dur_id').innerHTML = secondToDayHourMinuteSecond(expried_rem_dur);
+				        if(expried_rem_dur >=0){
+				           setTimeout(function(){
+							  expried_rem_dur_fun(expried_rem_dur);
+						   }, 1000);
+				        } 
+		            }
+				}
+		     }
+		     if(window.UTYPE != window.ADMIN_TYPE && window.UTYPE != window.SALESMAN_TYPE && window.SHOW_BAL == 1){
+		        $("#userBalance_view_li_id").show();
+		        formatUserBalanceAndCredit('-24000');
+		     }
+        }
+        
+        var init_load_bal = -1;
+        var formatUserBalanceAndCredit_flag = true;
+        function formatUserBalanceAndCredit(vbal, vcredit){
+            var bal = CMX.div(vbal, window.RATIO);
+	        if(window.IS_SHOW_CUR_ICON){
+	            bal = currency_type_icon_html() + bal;
+	        }
+	        var bf = toThousands(bal.toString());
+	        var html_bal = '<div class="d-flex align-items-center" title="'+bf+'"><span class="mx-user"></span><span class="d-none d-lg-inline-block t-ml-8" style="text-overflow: ellipsis;overflow:hidden;max-width:90px;">'+bf+'</span></div>';
+	        
+	        if(formatUserBalanceAndCredit_flag || init_load_bal != bf){
+	            formatUserBalanceAndCredit_flag = false;
+		        $("#userBalance_view_li_id").find(".dropdown a.t-link").html( html_bal ).css({"font-size":"16px"});
+		        $("#userBalance_view_id").html( bf );
+		        init_load_bal == bf;
+	        }
+        }
+        
+        function format_daliy_limit(daliy_limit){
+             if(daliy_limit == -1){
+                 return greenString($.i18n("unlimited"));
+             }else{
+                 return numberFormat(daliy_limit);
+             }
+        }
+		
+		function logout(){
+		     /* if (window.EventSource && window.closeSeeFunction && typeof window.closeSeeFunction === 'function') {
+		          closeSeeFunction(false);
+		     } */
+		     window.location.href = window.PATH+"/logout";
+    	}
+    	
+    	function gohome(){
+    	     window.location.href = "#/home";
+    	}
+        
+        function loadDaemonVerStr(){
+		     var manufactor = window.manufactor;
+		     var gradient_theme_class = 'gradient-theme-1';
+		     if(manufactor!=""){
+		         if(manufactor == "econSMS"){ //客户econSMS之前已经配置了对象样式，现在客户不用，直接设置一个其他名称
+                     manufactor = "econSMS1"; 
+                 }
+			     var link = document.getElementById("version_type_id");
+			     var copyright_div = "Copyright © 2025 "+manufactor+". ";
+                 var noIcoImgManufactorArr = ["NULL", "6393sysinfo", "IGL", "DGSOL", "SUNRISE", "texcell", "faixa", "WMD", "traffiLink", "JANDSMS"];
+			     var ver_title,companyName;
+                 if(manufactor == "teiq"){
+                     ver_title = companyName = "TIMS";
+                 }else if(manufactor == "oak"){
+                     ver_title = companyName = "Oak Telecom";
+                     companyName = "";
+                     copyright_div = "";
+                 }else if(manufactor == "topYing"){
+                     ver_title = companyName = "TopYing Cloud";
+                     companyName = "";
+                     copyright_div = "";
+                 }else if(manufactor == "velSend"){
+                     ver_title = companyName = "VelSend INC";
+                     companyName = "";
+                     copyright_div = "";
+                 }else if(manufactor == "textingGo"){
+                     ver_title = companyName = "TextingGo Technology";
+                     companyName = "";
+                     copyright_div = "";
+                 }else if(manufactor == "6393sysinfo"){
+                     ver_title = companyName = "SYSINFO";
+                 }else if(manufactor == "NodeGlobal"){
+                     ver_title = "Node SMS Platform";
+                     $("#sidebar-collapse-temp").html("Node Connect Global Resources And Connect The World With Node!");
+                 }else if(manufactor == "econSMS"){ 
+                     ver_title = "Econ SMS Platform";
+                     $("#sidebar-collapse-temp").html("Econ Connect Global Resources And Connect The World With Node!");
+                 }else if(manufactor == "WMD"){ 
+                     ver_title = companyName = "SMS Platform";
+                     $("#sidebar-collapse-temp").html("My old TG is down, plz add new TG: @hc_smsprovider2").css("font-size","22px");
+                     $(".copyright_div").hide();
+                 }else if(manufactor == "ejoin"){
+                     ver_title = "EIMS4";
+                     companyName = "";
+                 }else if(manufactor == "chinaTelecom"){
+                     ver_title = "EIMS4";
+                     companyName = "";
+                 }else if(manufactor == "xiaoChuanChuHai"){
+                     companyName = "";
+                 }else if(manufactor == "snowfly"){
+                     ver_title = companyName = "Snowfly SMS Platform";
+                 }else if(manufactor == "IGL"){
+                     $("#sidebar-collapse-temp").html("FC SMS Marketing Solution");
+                     ver_title = "FC SMS";
+                 }else if(manufactor == "zingmax"){
+                     ver_title = "SMS SYSTEM";
+                     companyName = "<div class=\"one_logo_name\">SMS SYSTEM</div>  <div class=\"two_logo_name\"><div>A to Z Countries</div></div>";
+                     copyright_div = "Copyright © 2026 BULK SMS. ";
+                     manufactor = "ejoin";
+                 }else if(manufactor == "VeroMsg"){
+                     ver_title = "SMS PLATFORM";
+                     companyName = "<div class=\"one_logo_name\" style=\"font-family: timesnewroman\">SMS PLATFORM</div>  <div class=\"two_logo_name\"  style=\"font-family: timesnewroman\"><div>Globe Connect</div></div>";
+                     copyright_div = "";
+                     manufactor = "VeroMsg";
+                 }else if(manufactor == "DGSOL"){
+                     ver_title = "DGSOL";
+                     companyName = "";
+                 }else if(manufactor == "traffiLink"){
+                     ver_title = "TraffiLink";
+                     companyName = "";
+                 }else if(manufactor == "SUNRISE"){
+                     ver_title = "EIMS4";
+                     companyName = "";
+                 }else if(manufactor == "texcell"){
+                     ver_title = "EIMS4";
+                     companyName = "";
+                 }else if(manufactor == "JANDSMS"){
+                     /* ver_title = "EIMS4";
+                     companyName = ""; */
+                     ver_title = companyName = "SMS Platform";
+                     $(".copyright_div").hide();
+                 }else if(manufactor == "faixa"){
+                     ver_title = companyName = "FAIXA SMS";
+                     $("#ID_companyName").css("font-size", "28px");
+                 }else if(manufactor == "windcloud"){
+                     ver_title = "Windcloud";
+                     companyName = "";
+                 }else{
+                     ver_title = companyName = "SMS Platform";
+                     $(".copyright_div").hide();
+                 }
+                 if(noIcoImgManufactorArr.indexOf(manufactor) == -1){
+                     link.href="/assets/images/logo/"+manufactor+".ico"; 
+                 }
+                 $("body.pace-done").addClass(manufactor);
+                 $("#ID_version_title").html(ver_title);
+                 $("#ID_companyName").html(companyName);
+                 $(".copyright_div").html(copyright_div);
+             }
+		}
+		
+	    updatePassword = function (tab_id) {
+	        var $cfm_psw = $("#edit-"+tab_id+"-confirm_new_password");  
+		    var $old_psw = $("#edit-"+tab_id+"-old_password");  
+		    var recharge_amount = 0;
+		    var params = {
+		         token : window.token,
+	   		     actionName:$.i18n("menu.frame_password")
+	  		};
+	        var loadInx = layer.load(2);
+	        
+	        var param = {};
+	        param.data = params;
+	        param.url = window.PATH + "/frame/password/save.ajax";
+	        param.async = false;
+		    param.data.old_psw = getEncryptData($.trim($old_psw.val()));
+		    param.data.cfm_psw = getEncryptData($.trim($cfm_psw.val()));
+		    submitModifyPwd(tab_id, param);
+	    };
+	    
+	    function submitModifyPwd(tab_id, param){
+	       commonsAjax(param, function(data){
+	            if(data.state == 0){
+                    layer.msg.success(data.message);
+                    setTimeout(function(){
+                        logout();
+                    }, 1000);
+                }else{
+                    layer.msg.error(data.message);
+                }
+    	    	removeModal(tab_id, 'edit', true);
+    	    	layer.close(loadInx);
+	        });
+	    }
+	    
+        function idxmodifyPassword(){
+		    var items ={
+				        tableKey: "userName", i18nPrefix: "frame.password",
+				        label_name_prefix:true,
+				        sbmtBtn:"menu.frame_password",
+				        trs:[
+				    	   {name: "old_password", width:120, vali: {required:true}},
+				    	   {name: "new_password", width:120, vali: {required:true,stringLength: window.LOGIN_PWD_LENGTH,regexp:window.LOGIN_PWD_REGEXP, valiRegexpMsg: "login_pwd_rule"}, questionTip:true},
+				    	   {name: "confirm_new_password", width:120, vali: {required:true,stringLength: window.LOGIN_PWD_LENGTH,regexp:window.LOGIN_PWD_REGEXP, valiRegexpMsg: "login_pwd_rule"}}
+				        ]
+			};
+			var tableId = "idx-modify-pwd";
+			setLocalStorageModel(tableId, "tableParams", items);
+			initAddHtml(tableId,items);
+		    showDialogModelCom(tableId, $.i18n("basicInfo.page.modify.pwd.tip"),initEditFormValidatoraCom(tableId, 'edit', function(){idx_sbmtForm(tableId);}));
+        }
+        
+	    function idx_sbmtForm(tab_id){
+		    var $old_psw = $("#edit-"+tab_id+"-old_password");
+		    var $new_psw = $("#edit-"+tab_id+"-new_password");
+		    var $cfm_psw = $("#edit-"+tab_id+"-confirm_new_password");
+		    var msg = "",
+			    validatorErrorPrefix = "validator.";
+		    if ($.trim($old_psw.val()) == ""){
+			    msg = $.i18n(validatorErrorPrefix + "notEmpty");
+				$old_psw.focus();
+		 	}else if($.trim($new_psw.val()) == ""){
+			    msg = $.i18n(validatorErrorPrefix + "notEmpty");
+				$new_psw.focus();
+			}else if($.trim($new_psw.val()) != $.trim($cfm_psw.val())){
+			    msg = $.i18n("twoPassEntInc");
+				$new_psw.focus();
+			}
+			if(msg !=""){
+			    layer.msg.error(msg); 
+			}else{
+	    		updatePassword(tab_id); 
+			}
+		}
+		
+		function loadLanguageHtml(){
+		    var language_arr = [['zh_CN','中文(简)'],['zh_TW','中文(繁)'],['en_US', 'English']];
+		    var now_lan = '';
+		    var ulhtml ='<ul class="t-list mx-author-menu">';
+	        for(var i=0;i<language_arr.length;i++){
+	           var arr = language_arr[i];
+	           if(window.LANGUAGE != arr[0]){
+	               ulhtml+='<li class="mx-author-menu__list">';
+			       ulhtml+='<a href="javascript:languageChange(\''+arr[0]+'\')" class="mx-author-menu__link text-capitalize sm-text">';
+			       ulhtml+='<div class="rtl-flag d-inline-block t-mr-8">';
+			       ulhtml+='<span style="margin-left: 40px;width:100px;display:inline-block;margin-top: 4px;">'+arr[1]+'</span>';
+			       ulhtml+='</li>';
+	           }else{
+	               now_lan = arr[1];
+	           }
+	        }
+	        ulhtml+='</ul>';
+	       
+	        var html = '<a href="javascript:languageChange(\''+window.LANGUAGE+'\')" aria-expanded="false" data-toggle="dropdown" class="t-link w-100 primary-nav-list__link primary-nav-list__link-has-menu">';
+		        html+='<div class="d-flex align-items-center">';
+		        html+='<span class="mx-user">';
+	            html+='</span>';
+		        html+='<span class="d-none d-lg-inline-block t-ml-8">';
+		        html+= now_lan;
+		        html+='&nbsp;<i class="fa fa-sort-down" style="vertical-align:top;"></i>';
+		        html+='</span></div></a>';
+		        html+='<div class="dropdown-menu dropdown-menu-right"  style="">';
+		        html+= ulhtml;
+		        html+='</div>';
+		    $("#language_id").html(html);    
+		}
+		
+		function languageChange(langOld){
+            setLangCookie(langOld);
+            location.reload();
+        }; 
+        
+        function webPageSettings(){
+            $("body.pace-done").addClass("right-bar-enabled");
+        }
+        
+        function initLocalStorageIdx(){
+	        var old_version = getLocalStorageModel_user_sys("sys","version");
+		    if(old_version){
+		       window.OLD_VERSION = old_version;
+		       if(window.WEBSVNVER != old_version){
+		           //删除旧版本下所有本地存储 ，tableParams不删除
+		           deleteOldVerLocalStorage(old_version);
+		           setLocalStorageModel_user_sys("sys","version",window.WEBSVNVER);
+		       }
+		    }else{
+		       setLocalStorageModel_user_sys("sys","version",window.WEBSVNVER);
+		    }
+		    
+		    loadTimeZoneInfo('480',"timeZone_1");
+            loadSysSearchMode();
+            loadSysThemeColors();
+        }
+        
+        function loadSysThemeColors(){
+            //获取样式颜色
+            var sys_theme_colors = getLocalStorageModel("sys","theme_colors");
+            if(sys_theme_colors){
+               window.theme_colors = sys_theme_colors;
+            }
+           
+            toggleBackground(window.theme_colors);
+            $("#"+window.theme_colors).parent(".custom-control").addClass("active");
+        }
+        
+        function setSearchModel(type){
+	        if(type == 'top' || type == 'thead'){
+	           setLocalStorageModel("sys","search_mode", type);
+	           location.reload();
+	        }
+        }
+        
+        function setThemeColors(obj, bg){
+	        setLocalStorageModel("sys","theme_colors", bg);
+	        toggleBackground(bg);
+            $(obj).siblings(".custom-control").removeClass("active");
+            $(obj).addClass("active");
+        }
+        
+        function toggleBackground(bgClass){
+            $("body.pace-done").removeClass(function (index, className) {return (className.match (/(^|\s)gradient-theme-\S+/g) || []).join(' ');});
+            $("body.pace-done").addClass(bgClass);
+        }
+        
+        function is_mobile(){
+            if(window.IS_MOBILE) {
+			    $("body.pace-done").addClass("twocolumn-panel");
+			    $(".twoMenu_a_cls,.menu_close_btn").on('click', function(event) {
+			         $("#sidebar-collapse").click();
+			    });
+			}
+        }
+</script>
+<script src="/assets/assets/js/bootstrap-tagsinput.gzjs?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script src="/assets/assets/js/share.js?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script src="/assets/js/libs/echarts/echarts.min.gzjs?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script src="/assets/assets/js/clipboard.min.js?version=NORMAL_S_1037_MDAwMDAwMA=="></script>
+<script type="text/javascript" src="/assets/assets/js/md5.js" defer></script>
+<script type="text/javascript" src="/assets/js/ddsort.js" charset="utf-8" defer></script>
+
+<script>
+    function createHelper() {
+	   if($("#tooltip").length==0){
+	      $('<div id="tooltip" style="display: none;"><h3></h3></div>').appendTo(document.body);
+	   }
+	   if($("#ez_popover").length==0){
+	      $('<div class="popover bs-popover-auto" role="tooltip" id="ez_popover" style="display: none;"><div class="popover-arrow" style="position: absolute; top: 0px; transform: translate(0px, 17px);"></div><div class="popover-body"></div></div>').appendTo(document.body);
+	   }
+    }
+   
+    var clipboard = new ClipboardJS('.btn-d');
+    clipboard.on('success', function(e) {
+        /* var copySuccText = e.trigger.getAttribute('copy-succ-text');
+        layer.msg.success(copySuccText || $.i18n("copy_auth_succ_tip"));
+        e.trigger.removeAttribute('copy-succ-text'); */
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        layer.msg.error($.i18n("copy_auth_fail_tip"));
+    });
+    
+    
+    let _audio_ = null;
+	let userInteracted = false; 
+	function initAudio() {
+        _audio_ = document.getElementById('ez_audio');
+        document.addEventListener('click', () => {
+	         userInteracted = true;
+        });
+    }
+    
+    function loadAudioAndConnectWebSocket(){
+	    if(window.BK_SERVER_RESEND == 0){
+	        if(window.WSPORT == "0"){
+	            console.log('[WebSocket] No available WebSocket port, skipping connectio.');
+	        }else{
+		        initAudio();
+		        setTimeout(() => {
+		            connectWebSocket();
+		        }, 1000);
+	        }
+		}
+    }
+
+</script>
+</html>

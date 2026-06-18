@@ -1,0 +1,394 @@
+﻿
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Login Page</title>
+    <meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0"> 
+    <meta charset="utf-8"/>
+    <meta name="csrf-token" content="">
+    <meta name="description" content="eims login page"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="#" type="image/x-icon" id="version_type_id"/>
+    <script src="/assets/js/jsencrypt.min.gzjs"></script>
+    <link href="/assets/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/loaders.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="login_body">
+	<div class="loginbox-language" style="position: absolute;top: 0;right: 0;">
+		<select name="language" id="language" class="form-control">
+			<option selected="selected" value="zh_CN">中文(简)</option>
+			<option value="zh_TW">中文(繁)</option>
+			<option value="en_US">English</option>
+		</select>
+		<div class="simplebar-content">
+        </div>
+	</div>
+	<div class='login'>
+	  <div class="login_logo"></div>
+	  <div class='login_title'>
+	    <span id="login_page_title_ID">SMS Management System</span>
+	  </div>
+	  <div class='login_fields'>
+		   <form method="post" id="login_form">
+			    <input type="hidden" name="CSRF-TOKEN" value="">
+			    <input type="hidden" name="pwd" id="password"/>
+			    <div class='row_ipt_div login_user_div login_fields__user'>
+					  <div class='icon icon_user'> 
+				      </div>
+				      <input name="username" id="username" placeholder='' maxlength="32" type='text'/>
+			    </div>
+			    <div class='row_ipt_div login_pwd_div login_fields__password'>
+				      <div class='icon icon_lock'>
+				      </div>
+				      <input id="passwordIpt" placeholder='' maxlength="64" type='password'>
+			    </div>
+			    <div id="login_ver_code_div" class='row_ipt_div login_captcha_div login_fields__password' style="display: none;">
+				      <div class='icon icon_captcha'>
+				      </div>
+				      <input type="text"  placeholder='' name="captcha" id="vcode" class="form-control" style="float:left;" maxlength="4"/>
+	                &nbsp;
+	                  <img title="Captcha" id="vimg" style="cursor: pointer;width:90px;" height="32">
+	                &nbsp;
+	                <span class="" id="ok-no-verify" style="display: inline-block;"></span>    
+			    </div>
+			    <div class='login_fields__submit'>
+			        <a id="sysLogin_ID">
+					      <span></span>
+					      <span></span>
+					      <span></span>
+					      <span></span>
+					      <b id="sysLogin_name_ID">System Login</b>
+				    </a>
+			    </div>
+			</form>
+			
+	  </div>
+	  <div class='success'>
+	  </div>
+	</div>
+	<div class='authent'>
+	  <div class="loader" style="height: 44px;width: 44px;margin-left: 28px;">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+      </div>
+	  <p id="logining">Logging in...</p>
+	</div>
+</body> 
+
+<script type="text/javascript" src="/assets/js/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui.min.gzjs?v=1.13.3"></script>
+<script type="text/javascript" src="/assets/js/message.js"></script>
+    
+    <script>
+        var is_login_verification_code_fun = true;
+        var passwordTip = "";
+        var usernameTip = "";
+        window.manufactor = 'topYing';
+        // 判断是否被嵌套,防止超时时子页面显示 登陆页面
+        if (window.VERSION) {
+            $("body").html("");
+            location.href = "";
+        }
+        
+        $(function () {
+            if(""!=""){
+                alertErrorTip("");
+            }
+            
+            if("0" == "0"){
+                is_login_verification_code_fun = false; 
+                $("#login_ver_code_div").remove();
+            }else{
+                $("#login_ver_code_div").show();
+                $("body.login_body").addClass("body_login_ver_code_div");
+            }
+            
+            
+            loadLoginBgGradientTheme();
+            var sys_theme_colors =  window.localStorage.getItem("eims.config.login_bg_cls");
+            if(sys_theme_colors){
+	            $("body.login_body").removeClass(function (index, className) {return (className.match (/(^|\s)gradient-theme-\S+/g) || []).join(' ');});
+	            $("body.login_body").addClass(sys_theme_colors);
+	            $("#"+sys_theme_colors).parent(".custom-control").addClass("active");
+            }
+           
+            $("#username").focus(); 
+            
+            var langOld = "";
+            if(langOld){
+                if(langOld == "zh_CN"){
+	               saveLang(langOld = "zh_CN");
+	            }else{
+	               saveLang(langOld = "en_US");
+	            }
+            }else{
+	            var arr, reg = new RegExp("(^| )" + LANG_COOKIE_KEY + "=([^;]*)(;|$)");
+		        langOld = ( arr = document.cookie.match(reg) ) ? arr[2] : null;
+		        if (!langOld) {
+		           if(userLanguage() == "zh"){
+		               saveLang(langOld = "zh_CN");
+		           }else{
+		               saveLang(langOld = "en_US");
+		           }
+		        }else{
+		           viewLang(langOld);
+		        }
+	        }
+            $("#language").val(langOld).change(function () {
+                setLangCookie($(this).val());
+	            window.location.href = "/login";
+	            //location.reload();
+            });
+            loadDaemonVerStr(langOld);
+            
+            $("#vimg").click(function(){
+				$(this).attr("src", "/verify/loadVerify.ajax?random=" + Math.random());
+			});
+			// 为验证码绑定onmouseover与onclick
+			$("#vimg").bind({
+				mouseover : function(){ // onmouseover
+					$(this).css("cursor", "pointer");
+				}
+			});
+			$('#vimg').click();
+        });
+        
+        function loadLoginBgGradientTheme(){
+            var manufactor = window.manufactor;
+            var html = '';
+            if(!(manufactor == "oak" || manufactor == "topYing"  || manufactor == "traffiLink" || manufactor == "velSend" || manufactor == "textingGo")){
+             /*    html = '<div class="custom-control custom-radio div-gradient-theme-3" onclick="setThemeColors(this, \'gradient-theme-3\')">'+
+			              '<input type="radio" class="custom-control-input" name="layout" id="gradient-theme-3" data-layout="gradient-theme-3">'+
+			              '<label class="custom-control-label" for="gradient-theme-3">Color 3</label>'+
+			            '</div>';
+            }else if(manufactor == "topYing"){
+                html = '<div class="custom-control custom-radio div-gradient-theme-4" onclick="setThemeColors(this, \'gradient-theme-4\')">'+
+			              '<input type="radio" class="custom-control-input" name="layout" id="gradient-theme-4" data-layout="gradient-theme-4">'+
+			              '<label class="custom-control-label" for="gradient-theme-4">Color 3</label>'+
+			            '</div>';
+            }else{ */
+                html = '<div class="custom-control custom-radio div-gradient-theme-1" onclick="setThemeColors(this, \'gradient-theme-1\')">'+
+                         '<input type="radio" class="custom-control-input" name="layout" id="gradient-theme-1" data-layout="gradient-theme-1">'+
+			              '<label class="custom-control-label" for="gradient-theme-1">Color 1</label>'+
+			            '</div>'+
+			            '<div class="custom-control custom-radio div-gradient-theme-2" onclick="setThemeColors(this, \'gradient-theme-2\')">'+
+			              '<input type="radio" class="custom-control-input" name="layout" id="gradient-theme-2" data-layout="gradient-theme-2">'+
+			              '<label class="custom-control-label" for="gradient-theme-2">Color 2</label>'+
+			            '</div>';
+            }
+            $(".simplebar-content").html(html);
+        }
+        
+        function loadDaemonVerStr(language){
+		     var manufactor = window.manufactor;
+		     var def_idx = 1;
+		     if(manufactor!=""){
+		         $("body.login_body").addClass(manufactor);
+			     var link = document.getElementById("version_type_id");
+			     
+			     var noIcoImgManufactorArr = ["NULL", "6393sysinfo", "IGL", "DGSOL", "SUNRISE", "texcell", "faixa", "WMD", "traffiLink", "JANDSMS"];
+			     if(noIcoImgManufactorArr.indexOf(manufactor) == -1){
+                     link.href="/assets/images/logo/"+manufactor+".ico";
+                 }
+			     if(manufactor == "oak" || manufactor == "topYing" || manufactor == "traffiLink" || manufactor == "velSend" || manufactor == "textingGo"){
+			         if(manufactor == "oak"){
+			            def_idx = 2;
+			         }else if(manufactor == "topYing"){
+			            def_idx = 3;
+			         }else if(manufactor == "traffiLink"){
+				         def_idx = 4;
+				     }else if(manufactor == "velSend"){
+				         def_idx = 5;
+				     }else if(manufactor == "textingGo"){
+				         def_idx = 6;
+				     }
+			         var username = {"en_US":"Account","zh_CN":"账号","zh_TW":"帳號"};
+			         var password = {"en_US":"Password","zh_CN":"密码","zh_TW":"密碼"};
+			         var vcode = {"en_US":"Captcha","zh_CN":"验证码","zh_TW":"驗證碼"};
+			         $(".login_user_div").find("div.icon").removeClass("icon_user").html('<label class="el-form-item__label">'+username[language]+'</label>');
+			         $(".login_pwd_div").find("div.icon").removeClass("icon_lock").html('<label class="el-form-item__label">'+password[language]+'</label>');
+			         $(".login_captcha_div").find("div.icon").removeClass("icon_captcha").html('<label class="el-form-item__label">'+vcode[language]+'</label>');
+			         
+			         var usernameTips = {"en_US":"Please input username","zh_CN":"请输入您的账号","zh_TW":"請輸入您的帳號"};
+                     var passwordTips = {"en_US":"Please input password","zh_CN":"请输入您的密码","zh_TW":"請輸入您的密碼"};
+                     $("#username").attr("placeholder",usernameTips[language]);
+                     $("#passwordIpt").attr("placeholder",passwordTips[language]);
+                     $("#vcode").attr("placeholder",vcode[language]);
+                     $("#login_page_title_ID").html(" ");
+			     }
+			 }
+			 var simplebar_content = $(".simplebar-content");
+			 $($(simplebar_content).find("div")[def_idx]).addClass("active");
+			 $("body.login_body").addClass("gradient-theme-"+(def_idx+1));
+	    }
+	    
+        // 语言设置
+        var LANG_COOKIE_KEY = "language";
+        
+        function saveLang(language) {
+            setLangCookie(language);
+            viewLang(language);
+        }
+        
+        function viewLang(language){
+            var vcode = {"en_US":"Captcha","zh_CN":"验证码","zh_TW":"驗證碼"};
+            var username = {"en_US":"Account","zh_CN":"账号","zh_TW":"帳號"};
+            var password = {"en_US":"Password","zh_CN":"密码","zh_TW":"密碼"};
+            var sysLogin = {"en_US":"System Login","zh_CN":"系统登录","zh_TW":"系統登錄"};
+            var login_page_title = {"en_US":"SMS Management System","zh_CN":"短信管理系统","zh_TW":"登錄頁面"};
+            
+            var usernameTips = {"en_US":"Please input username","zh_CN":"请输入您的账号","zh_TW":"請輸入您的帳號"};
+            var passwordTips = {"en_US":"Please input password","zh_CN":"请输入您的密码","zh_TW":"請輸入您的密碼"};
+            var logining = {"en_US":"Logging in...","zh_CN":"登录中...","zh_TW":"登錄中..."};
+                passwordTip = passwordTips[language];
+                usernameTip = usernameTips[language];
+            $("#logining").html(logining[language]); 
+            $("#username").attr("placeholder",username[language]);
+            $("#passwordIpt").attr("placeholder",password[language]);
+            $("#sysLogin_name_ID").html(sysLogin[language]);
+            $("#login_page_title_ID").html(login_page_title[language]);
+            $("#vcode").attr("placeholder",vcode[language]);
+        }
+        
+        function userLanguage(){ 
+            /* get browser default lang */
+		    if (navigator.userLanguage) {
+		        baseLang = navigator.userLanguage.substring(0,2).toLowerCase();
+		    } else {
+		        baseLang = navigator.language.substring(0,2).toLowerCase();
+		    }
+		    return baseLang;
+        }
+        
+        $(document).keypress(function (e) {
+	        // 回车键事件  
+	        if (e.which == 13) {
+	            $("#sysLogin_ID").click();
+	        }
+	    });
+	    
+	    $('#passwordIpt').focus(function () {
+	        $(this).attr('type', 'password');
+	    });
+	     
+	    $('input[type="text"]').focus(function () {
+	        $(this).prev().animate({ 'opacity': '1' }, 200);
+	    });
+	    $('input[type="text"],input[type="password"]').prev().animate({ 'opacity': '.7' }, 200);
+	    $('input[type="text"],input[type="password"]').blur(function () {
+	        $(this).prev().animate({ 'opacity': '.7' }, 200);
+	    });
+ 
+ 
+		$('#sysLogin_ID').click(function () {
+			var username = $('input[name="username"]').val();
+			var pwd = $('#passwordIpt').val();
+			if ($.trim(username) == '') {
+				alertErrorTip(usernameTip);
+			} else if ($.trim(pwd) == '') {
+				alertErrorTip(passwordTip);
+			} else {
+			    //认证中..
+				$('.login').addClass('test'); //倾斜特效
+				setTimeout(function () {
+					$('.login').addClass('testtwo'); //平移特效
+				}, 200);
+				setTimeout(function () {
+					$('.authent').show().animate({ right: -320 }, {
+						easing: 'easeOutQuint',
+						duration: 600,
+						queue: false
+					});
+					$('.authent').animate({ opacity: 1 }, {
+						duration: 200,
+						queue: false
+					}).addClass('visible');
+				}, 400); 
+				setTimeout(function () {
+				    $.ajax({
+			    	    url: "/loadPuk",     
+			    	    dataType: "json", 
+			    	    async: false,    
+			    	    type:"POST",  
+			    	    success:function(res){ 
+					    	if(res.state==0){
+							    var encrypt = new JSEncrypt();
+							    encrypt.setPublicKey(res.data); //设置公钥
+							    var encrypted = encrypt.encrypt($("#passwordIpt").val());
+							    $("#password").val(encrypted);
+								$("#login_form")[0].submit();
+					    	}else{
+					    		alertErrorTip("Key loading failed");
+					    	}
+			    	    }, 
+			    	    error:function(){  
+			    	    }
+			     	});
+		     	}, 300);  
+			}
+		})
+        
+        function alertErrorTip(errorMsg){
+		     $.message({
+		        message:errorMsg,
+		        type:'error'
+		    });
+            //$("#login_error_ID").html('<b style="color: red;">'+errorMsg+'</b>');
+        }
+        
+        function setThemeColors(obj, bg){
+	        var storage = window.localStorage; 
+	 		var KEY_WORD = "eims.config.login_bg_cls";
+	 	 	 	storage.removeItem(KEY_WORD);
+	 	 		storage.setItem(KEY_WORD, bg); 
+	        $("body.login_body").removeClass(function (index, className) {return (className.match (/(^|\s)gradient-theme-\S+/g) || []).join(' ');});
+            $("body.login_body").addClass(bg);
+            $(obj).siblings(".custom-control").removeClass("active");
+            $(obj).addClass("active");
+        }
+        
+        function setLangCookie(language){
+	        var exp = new Date(new Date().getTime() + 31536000000);// cookie中存储一年.
+	        document.cookie = LANG_COOKIE_KEY + "=" + language + ";sameSite=lax;expires=" + exp.toGMTString();
+	    }
+	    
+	    function getCsrfToken() {
+		    const metaTag = document.querySelector('meta[name="csrf-token"]');
+		    return metaTag ? metaTag.content : '';
+		}
+    </script>
+<style>
+body.login_body{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+ 
+.login {
+  position: static;
+  margin: 0;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+}
+</style>
+</html>

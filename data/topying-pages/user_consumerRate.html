@@ -1,0 +1,123 @@
+
+
+
+
+
+
+
+
+
+
+<body> 
+  <div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="consumerRateBtn1">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('consumerRateTab1','consumerRateTool1','consumerRateBtn1')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">SMS Pricing</span></a> 
+	                  </li>
+	                  <li class="flag-tabs-btn tab-blue" id="consumerRateBtn2">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('consumerRateTab2','consumerRateTool2','consumerRateBtn2')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Code receiving rate</span></a> 
+	                  </li>
+	                  <!-- tab2-工具按钮组 -->
+	                  <li class="head-tools-r navbar-right flag-tools"  id="consumerRateTool1">
+	                  </li>
+	                  <li class="head-tools-r navbar-right flag-tools" style="display:none;" id="consumerRateTool2">
+	                  </li>
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+	                    <div id="consumerRateTab1" class="flag-tabs tab-pane in active summary-tab no-padding">
+						</div>
+						<div id="consumerRateTab2" class="flag-tabs tab-pane" style="border-radius:0;"></div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>
+   
+<script>
+	g_var.view = '';
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + "/user/consumerRate/getView.ajax",
+				data : {},
+				type : "post",
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				        g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) {
+				}
+			});
+	}
+    try {
+       var selectPermissionsInfo =  g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = ['1', '1', '1', '1', '1', '1'];
+    	permi = ['1', '1', '1', '1', '1', '1'];
+    }
+    
+    var array =["default","success","info"];
+    var valFormatLockdur = function(value){
+	    if(!value || value == 0){
+	        return "<span class='label label-"+array[0]+"'>"+$.i18n("permanent_lock")+"</span>";
+	    }
+	    return value;
+	}
+   
+	/*******************************  begin ************************************/
+	var tableItem_userMccMncRateMap = {
+    		tableKey: "id", i18nPrefix: "db.tbUserMccMncRateMap.", trs:[
+    		{name: "id", hideEdit: "A",disabled:"A",vali:{integer:true ,lessThan:1000000}, width:100,show:false},
+    		{name: "mccmncid", disabled:"E",comType:"select",comData: "mccMncSelectVals" , advQry:['LIKE'],topSearch:true,width:360,questionTip:true},
+    		{name: "btype", disabled:"E", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE'],topSearch:true},
+    		{name: "rate",isImport:true, ratio:window.RATIO,vali: {decimals:6, lessThan:1000000} ,width:140,questionTip:true}
+  	]};
+	var userMccMncRateMapUrl = "/user/consumerRate/";
+	InitTableMoudle("consumerRateTab1", "consumerRateTool1", userMccMncRateMapUrl, tableItem_userMccMncRateMap, ['1', '1', '1', '1', '1', '1'], "1");
+    
+    if(window.SCODE_MODULE_ENABLE == 1){
+        var tableItem_scodeUserMccMncRateMap = {
+	    		tableKey: "id", i18nPrefix: "db.tbUserMccMncRateMap.", trs:[
+	    		{name: "id", hideEdit: "A",disabled:"A",vali:{integer:true ,lessThan:1000000}, width:100,show:false},
+	    		{name: "mccmncid", disabled:"E",comType:"select",comData: "mccMncSelectVals" , advQry:['LIKE'],topSearch:true,width:160,questionTip:true},
+	    		{name: "mcc", type: "I", advQry: ['LIKE'],show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,  width:180},
+	            {name: "mnc", type: "I", advQry: ['LIKE'],show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,  width:180},
+	            
+	    		{name: "btype", disabled:"E", vali: {required:false},comType:"select",comData : "scodeBtypeVals",width:140, noSort:true, advQry: ['LIKE'],topSearch:true},
+	    		{name: "specifyRate",isImport:true, ratio:window.RATIO,vali: {decimals:6, lessThan:1000000} ,width:150,questionTip:true,valFormat:"valFormatSpecifyRate", paramArray:["validSpecifyRate", "specifyCurrency"], addEventListener:["input","specifyRateToSystemRate","edit"]},
+	    		{name: "specifyROE",isImport:true, ratio:window.RATIO,vali: {decimals:6, lessThan:1000000} ,width:110,questionTip:true,show:false,lastShow:false,detailShow:false,theadSearchDef:false,topSearch:false, addEventListener:["input","specifyRateToSystemRate","edit"]},
+	    		{name: "rate",isImport:true, ratio:window.RATIO,vali: {decimals:6, lessThan:1000000} ,width:110,questionTip:true},
+	    		
+	    		{name: "timeoutdur", hideEdit: "N", vali: {required:false, digits:true},width:170, noSort:true,questionTip:true},
+			    {name: "lockdur", hideEdit: "N", vali: {required:false, digits:true},width:145, noSort:true,questionTip:true, valFormat:"valFormatLockdur"},
+			
+	    		{name: "remark", vali: {maxlength: 512,required:false},advQry:["LIKE"],width:260}
+	  	]};
+		var scodeUserMccMncRateMapUrl = "/user/consumerRate/scodeUserMccMncRateMap";
+		if(window.SPECIFY_RATE_ENABLE == 0 || (window.UTYPE != window.ADMIN_TYPE && window.UTYPE != window.SALESMAN_TYPE)){
+		   reomveTableItem(tableItem_scodeUserMccMncRateMap, ["specifyRate", "specifyROE"]);
+		}
+		InitTableMoudle("consumerRateTab2", "consumerRateTool2", scodeUserMccMncRateMapUrl, userTypeHiddenItem("consumerRateTab2",tableItem_scodeUserMccMncRateMap,["agentid"]), permi, "1");
+	 }else{
+	    $("#consumerRateTab2,#consumerRateTool2,#consumerRateBtn2").hide(); 
+	 }   
+   </script>
+ </body>

@@ -1,0 +1,92 @@
+
+
+
+
+
+
+
+
+
+
+<body> 
+  <div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="consumerMyNumbersBtn1">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('consumerMyNumbersTab1','consumerMyNumbersTool1')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">My Numbers</span></a> 
+	                  </li>
+	                  <li class="head-tools-r navbar-right flag-tools"  id="consumerMyNumbersTool1">
+	                  </li>
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+						<div id="consumerMyNumbersTab1" class="flag-tabs tab-pane  in active summary-tab no-padding"></div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>  
+	<script>
+	g_var.view = '';
+	var consumerMyNumbersUrl = "/sysconfig/consumerMyNumbers/";
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + consumerMyNumbersUrl + "getView.ajax",
+				data : {},
+				type : "post",
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				        g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) {
+				}
+			});
+	}
+    try {
+        var selectPermissionsInfo = JSON.parse('{"permissions":["0","1","1","1","1","1","1","1"]}' || '{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = ['1', '1', '1', '1', '0', '0'];
+    	permi = ['1', '1', '1', '1', '0', '0'];
+    }
+	
+	var valFormatconsumerMyNumbersMapNumber = function(tableId, number){ 
+	    return "<a class='dev_clic' href='javascript:querySendRcdByNumber(\""+number+"\")' title='"+$.i18n("clic.to.view.receiveRcd.list")+"'>"+number+"</a>";
+	};
+	
+	function querySendRcdByNumber(number){
+	    var _item_ = {"receiver":number};
+	    setLocalStorageModel("receiveRcdTab2", "searchDefVal", _item_);
+	    window.location.href= window.PATH + "/index#/bill/receiveRcd";
+	}
+		 
+	/*******************************   consumerMyNumbersMap    begin 	******************************/
+	var tableItem_consumerMyNumbersMap = {
+    		tableKey: "id", i18nPrefix: "db.tbAssignNumberMap.",
+    		trs:[
+    		{name: "id", type: "I", pk: true, hideEdit: "A",disabled:"A", vali: {stringLength: 11},show:false},
+    		{name: "number", hideEdit: "A" ,width:200 ,advQry:['LIKE'],topSearch:true,labelType:"textarea", valFormat:"valFormatconsumerMyNumbersMapNumber",paramArray:["number"]},
+            {name: "last_recvtm",comType: "timestamp",type: "T", width:140, hideEdit: "A",disabled:"A"},
+            {name: "recvcnt", width:200, hideEdit: "A",disabled:"A"},
+            {name: "bindtm",comType: "timestamp",type: "T", width:140, hideEdit: "A",disabled:"A"}
+        ]};
+    var consumerMyNumbersMappermi = permiMerge(['0', '1', '1', '1'], permi);
+	InitTableMoudle("consumerMyNumbersTab1", "consumerMyNumbersTool1", consumerMyNumbersUrl, tableItem_consumerMyNumbersMap, consumerMyNumbersMappermi, "1");
+	/******************************* consumerMyNumbersMap  end   ***************************************/
+	</script>
+ </body>

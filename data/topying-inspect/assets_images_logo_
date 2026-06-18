@@ -1,0 +1,164 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>Error 404 - Page Not Found</title>
+
+    <meta name="description" content="Error 404 - Page Not Found"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+</head>
+<style>
+body {
+	margin: 0;
+}
+body {
+	font-family: '\5FAE\8F6F\96C5\9ED1', 'Microsoft YaHei', 'Microsoft Yahei Font', 'Open Sans', 'Segoe UI' !important;
+	font-size: 12px;
+	-webkit-text-size-adjust: none;
+	padding-bottom: 0;
+	min-height: 100%;
+	color: #444;
+}
+.body-404 {
+	background-color: #00A2E9;
+	color: #fff;
+}
+.body-404::before {
+	display: none;
+}
+body::before {
+	content: "";
+	display: block;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	background-color: #eee;
+}
+.error-header {
+	background: #fff;
+	height: 280px;
+}
+.error-container {
+	background: rgba(0, 0, 0, .05);
+	text-align: center;
+}
+.error-container h1 {
+	font-size: 110px;
+	font-weight: 300;
+	margin: -103px 0 0 0;
+	text-align: center;
+	color: #00A2E9;
+}
+.error-divider {
+	margin-top: -27px;
+	padding: 30px 0;
+}
+.error-container h2 {
+	font-size: 58px;
+	font-weight: 300;
+	margin: 0;
+	text-transform: uppercase;
+}
+.error-container p.description {
+	color: #e5e5e5;
+	font-size: 40px;
+	margin: 0;
+}
+.return-btn, .return-btn:hover {
+	border: 1px solid rgba(255, 255, 255, .3);
+	padding: 10px 15px;
+	margin-top: 100px;
+	margin-bottom: 30px;
+	display: inline-block;
+	-webkit-border-radius: 5px;
+	-webkit-background-clip: padding-box;
+	-moz-border-radius: 5px;
+	-moz-background-clip: padding;
+	border-radius: 5px;
+	background-clip: padding-box;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.fa {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.btn-group-vertical > .btn-group::after, .btn-toolbar::after, .clearfix::after, .container-fluid::after, .container::after, .dl-horizontal dd::after, .form-horizontal .form-group::after, .modal-footer::after, .nav::after, .navbar-collapse::after, .navbar-header::after, .navbar::after, .pager::after, .panel-body::after, .row::after {
+  clear: both;
+
+}
+.btn-group-vertical > .btn-group::after, .btn-group-vertical > .btn-group::before, .btn-toolbar::after, .btn-toolbar::before, .clearfix::after, .clearfix::before, .container-fluid::after, .container-fluid::before, .container::after, .container::before, .dl-horizontal dd::after, .dl-horizontal dd::before, .form-horizontal .form-group::after, .form-horizontal .form-group::before, .modal-footer::after, .modal-footer::before, .nav::after, .nav::before, .navbar-collapse::after, .navbar-collapse::before, .navbar-header::after, .navbar-header::before, .navbar::after, .navbar::before, .pager::after, .pager::before, .panel-body::after, .panel-body::before, .row::after, .row::before {
+  display: table;
+
+  content: " ";
+
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+</style>
+
+<body class="body-404">
+<div class="error-header"></div>
+<div class="container ">
+    <section class="error-container text-center">
+        <h1>404</h1>
+
+        <div class="error-divider">
+            <h2>page not found</h2>
+
+            <p class="description">We Couldn’t Find This Page</p>
+        </div>
+        <a href="/index" class="return-btn"><!-- <i class="fa fa-home"></i> -->Home</a>
+    </section>
+</div>
+
+</body>
+</html>

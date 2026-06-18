@@ -1,0 +1,21 @@
+{
+  "whatsapp": "5511917666486",
+  "packages": [
+    {
+      "id": "10k",
+      "sends": 10000,
+      "pricePerSend": 0.1201
+    },
+    {
+      "id": "20k",
+      "sends": 20000,
+      "pricePerSend": 0.1101
+    },
+    {
+      "id": "50k",
+      "sends": 50000,
+      "pricePerSend": 0.0901
+    }
+  ],
+  "updatedAt": "2026-05-02T23:46:05.177Z"
+}

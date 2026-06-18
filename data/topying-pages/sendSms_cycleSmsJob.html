@@ -1,0 +1,288 @@
+
+
+
+
+
+
+
+
+
+
+<body>
+<link rel="stylesheet" type="text/css" href="/assets/css/home.css"/>
+<div class="bs-example">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget no-margin-bottom">
+                <div class="widget-body no-padding">
+                    <div id="searchable_wrapper">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <!-- tab标签组 -->
+                                <li class="flag-tabs-btn tab-blue active" id="cycleSmsJobBtn1">
+                                    <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('cycleSmsJobTab1','cycleSmsJobTool1')"><i
+                                            class="fa fa-list font14"></i>
+                                        <span class="tab-title">SMS Task</span></a>
+                                </li>
+                                <!-- tab2-工具按钮组 -->
+                                <li class="head-tools-r navbar-right flag-tools" id="cycleSmsJobTool1">
+                                    <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"  id="cycleSmsJobTab1-tools-autoRefresh"
+						  	             onclick="autoRefreshModal('cycleSmsJobTab1')"><i class="fa fa-refresh"></i><div class="f-t-tips">Refresh</div></div>
+                                    <div class="btn f-p-tips gray_tableModal" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="cycleSmsJobTab1-tools-start"
+                                         onclick="jobOperationModal('cycleSmsJobTab1','start')" disabled="disabled"><i class="fa fa-play"></i>
+                                        <div class="f-t-tips">Start</div>
+                                    </div>
+                                    <div class="btn f-p-tips gray_tableModal" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="cycleSmsJobTab1-tools-stop"
+                                         onclick="jobOperationModal('cycleSmsJobTab1','stop')" disabled="disabled"><i class="fa fa-pause"></i>
+                                        <div class="f-t-tips">Stop</div>
+                                    </div>
+                                    <div class="btn f-p-tips gray_tableModal" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="cycleSmsJobTab1-tools-resendfail"
+                                         onclick="jobOperationModal('cycleSmsJobTab1','resendfail')" disabled="disabled"><i class="fa fa-retweet"></i>
+                                        <div class="f-t-tips">Failed Resend</div>
+                                    </div>
+                                    <div class="btn f-p-tips gray_tableModal" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="cycleSmsJobTab1-tools-resendall"
+                                         onclick="jobOperationModal('cycleSmsJobTab1','resendall')" disabled="disabled"><i class="fa fa-retweet"></i>
+                                        <div class="f-t-tips">Resend All</div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!-- tab页面组 -->
+                            <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+                                <div id="cycleSmsJobTab1" class="flag-tabs tab-pane  in active summary-tab"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    g_var.view = '';
+    getView();
+    function getView() {
+        $.ajax({
+            url: window.PATH + "/sendSms/cycleSmsJob/getView.ajax",
+            data: {},
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function success(req) {
+                g_var.view = req.data;
+            },
+            error: function error(xhr, type, exception) {
+            }
+        });
+    }
+    try {
+        // var selectPermissionsInfo = JSON.parse(g_var.view || '{"permissions":[]}');
+        var selectPermissionsInfo = g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+        selectPermissionsInfo.permissions = ['0', '1', '1', '0', '1', '1'];
+        permi = ['0', '1', '1', '0', '1', '1'];
+    }
+    
+    /******************************* smsJob  begin    ******************************/
+    var sj_state = function (value, tips) {
+        var array = ["default", "danger", "primary", "info", "success", "info"];
+        return "<span class='label label-" + array[value] + "'>" + tips + "</span>";
+    }
+    
+    var valFormat_mmsfiles = function (tipValue, width, value, tableId, rowData) {
+        if(rowData.smstype == 0 || tipValue == ""){
+        
+             return "";
+        }
+		return "<div class='tooltipinfo_noImg' tip='mmsFile.list_clk_info_tip' style='cursor: default;'><a class='nav-link dropdown-toggle dropdown-toggle-nocaret position-relative' href='javascript:viewMmsfilesInfo(\""+tableId+"\",\""+tipValue+"\",\""+rowData.id+"\")' role='button' data-bs-toggle='dropdown' aria-expanded='false'>"+tipValue+"</a></div>";
+	};
+    
+    var t_valFormat = function (value, tips) {
+        var csssStrArray = ["default","primary"];
+        return "<span class='label label-" + csssStrArray[value] + "'>" + tips + "</span>";
+    }
+    
+    var valFormat_smsSendDetail = function (tableId, value, sent, succ, fail, smscnt){
+        return sent + " (<font style='font-weight:bold;color:#53a93f;'>" + succ + "</font> : <font style='font-weight:bold;color:#d73d32;'>" + fail+ "</font>) / " + (smscnt - sent);
+    };
+    
+    var valFormat_filename = function (tableId, value, isFileExist, id){
+        if(isFileExist){
+            return "<a href='javascript:downloadSMSJobNumberFile(\""+id+"\")' style='margin-right:8px;' title='"+value+"'>"+$.i18n("download")+"</a>";
+        }else{
+            return value + "<font color='#FF6347'>"+$.i18n("file.not.exist")+"</font>";
+        }
+    }
+    
+
+    var tableItem_cycleSmsJob = {
+        tableKey: "id", i18nPrefix: "db.tbSMSJob.", trs: [
+            {name: "id", type: "I", pk: true, hideEdit: "A", disabled: "A", vali: {stringLength: 11}, show: false},
+            {name: "job", vali: {stringLength: 64}, width: 160, disabled: "E", advQry: ['LIKE'],topSearch:true},
+            {name: "user", vali: {stringLength: 64}, width: 120, hideEdit: "A", disabled: "E", advQry: ['LIKE'],topSearch:true},
+            {name: "starttm",comType: "timestamp", hideEdit: "A", width: 140},
+            {name: "donetm",comType: "timestamp", hideEdit: "A", width: 140},
+            {name: "smstype",vali: {stringLength: 32, required: false}, width: 120, comType: "select", advQry: ['LIKE'], valFormat : "t_valFormat",addEventListener:["change","changeSmstype","edit"]},
+            {name: "status", type: "I", hideEdit: "A", vali: {integer: true}, comType: "select", advQry: ['LIKE'], valFormat: "sj_state", width: 120},
+            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+            {name: "smsSendDetail", type: "S", hideEdit: "A", width: 160, valFormat : "valFormat_smsSendDetail", noSort:true,paramArray:["sent","succ","fail","smscnt"]},
+            {name: "progress", type: "I", hideEdit: "A", vali: {integer: true}, comType: "progress", width: 160},
+            {name: "filename",type: "S",vali: {required: false},comType: "uploadNumberFile", templateFilename:"number.xlsx" , fieldHead: ['numbers','sms', 'mmstitle', 'senderId'],show: false,width: 160,hideEdit: "E", questionTip:true, valFormat : "valFormat_filename", noSort:true,paramArray:["isFileExist", "id"]},
+            {name: "numbers", vali: {stringLength: 512, required: false,regexp:"^(([^\\n,]*@+[^\\n,]*)|( *\\+[0-9 ]+)|([0-9a-zA-Z ]+))([\\n,](([^\\n,]*@+[^\\n,]*)|( *\\+[0-9 ]+)|([0-9a-zA-Z ]+)))*$", valiRegexpMsg: "numberEmail_ruleRegexp"}, width: 120, show: false, hideEdit: "E",labelType:"textarea", textarea_rows: 1},
+            {name: "mmsfiles", vali: {required:true, file:{extension:"png,jpg,jpeg",type: "image/*,audio/mpeg,video/wav,text/plain,application/pdf"},fileCnt:5, fileTotSize: 100 *1024}, width: 160,comType : "upload_preview", questionTip:true, valFormat : "valFormat_mmsfiles"},
+            {name: "mmstitle",vali: {stringLength: 256,required : false}, show: false, hideEdit: "E"},
+            {name: "sms", vali: {stringLength: 2400,required: false}, width: 120, show: false, hideEdit: "E", labelType:"textarea", addEventListener:["input","oninput_sms","edit"]},
+            {name: "jobtype", type: "I", vali: {required: false},comType: "select", advQry: ['LIKE'],addEventListener:["change","changeJobType","all"], width: 120},
+            
+            {name: "senderId", vali: {stringLength: 32,required : false} ,comType:"textDownPrompt",downPromptData: "senderIdSelectVals", width:140},
+            
+            {name: "execnt_period", type: "I", vali: {digits: true,required: false}, hideEdit: "A", width: 120,noSort:true},
+            {name: "period", type: "I", vali: {digits: true,required: false}, width: 120,show:false},
+            {name: "planstarttm", vali: {required: false},comType: "timestamp", width: 120},
+            {name: "planendtm", vali: {required: false},comType: "timestamp", width: 120},
+            {name: "maxretry", type: "I", vali: {digits: true, lessThan: 11, required: false}, width: 120},
+            {name: "week", type: "I", comType: "select", width: 120},
+            {name: "mon", type: "I", comType: "select",comData: "monthSelectVals", width: 120},
+            {name: "day", type: "I", comType: "select",comData: "daySelectVals", width: 120},
+            {name: "hour", type: "I",show:false,lastShow:false,detailShow:false,hideEdit:"A", hideEdit: "A", width: 120},
+            {name: "min", type: "I",show:false,lastShow:false,detailShow:false,hideEdit:"A", hideEdit: "A", width: 120},
+            {name: "hourAndMin", type: "I",noSort:true, comType: "select",comData: "hourAndMinSelectVals", width: 120},
+            {name: "interval", type: "I", vali: {digits: true}, width: 140},
+            {name: "flash", type: "I", vali: {required: false}, comType: "select", advQry: ['LIKE'], width: 120, show: false, hideEdit: "E"},
+            {name: "pri", type: "I", vali: {stringLength: 11, required: false}, comType: "select", width: 120, show: false, hideEdit: "E"},
+            {name: "ipaddr",width: 120, hideEdit: "A"},
+            {name: "remarks", vali: {stringLength: 128, required: false}, width: 120, show: false},
+            {name: "submittm",comType: "timestamp", hideEdit: "A", width: 140, show: false}
+        ]
+    };
+    var cycleSmsJobUrl = "/sendSms/cycleSmsJob/";
+    var cycleSmsJobPermi = permiMerge(['0', '0', '1', '0', '1', '1'], permi);
+    //tableItem_cycleSmsJob = isEnableOperHiddenItemFun(tableItem_cycleSmsJob, ["btype"]);
+    
+    InitTableMoudle("cycleSmsJobTab1", "cycleSmsJobTool1", cycleSmsJobUrl, userTypeHiddenItemFun(tableItem_cycleSmsJob,[[window.CONSUMER_TYPE,["user"]]]), cycleSmsJobPermi, "1");
+    document.getElementById("cycleSmsJobTab1-tools-autoRefresh").style.display = ((window.UTYPE ==0 || window.SIMPLE == window.SIMPLE_VER) ? "" : "none");
+    document.getElementById("cycleSmsJobTab1-tools-resendall").style.display = ((window.UTYPE ==0 || window.SIMPLE == window.SIMPLE_VER) ? "" : "none");
+    
+    /******************************* smsJob  end   ***************************************/
+    
+    function changeJobType(tableId,val){
+         var perMonth = "edit-"+tableId+"-mon";
+	     var perWeek = "edit-"+tableId+"-week";
+	     var perDay = "edit-"+tableId+"-day";
+	     var perInterval = "edit-"+tableId+"-interval";
+	     var hourAndMin = "edit-"+tableId+"-hourAndMin";
+	     var days = 31;
+	     if(val == 7){
+	         days = 28;
+	     }
+	     disabledInput([perInterval, hourAndMin, perWeek, perDay, perMonth],["2", ["3","4","5","6","7"], "4", ["5", "6", "7"],"7"], val);
+	     loadDaySelect(perDay, days);
+	}
+	
+	function loadDaySelect(selId,days){
+		 var $selId = $("#"+selId);
+		 var val = $selId.val();
+		 $selId.empty();
+		 $selId.select2_val("");
+		 $selId.append("<option value=''>"+$.i18n("db.tbSMSJob.day.help")+"</option>");
+		 var selectedAttr = 'selected="selected"';
+		 for(var i=1;i<=days;i++){
+		     if(i == val){
+		         $selId.append("<option value='"+i+"' "+selectedAttr+">"+i+"</option>");
+		     }else{
+		         $selId.append("<option value='"+i+"'>"+i+"</option>");
+		     }
+		 }
+		 $selId.change();
+	}
+	
+	
+    function changeSmstype(tableId,val){
+	     var mmstitle = "edit-"+tableId+"-mmstitle";
+	     var mmsAttachment = "edit-"+tableId+"-mmsfiles";
+	     disabledInput([mmstitle, mmsAttachment],["1", "1"],val);
+	}
+	
+    var getAlive = function (value) {
+        var tipsData = $.i18n("db.tbSMSSendQueue.alive.comData");
+        if (0 == value) {
+            return tipsData[0][1];
+        } else {
+            return value;
+        }
+    };
+   
+    function jobOperationModal(tableId, actionName) {
+        var temp = "confirmStart";
+        if(actionName == "stop"){
+            temp = "confirmStop";
+        }else if(actionName == "resendfail"){
+            temp = "confirmResendfailureSMS";
+        }else if(actionName == "resendall"){
+            temp = "confirmResendAll";
+        }
+        layer.confirm($.i18n("frame.from.tips." + temp), function (idx) {
+            var loadInx = layer.load(2);
+            var params = {
+                idList: deleteRowsList(tableId),
+                actionName: actionName
+            };
+            $.ajax({
+                url: window.PATH + "/sendSms/cycleSmsJob/jobOperation.ajax",
+                dataType: "json",
+                async: true,
+                data: params,
+                type: "POST",
+                success: function (res) {
+                    layer.msg.success(res.message);
+                    queryTableDataModel(tableId);
+                    $("#" + tableId + "-tools-start,#" + tableId + "-tools-stop,#" + tableId + "-tools-resendfail,#" + tableId + "-tools-resendall").removeAttr("disabled").attr("disabled", "disabled").removeClass("blue").addClass("gray_tableModal");
+                    layer.close(loadInx);
+                },
+                error: function () {
+                    layer.close(loadInx);
+                }
+            });
+            layer.close(idx);
+        });
+    }
+    
+    var user_dftcode_temp = "";
+    function oninput_sms(tableId, content){
+         if(!content && content!="0"){
+	  		 content = "";
+	  	 }
+	     var data = calculateSmsCharge(content);
+	     var single_length = (data.isAscii ? (data.chargeCnt > 1 ? 153 : 160) : (data.chargeCnt > 1 ? 67 : 70));
+	     var con_len = content.length;
+	     var cnt = con_len > single_length  ?  con_len%single_length : con_len;
+	     if(window.IS_SHOW_BILLING_NUMBER){
+	        innerHtml_smscnt(tableId, $.i18n("sendSms.input.sms.content.sum.tip", cnt+"", single_length+"", data.chargeCnt+""), data.chargeCnt);
+	     }
+    }
+    
+    function innerHtml_smscnt(tableId, smscnttips, chargeCnt){
+         var $smscnt = $("#"+tableId+"-smscnt");
+         if($smscnt.length ==0){
+             $("#"+tableId+"-comContent-sms").after('<span id="'+tableId+'-smscnt" bill_sms_cnt="1">'+$.i18n("sendSms.input.sms.content.sum.tip", "0", "160", "1")+'</span>');
+         }else{
+             $("#"+tableId+"-smscnt").attr("bill_sms_cnt", chargeCnt).html(smscnttips);
+         }
+    }
+    
+    function downloadSMSJobNumberFile(jobId){
+        var url = window.PATH + cycleSmsJobUrl + "downloadNumberField.ajax";
+    	var html = '<form method="post" action="' + url + '">';
+    	    html+= '<input type="hidden" name="jobId" value="'+jobId+'">';
+    	    html+= '</form>';
+    	$(html).appendTo('body').submit().remove();
+    }
+</script>
+</body>

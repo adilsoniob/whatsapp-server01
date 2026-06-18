@@ -1,0 +1,660 @@
+
+
+
+
+
+
+
+
+
+
+<script src="/assets/assets/js/wizard-custom.js?version="></script>
+<body> 
+  <div class="home-div1 bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->  
+	                  <li class="flag-tabs-btn tab-blue active" id="setupWizardBtn1">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('setupWizardTab1','')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Send SMS flow chart</span></a> 
+	                  </li>  
+	                  <li class="flag-tabs-btn tab-blue" id="setupWizardBtn2">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('setupWizardTab2','')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Setup Wizard</span></a> 
+	                  </li>
+	                </ul>  
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+						<div id="setupWizardTab1" class="flag-tabs tab-pane  in active no-padding" style="border-radius:0;">
+						      <div style="margin-top:10px">
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                      <div class="widget radius-bordered">
+                                          <div class="widget-header">
+                                              <span class="widget-caption">Send SMS flow chart
+                                              </span>
+                                              
+                                          </div>
+                                          <div class="widget-body no-padding table-border-outlineInfo" style="height: 625px;">
+                                              <div style="height: 100%;" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                <div id="eims_flow_chart_ID" style="height: 100%;"></div>
+                                              </div>
+                                              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                   <div style="font-family: 'Micrsoft Yahei';line-height: 2em;letter-spacing: 1px;word-spacing: 1px;margin-top:10px;"><span style="font-size: 15px;font-weight:bold;">A.comsumer wants to send a sms to the number 8613588888. </span><br>&nbsp;&nbsp;<b>1</b>. get the mccmnc of the number 8613588888 from mccmncmap is 46000, the send price is 0.11<br>&nbsp;&nbsp;<b>2</b>. comsumer bind route_1, route1 bind moip channel, so one of simcard from moip will be selected to send the sms<br>&nbsp;&nbsp;<b>3</b>. dev moip belong to supplier, so the send cost is 0.1<br>&nbsp;&nbsp;<b>4</b>. conclusion: comsumer send a sms to the number 8613588888, will select one of simcard from moip or moip to send it, price is 0.11, cost is 0.1<br><br><span style="font-size: 15px;font-weight:bold;">B.comsumerwants to send a sms to the number 8618688888.</span><br>&nbsp;&nbsp;<b>1</b>. get the mccmnc of the number 8618688888 from mccmncmap is 46001, the send price is 0.12<br>&nbsp;&nbsp;<b>2</b>. comsumer bind route_smpp, route1 bind smpp channel, so smpp channel will be selected to send the sms<br>&nbsp;&nbsp;<b>3</b>. smpp channel channel belong to supplier, so the send cost is 0.11<br>&nbsp;&nbsp;<b>4</b>. conclusion: comsumer send a sms to the number 8618688888, will select smpp channel to send it, price is 0.12, cost is 0.11</div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+						</div>
+						<div id="setupWizardTab2" class="flag-tabs tab-pane" style="border-radius:0;">
+						</div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>  
+	<script>
+	    $(function(){
+	           var flow_chart_class =" flow_chart_zh_CN";
+	           if(window.LANGUAGE =="en_US"){
+	               flow_chart_class =" flow_chart_en_US";
+	           }
+		       $("#eims_flow_chart_ID").addClass(flow_chart_class);
+		       /* if(window.manufactor == "NULL"){
+	              $("#id_manual").remove();
+	           } */
+	    });
+	    var typeNameComdata = [ [ "4", "4" ],[ "8", "8" ],[ "16", "16" ],[ "32", "32" ],[ "64", "64" ]];
+	    var tableItem_setupWizard = {
+	        i18nPrefix: "setupWizard.", trs:[
+	            {cfgname: "operator_array", multipleData: true, isAddDeleteOpt:true, trs:[
+	                 {name: "operator", vali: {stringLength: 32}},
+	                 {name: "mcc", vali: {digits: true},questionTip:true},
+	                 {name: "mnc", vali: {digitsOne:true,required:false},questionTip:true},
+	                 {name: "prefix", vali: {stringLength: 32}}
+	              ]
+	            },
+	            {cfgname: "comsumer_array", trs:[
+	                 {name: "user", questionTip:true, vali: {stringLength: [6, 32],regexp:"^[a-zA-Z0-9_@#!^-]*$", valiRegexpMsg: "username_rule"}},
+	                 {name: "upwd", width:120, vali: {stringLength: window.LOGIN_PWD_LENGTH, regexp: window.LOGIN_PWD_REGEXP, valiRegexpMsg: "login_pwd_rule"},questionTip:true},
+	                 {name: "credit", ratio:window.RATIO, vali: {regexp:"^([0-9]+(\.[0-9]{1,6})?)$", valiRegexpMsg: "most_6rd_decimal"},questionTip:true},
+	                 {name: "insmpp", comType:"select",defColumnVal:1,addEventListener:["change","changeInsmpp"],questionTip:true},
+	                 {name: "inweb", comType:"select",defColumnVal:1,questionTip:true},
+	                 {name: "authpwd", vali: {stringLength: 32},questionTip:true}
+	              ]
+	            },
+	            {cfgname: "comsumer_rate_array", multipleData: true, trs:[
+	                 {name: "user", labelType:"label", vali: {stringLength: [6, 32],regexp:"^[a-zA-Z0-9_@#!^-]*$", valiRegexpMsg: "username_rule"}},
+	                 {name: "operator", vali: {stringLength: 32},labelType:"label"},
+	                 {name: "rate", ratio:window.RATIO,vali: {decimals:6, lessThan:1000000},questionTip:true}  
+	              ]
+	            },
+	            {cfgname: "supplier_array", trs:[
+	                 {name: "user", vali: {stringLength: [6, 32],regexp:"^[a-zA-Z0-9_@#!^-]*$", valiRegexpMsg: "username_rule"}},
+	                 {name: "upwd", width:120, vali: {stringLength: window.LOGIN_PWD_LENGTH, regexp: window.LOGIN_PWD_REGEXP, valiRegexpMsg: "login_pwd_rule"},questionTip:true},
+	                 {name: "credit", ratio:window.RATIO, vali: {regexp:"^([0-9]+(\.[0-9]{1,6})?)$", valiRegexpMsg: "most_6rd_decimal"},questionTip:true}
+	              ]
+	            },
+	            {cfgname: "supplier_rate_array", multipleData: true, trs:[
+	                 {name: "user", vali: {required:false},labelType:"label"},
+	                 {name: "operator", vali: {stringLength: 32},labelType:"label"},
+	                 {name: "rate", ratio:window.RATIO,vali: {decimals:6, lessThan:1000000},questionTip:true}  
+	              ]
+	            },
+	            {cfgname: "route_array", trs:[
+	                 {name: "route", vali: {stringLength: 32}},
+	                 {name: "isdft", vali: {stringLength: 32,required:false},comType:"select",questionTip:true}
+	              ]
+	            },
+	            {cfgname: "chanel_array", trs:[
+	                 {name: "channel", vali: {stringLength: 32}},
+	                 {name: "ctype", vali: {required:false},comType:"select",addEventListener:["change","changeCtype"],defColumnVal:1,questionTip:true},
+	                 {name: "svrip", vali: {stringLength: 32},questionTip:true},
+	                 {name: "svrport", vali: {digits: true},questionTip:true},
+	                 {name: "authname", vali: {stringLength: 32},questionTip:true},
+	                 {name: "authpwd", vali: {stringLength: 32},questionTip:true},
+	                 {name: "sendtvl", vali: {digits: true}, rangeIpt:["minSendtvl","maxSendtvl"],questionTip:true},
+	                 {name: "charge", vali: {required:false},comType:"select",questionTip:true}
+	              ]
+	            },
+	            {cfgname: "dev_array", trs:[
+	                 {name: "dev", vali: {stringLength: 32}},
+	                 {name: "authname", vali: {stringLength: 32},questionTip:true},
+	                 {name: "authpwd", vali: {stringLength: 32},questionTip:true},
+	                 {name: "expire", vali: {digits: true},questionTip:true},
+	                 {name: "sendtvl", vali: {digits: true}, rangeIpt:["minSendtvl","maxSendtvl"],questionTip:true}
+	              ]
+	            }
+	        ]
+		};
+		var setupWizardUrl = "/quickconfig/setupWizard/";
+		
+		function initTablePositionModel_sw(tableId, tableItem, url){
+			initSetupWizard(tableId, tableItem, url);
+		    createEditDialog_setupWizard(tableId);
+		    initTablePositionModel_setupWizard(tableId);
+		    initEditFormValidator_setupWizard(tableId);
+		    loadQuestionTip();
+		}
+		
+		initTablePositionModel_sw("setupWizardTab2", tableItem_setupWizard, setupWizardUrl);
+		
+		function changeCtype(tableId, cfgname, value){
+		     var $nextBtn = $("#WiredWizard-actions").find("button.btn-next");
+		     var f = $nextBtn.children().detach();
+		     if(value != 1){
+                 $nextBtn.text($nextBtn.data().last).append(f);
+		     }else{
+		         $nextBtn.text($.i18n("btn.next")).append(f);
+		     }
+                    
+             var idPrefixStr = "edit-"+tableId+"-"+cfgname;
+             var svrip = idPrefixStr+"-svrip";
+             var svrport = idPrefixStr+"-svrport";
+             var authname = idPrefixStr+"-authname";
+		     var authpwd = idPrefixStr+"-authpwd";
+		     var minSendtvl = idPrefixStr+"-minSendtvl";
+		     var maxSendtvl = idPrefixStr+"-maxSendtvl";
+		     var frecvuser = idPrefixStr+"-frecvuser";
+		     disabledInput([svrip,svrport,authname,authpwd,minSendtvl,maxSendtvl,frecvuser],[1,1,1,1,1,1,1], value, true);
+		} 
+		
+		function changeInsmpp(tableId, cfgname, value){
+		     var idPrefixStr = "edit-"+tableId+"-"+cfgname;
+		     var authpwd = idPrefixStr+"-authpwd";
+		     disabledInput([authpwd],[1], value);
+		}
+		
+		function verifyData(step_idx){
+		     var tableId = "setupWizardTab2";
+		     var tableParams = getLocalStorageModel(tableId, "tableParams");
+	    	 var tableItems = tableParams.trs[step_idx-1];
+	    	 var i18nPrefix = tableParams.i18nPrefix;
+	    	 var cfgname = tableItems.cfgname;
+	    	 var formId = tableId+"-"+cfgname+"-form";
+	    	 $('#'+formId).data('bootstrapValidator').validate();
+			 var flag = $('#'+formId).data('bootstrapValidator').isValid();  
+	    	 if(flag){
+    	         //前台检测成功，发送消息给后台
+		    	 var params = getSubmitSetupWizardData(tableId, step_idx+"");
+		    	 var requestUrl = getLocalStorageModel(tableId, "requestUrl");
+		     	 if(params){ 
+		 	        $.ajax({
+		 	    	    url: window.PATH+ requestUrl +"setupWizardDataVer.ajax",
+		 	    	    dataType: "json",
+		 	    	    async: false,
+		 	    	    data: params,
+		 	    	    type:"POST",
+		 	    	    success:function(res){
+		 	    	    	if(res.state==0 || res.state==200){
+		 	    	    		 //cfgname ==  comsumer_array ,supplier_array 下一页的时候需要动态生成html
+					    	     if(cfgname == "comsumer_array" || cfgname == "supplier_array"){
+					    	         //动态生成html
+					    	         var user = $("#edit-"+tableId+"-"+cfgname+"-user").val();
+					    	         var generateMapParams = tableParams.trs[step_idx];
+					    	         generateMapParams.multipleDataDefVal = getUserOperatorVal(tableId, "operator_array", user);
+					    	         $("#wiredstep"+ step_idx).empty();
+					    	         var html = getMultipleDataModel(tableId, i18nPrefix, generateMapParams, step_idx);
+					    	         $("#wiredstep"+ step_idx).html(html);
+					    	         setBootstrapValidator(tableId, generateMapParams);
+					    	         loadQuestionTip();
+					    	     }
+					    	     if(cfgname == "chanel_array"){
+					    	         var inputVal = $("#wiredstep"+ (step_idx-1)).find("[name="+cfgname+"-ctype]").val();
+					    	         if(inputVal !=1){
+					    	             flag = submitSetupWizard(tableId);
+					    	         }
+					    	     }
+		 	    	    	}else{
+		 	    	    	     layer.msg.error(res.message);
+		 	    	    	     flag = false;
+		 	    	    	}
+		 	    	    }, 
+		 	    	    error:function(){  
+		 	    	    }
+		 	     	});
+		     	 }
+	    	 }
+	    	 return flag;
+		}
+		
+		function getUserOperatorVal(tableId, operatorArray, username){
+		    var $tr = $("#"+tableId+"-wiredstepTab0").find("tr[class='"+tableId+"-"+operatorArray+"-0']");
+		    var datas = [];
+		    for(var i=0;i<$tr.length;i++){
+		        var tr = $($tr[i]);
+		        var operator = tr.find("input[name='"+operatorArray+"-operator-"+i+"']");
+		        var mcc = tr.find("input[name='"+operatorArray+"-mcc-"+i+"']");
+		        var mnc = tr.find("input[name='"+operatorArray+"-mnc-"+i+"']");
+		        var mnc_val = mnc.val();
+		        if(mnc_val == "-1"){
+		            mnc_val = "";
+		        }
+		        var tempObj = {"user":username,"operator":(operator.val()+"("+mcc.val()+mnc_val+")")};
+		        datas[datas.length] = tempObj;
+		    }
+		    return datas;
+	    }
+	    
+	    /*  function downloadManualField(){
+	    	var url = window.PATH + "/fileDownload/manual/downloadManual.ajax";
+	    	var html = '<form method="post" action="' + url + '">';
+	    	    html+= '</form>';
+	    	$(html).appendTo('body').submit().remove();
+	    } */
+	    
+	    $(function(){
+		    var winHeight = document.documentElement.clientHeight; 
+		    winHeight = winHeight - $("#id_loginTitleBackground").height() - $(".page-breadcrumbs").height();
+		    $(".home-div1").height(winHeight);
+		});
+		
+		
+	 function initTablePositionModel_setupWizard(tableId) {  
+         // 计算table高度 
+         var winHeight = document.documentElement.clientHeight; 
+         //stati-info 含义未知***********************************
+         var dataTableDivHeight = winHeight - 130 - $(".page-breadcrumbs").height();
+         var $dataTable = $("#"+tableId);
+         $dataTable.css("height", dataTableDivHeight);   
+         $("#WiredWizardsteps").css("height", dataTableDivHeight - 154);   
+     }
+	 
+     function initEditFormValidator_setupWizard(tableId, idx){
+		   var tis = getLocalStorageModel(tableId, "tableParams"),
+		       tableItems = tis.trs,
+		   	   itemLen =  tableItems.length;
+		   if(idx){
+			   var item_sw = tableItems[idx];
+			   
+			   $("#"+ tableId+ "-"+item_sw.cfgname+"-form").data('bootstrapValidator', null); 
+			   $("#"+ tableId+ "-"+item_sw.cfgname+"-form").find("input[name^='"+item_sw.cfgname+"']").nextAll().remove();
+			   setBootstrapValidator(tableId, item_sw);
+		   }else{
+			   for(var i=0; i<itemLen; i++){
+				   setBootstrapValidator(tableId, tableItems[i]);
+			   }
+		   }
+     }
+     
+     function setBootstrapValidator(tableId, item_sw, isNewAdd){
+    	 var cfgname = item_sw.cfgname,
+	         cfgTrs = item_sw.trs,
+	         fields = {},
+	         len = cfgTrs.length;
+		     for(var j=0; j<len; j++){
+			     var item = cfgTrs[j],
+			         name = cfgname+"-"+item.name,
+			         rangeIpt = item.rangeIpt,
+			         vali = item.vali;
+			     if(rangeIpt){
+			    	 var rangeIptLen = rangeIpt.length;
+			    	 for(var g=0;g<rangeIptLen;g++){
+			    		 name = cfgname+"-"+rangeIpt[g];
+			    		 fields = getSetupWizardFields(tableId, cfgname, name, vali, fields);
+			    	 }
+			     }else{
+			    	 fields = getSetupWizardFields(tableId, cfgname, name, vali, fields);
+			     }
+		     }
+	    	 $("#"+ tableId+ "-"+cfgname+"-form").bootstrapValidator({ 
+		               excluded: [':disabled'],
+		               feedbackIcons: {
+		               valid: 'glyphicon glyphicon-ok',
+		               invalid: 'glyphicon glyphicon-remove',
+		               validating: 'glyphicon glyphicon-refresh'
+		         },   
+		         fields: fields
+			 });
+     }
+     
+     function getSetupWizardFields(tableId, cfgname, name, vali, fields){
+    	 var validator = getValiObj(vali);
+	     if(validator && !isEmptyObject(validator)){
+		     var field = {};
+		         field.message = "default error message.";
+		         field.validators = validator;
+		     var $name = $("#"+ tableId+ "-"+cfgname+"-form").find("[name^="+name+"]");
+		     for(var z=0;z<$name.length;z++){
+			     var newname = $name[z].name;
+			     fields[newname] = field;
+		     }
+	     }
+	     return fields;
+     }
+     
+     function submitSetupWizard(tableId){
+    	 var flag = false;
+    	 var params = getSubmitSetupWizardData(tableId);
+    	 var requestUrl = getLocalStorageModel(tableId, "requestUrl");
+     	 if(params){ 
+     		var loadInx = layer.load(2);
+ 	        $.ajax({
+ 	    	    url: window.PATH+ requestUrl +"save.ajax",
+ 	    	    dataType: "json",
+ 	    	    async: false,
+ 	    	    data: params,
+ 	    	    type:"POST",
+ 	    	    success:function(res){
+ 	    	    	layer.msg.success(res.message);
+ 	    	    	flag = (res.state==0);
+ 	    	    	if(res.state==0){
+ 	    	    		window.location.href = window.PATH+"/index#/home";
+ 	    	    	}
+ 	    	    	layer.close(loadInx);
+ 	    	    }, 
+ 	    	    error:function(){  
+ 	    	    	layer.close(loadInx);
+ 	    	    }
+ 	     	});
+     	 }
+     	 return flag;
+     }
+     
+     function getSubmitSetupWizardData(tableId, step_idx){
+    	 var tis = getLocalStorageModel(tableId, "tableParams"),
+	         tableItems = tis.trs,
+	   	     itemLen =  tableItems.length;
+	  	 var sbmtParams = {};
+	  	 for(var i=0;i<itemLen;i++){
+	  		 if(step_idx && step_idx == i){
+	  			 break;
+	  		 }
+	  		 var item = tableItems[i],
+	  		     cfgname = item.cfgname,
+	  		     multipleData = item.multipleData,
+	  		     cfgItems = item.trs;
+	  		 if(multipleData){
+	  			 var $tr = $("#"+tableId+'-wiredstepTab'+i).find("tr[class='"+tableId+"-"+cfgname+"-"+i+"']");
+	  			 var tr_len = $tr.length;
+	  			 var cfgParams = [];
+	  			 for(var z =0;z<tr_len; z++){
+	  				 cfgParams[cfgParams.length] = getCfgParams(cfgItems, cfgname, $($tr[z]), multipleData, z);
+	  			 }
+	  			 sbmtParams[cfgname] = JSON.stringify(cfgParams);
+	  		 }else{
+	  			 sbmtParams[cfgname] = "["+JSON.stringify(getCfgParams(cfgItems, cfgname, $("#"+tableId+'-'+cfgname+'-form'), multipleData))+"]";
+	  		 }
+	  	 }
+	  	 sbmtParams["actionName"] = $.i18n("configuration");
+	  	 return sbmtParams;
+     }
+     
+     function getCfgParams(cfgItems, cfgname, obj, multipleData, multipleDataIdx){
+    	 var cfgParamsObj = {};
+    	 for(var j=0;j<cfgItems.length;j++){
+			 var params = cfgItems[j],
+			     name = params.name,
+			     ratio = params.ratio,
+			     rangeIpt = params.rangeIpt,
+			     type = params.type,
+			     labelType = params.labelType;
+			 if(labelType && labelType == "label"){
+				 continue;
+			 }
+			 if(rangeIpt){
+				 var riLen = rangeIpt.length;
+				 for(var g=0;g<riLen;g++){
+					 cfgParamsObj = getCfgParamsVal(cfgParamsObj, multipleData, obj, cfgname, rangeIpt[g], multipleDataIdx, ratio, type);
+				 }
+			 }else{
+				 cfgParamsObj = getCfgParamsVal(cfgParamsObj, multipleData, obj, cfgname, name, multipleDataIdx, ratio, type);
+			 }
+			 
+		 }
+    	 return  cfgParamsObj;
+     }
+     
+     function getCfgParamsVal(cfgParamsObj, multipleData, obj, cfgname, name, multipleDataIdx, ratio, type){
+    	 var inputVal;
+    	 if(multipleData){
+			 inputVal = obj.find("[name='"+cfgname+"-"+name+"-"+multipleDataIdx+"']").val();
+		 }else{
+			 inputVal = obj.find("[name='"+cfgname+"-"+name+"']").val();
+		 }
+		 if(inputVal){
+			if(ratio){
+				inputVal = parseFloat(inputVal)*ratio;
+				inputVal = parseInt(inputVal);
+			}
+		 }else{
+		    if(type =='I'){
+	    	    inputVal = 0;
+		    }else{
+		    	inputVal = '';
+		    }
+		 }
+		 cfgParamsObj[name] = inputVal+"";
+		 return cfgParamsObj;
+     }
+     
+    function createEditDialog_setupWizard(tableId){
+	 	   var totalHtml = '<div class="modal-content" style="min-width:600px;overflow-x:auto;">'+
+	 			       '<div class="ng-scope" style="padding-top:15px;">' ;
+	 	   totalHtml += '<div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">'+
+	 		           '<ul class="steps">'+ getSetupWizard_StepModel(tableId)+'</ul></div><div class="step-content" id="WiredWizardsteps" style="height: 300px;">';
+	 	   totalHtml += getSetupWizard_StepPaneModel(tableId);
+	 	   totalHtml += '</div><div class="actions actions-footer" id="WiredWizard-actions">'+
+	           '<div class="btn-group">'+
+	               '<button type="button" class="btn btn-primary btn-sm btn-prev"> <i class="fa fa-angle-left"></i>'+ $.i18n("btn.prev")+'</button>'+
+	               '<button type="button" class="btn btn-success btn-sm btn-next" data-last="'+ $.i18n("btn.finish")+'">'+ $.i18n("btn.next")+'<i class="fa fa-angle-right"></i></button>'+
+	           '</div></div></div>';
+	 	   $("#"+tableId).append(totalHtml);
+	 	   
+	 	   var tis = getLocalStorageModel(tableId, "tableParams"),
+		       tableItems = tis.trs,
+		   	   itemLen =  tableItems.length;
+	 	   for(var i=0;i<itemLen;i++){
+	 		   var queryItem = tableItems[i],
+	 		       cfgname = queryItem.cfgname,
+	 		       tempItem = queryItem.trs,
+	 		       len = tempItem.length;
+	 		   for(var j=0;j<len;j++){
+	 			   var item = tempItem[j],
+	 			       name = item.name,
+	 			       comType = item.comType,
+	 			       addEventListener = item.addEventListener;
+	 			  var formid = tableId+'-'+cfgname+'-form';
+	 			  if(comType){
+	 				  if(comType == "MAC"){
+	 					 mac_mask($("#"+formid).find("[name='"+cfgname+"-"+name+"']"));
+	 				  }
+ 				   }
+	 			   if(addEventListener){  
+	 				   var value = $("#"+formid).find("[name='"+cfgname+"-"+name+"']").val();
+	 				   var eventListener_triggerEvent = addEventListener[0];
+	 				   var eventListener_funName = addEventListener[1];
+	 				   $("#"+formid).find("[name='"+cfgname+"-"+name+"']").on(eventListener_triggerEvent ,function(event) {
+	 						window[eventListener_funName].apply(this, [tableId, cfgname, value]);
+	 				   });
+	 			  }
+	 		   }
+	 	   }
+	 	   $("#"+tableId).find("select").select2({
+				minimumResultsForSearch: 8
+		   });
+	 	   $('#WiredWizard').wizard().on('finished', function (e) {
+	 		   submitSetupWizard(tableId);
+	 	   });
+     }
+     
+     
+    function addNewwiredstepTabTr(tableId, idx){
+    	  var html = addQuickconfigTrHtml(tableId, idx);
+    	  if(html!=''){
+    		   $("#"+tableId+"-wiredstepTab"+idx).append(html);
+    		   initEditFormValidator_setupWizard(tableId, idx);
+    	  }
+    }
+    
+    function delWiredstepTabTr(obj){
+	      layer.confirm($.i18n("frame.from.tips.confirmDel"), function (idx) {
+	    	   $(obj).closest("tr").remove();
+	    	   layer.close(idx);
+	      });
+    }
+    
+    function addQuickconfigTrHtml(tableId, cfg_idx, defValObj, idx){
+    	var tableParams = getLocalStorageModel(tableId, "tableParams");
+    	var i18nPrefix = tableParams.i18nPrefix;
+    	var params = tableParams.trs[cfg_idx];
+    	var tableItems = params.trs;
+    	var cfgname = params.cfgname;
+    	var isAddDeleteOpt = params.isAddDeleteOpt;
+    	var addTrCount = $("#"+tableId+'-wiredstepTab'+cfg_idx).find("tr[class='"+tableId+"-"+cfgname+"-"+cfg_idx+"']").length;
+ 		if(addTrCount == 5){
+ 			layer.msg.error($.i18n("support_up_to").replace("{0}",addTrCount));
+ 			return '';
+ 		}else{
+ 			if(defValObj){
+ 				addTrCount = idx;
+ 			}
+ 			var html_tdata = '<tr class="'+tableId+'-'+cfgname+'-'+cfg_idx+'" >';
+ 	 		for(var j=0;j<tableItems.length;j++){
+ 				var columnParam = tableItems[j];
+ 				var name = columnParam.name;
+ 				var comType = columnParam.comType;
+ 				var temp_html = '';
+ 				var columnVal = columnParam.defColumnVal;
+ 				if(defValObj){
+ 					columnVal = defValObj[name];
+ 				}
+ 				var type = columnParam.type;
+ 				if(type){
+ 					 if(type =='I' && !columnVal){
+ 						 columnVal = 0;
+ 					 }else if(type =='S' && !columnVal){
+ 						 columnVal = '';
+ 					 }
+ 				}else{
+ 					 if(!columnVal){
+ 						 columnVal = '';
+ 					 }
+ 				}
+ 				if(comType && comType == "select"){
+ 			    	 var comData =  $.i18n(i18nPrefix + cfgname+ '.' + name + ".comData");
+ 			 		 var rowHtml = "",
+ 			 			selectedAttr = 'selected="selected"';
+ 			 		 var len = comData ? comData.length : 0;
+ 			 		 for(var k=0, comLen = len; k<comLen; k++){
+ 			 			rowHtml += '<option value="'+ comData[k][0]+'"';
+ 			 			if(columnVal && comData[k][0] == columnVal){
+ 							rowHtml += selectedAttr;
+ 						}
+ 			 			rowHtml +='>'+ comData[k][1]+'</option>';
+ 			 		 }
+ 			 		temp_html += '<div class="col-sm-10 form-group ng-scope has-feedback has-error"><select';
+ 			 		temp_html += ' style="width:100%;height: 30px;" name="'+cfgname+ '-' + name+'-'+addTrCount+'">'+ rowHtml +'</select></div>'; 
+ 			     }else{
+ 			    	if(columnParam.labelType && columnParam.labelType == "label"){
+ 			    		temp_html += '<div class="col-sm-10 form-group ng-scope has-feedback has-error" style="margin-left: -15px;">';
+ 	 			    	temp_html += '<label name="'+cfgname+ '-' + name+'-'+addTrCount+'">'+columnVal+'</lable>';	
+ 	 			    	temp_html += '</div>';
+ 			    	}else{
+ 			    		temp_html += '<div class="col-sm-10 form-group ng-scope has-feedback has-error" style="margin-left: -15px;">';
+ 	 			    	temp_html += '<input type="text"  value="'+columnVal+'" name="'+cfgname+ '-' + name+'-'+addTrCount+'" placeholder="'+ $.i18n(i18nPrefix + cfgname+ '.' + name+".help" ) +'" class="form-control input-sm ng-pristine ng-valid ng-scope ng-touched">';	
+ 	 			    	temp_html += '</div>';
+ 			    	}
+ 			     }
+ 				 html_tdata += '<td>'+temp_html+'</td>';
+ 	 		}  
+ 			if(isAddDeleteOpt){
+ 				if(addTrCount ==0){
+ 	 				html_tdata += '<td><div class="btn success f-p-tips" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" onclick="addNewwiredstepTabTr(\''+tableId+'\',\''+cfg_idx+'\')"><i class="fa fa-plus"></i></div></td>';
+ 	 			}else{
+ 	 				html_tdata += '<td><div class="btn f-p-tips danger" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" onclick="delWiredstepTabTr(this)"><i class="fa fa-trash-o"></i></div></td>';
+ 	 			}
+ 			}
+ 	 		html_tdata += '</tr>';
+ 	 		return html_tdata;
+ 		}
+    }
+    
+    function getMultipleDataModel(tableId,i18nPrefix , params, idx){
+    	var tableItems = params.trs; 
+    	var cfgname = params.cfgname;
+        var multipleDataDefVal = params.multipleDataDefVal;
+    	var isAddDeleteOpt = params.isAddDeleteOpt;
+ 		var html_thead ='<thead class="flip-content"><tr id="'+tableId+'-thead" role="row">'; 	
+ 		for(var j=0;j<tableItems.length;j++){
+			var columnParam = tableItems[j];
+			var name = columnParam.name;
+			var columnWidth = columnParam.width ? columnParam.width:80;
+			var questionTip = columnParam.questionTip;
+			html_thead +='<th style="width: '+columnWidth+'px; cursor: default;">';
+			html_thead += $.i18n(i18nPrefix + cfgname+ '.' + name );
+			if(questionTip){
+				html_thead += '&nbsp;<div class="tooltipinfo" tip="'+i18nPrefix + cfgname+ '.' + name+ '.questionTip"></div>';
+			}
+			html_thead +='</th>';
+		}
+ 		if(isAddDeleteOpt){
+ 			html_thead += '<th style="width: 40px; cursor: default;">'+$.i18n("operating")+'</th>';
+ 		}
+ 		html_thead += '</tr></thead>';
+ 		var html ='<form id="'+tableId+'-'+cfgname+'-form" class="form-horizontal ng-pristine ng-valid" onchange="formChangeModal()"><table id="'+tableId+'-wiredstepTab'+idx+'" class="table table-bordered table-striped dataTable" style="width:100%;">';
+ 		    html += html_thead;
+ 		if(multipleDataDefVal){
+ 			for(var x=0;x<multipleDataDefVal.length;x++){
+ 				html += addQuickconfigTrHtml(tableId, idx, multipleDataDefVal[x], x);
+ 			}
+ 		}else{
+ 			html += addQuickconfigTrHtml(tableId, idx);
+ 		}    
+ 		return html + '</table></form>';
+    }
+    
+    function getSetupWizard_StepPaneModel(tableId){
+    	var tableParams = getLocalStorageModel(tableId, "tableParams");
+    	var i18nPrefix = tableParams.i18nPrefix;
+    	var trs = tableParams.trs;
+    	var html = '';
+    //	var step_width = 100/trs.length;
+    	for(var i=0;i<trs.length;i++){
+    		var cfgParams = trs[i];
+    		var multipleData = cfgParams.multipleData;
+    		var cfgHtml = '';
+    		if(multipleData){  //如果一页多条，需要一行显示一条， 一页一条的，一行显示一个字段数据
+				cfgHtml += getMultipleDataModel(tableId, i18nPrefix, cfgParams, i);
+			}else{
+				cfgHtml += getNormalOneDataModel(tableId, i18nPrefix, cfgParams);
+			}
+			var step_pane_class = 'step-pane';
+			if(html ==''){
+				step_pane_class = 'step-pane active';
+			}
+			html += '<div class="'+step_pane_class+'" id="wiredstep'+i+'">'+cfgHtml+'</div>';
+    	}
+    	return html;
+    }
+    
+    
+    function initSetupWizard(tableId, params, requestUrl){
+    	params = initTableItems(tableId, params);
+    	initLocalStorage(tableId, requestUrl, params);
+    }
+    
+    function getSetupWizard_StepModel(tableId){
+    	var tableParams = getLocalStorageModel(tableId, "tableParams");
+    	var i18nPrefix = tableParams.i18nPrefix;
+    	var trs = tableParams.trs;
+    	var html = '';
+    	var step_width = 100/trs.length;
+    	for(var i=0;i<trs.length;i++){
+    		var cfgParams = trs[i];
+    		var cfgname = cfgParams.cfgname;
+    		html += '<li data-target="#wiredstep'+i+'" class="active" style="width:'+step_width+'%;"><span class="step">'+i+'</span><span class="title">'+ $.i18n(i18nPrefix+cfgname)+'</span><span class="chevron"></span></li>';
+    	}
+    	return html;
+    }
+    
+	</script>
+ </body>

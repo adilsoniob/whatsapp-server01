@@ -1,0 +1,441 @@
+
+
+
+
+
+
+
+
+
+
+ <body>
+<div class="layout-builder-btn">
+    <div class="layout-builder-toggle shw" onclick="layout_toggle()">
+	   <i class="fa fa-book"></i>
+	</div>
+	<div class="layout-builder-toggle hdn" onclick="layout_toggle()">
+	   <i class="fa fa-times"></i>
+	</div>
+</div>
+<div id="sendRcdTab2-layout-builder" class="layout-builder">
+    <div id="sendRcdTab2-stat" class="layout-builder-body">
+    </div>
+ </div>
+<div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="sendRcdBtn2">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('sendRcdTab2','sendRcdTool2')"><i class="fa fa-list font14"></i><span class="tab-title">Send Record</span></a> 
+	                  </li>
+	                  <!-- tab2-工具按钮组 -->
+	                  <li class="head-tools-r navbar-right flag-tools" id="sendRcdTool2">
+	                     <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"  id="sendRcdTab2-tools-autoRefresh"
+						  	             onclick="refreshModal('sendRcdTab2')"><i class="fa fa-refresh"></i><div class="f-t-tips">Only data after the current hour can be queried</div></div> 
+	                     
+	                     <div class="btn f-p-tips blue" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"
+                                         id="sendRcdTab2-tools-resendAllSms"
+                                         onclick="sendRcdOperationModal('sendRcdTab2')"><i class="fa fa-retweet"></i>
+                                        <div class="f-t-tips">Resend All</div>
+                                    </div>
+                                    
+	                     <div class="btn f-p-tips danger" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;"  id="sendRcdTab2-tools-clearAll"
+							  	 onclick="clearAllModal('sendRcdTab2')"><i class="fa fa-eraser"></i><div class="f-t-tips">Delete All</div></div>
+	                  </li>
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+						<div id="sendRcdTab2" class="flag-tabs tab-pane  in active summary-tab" style="border-radius:0;"></div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>   
+	  <script>
+    g_var.view = '';
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + "/bill/sendRcd/getView.ajax", 
+				data : {}, 
+				type : "post", 
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				        g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) { 
+				}
+			});
+	}
+    try {
+       var selectPermissionsInfo =  g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+    
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = [ '0', '1', '1', '1' , '1', '1'];
+    	permi = [ '0', '1', '1', '0' , '1', '1'];
+    }
+    var csssStrArray = ["default","primary","danger","success","yellow","info","success","palegreen"];
+    
+    /*******************************  sendRcd   begin 	******************************/
+     var sr_result = function (value, tips) {
+        var cssStr = "success";
+        if (value > 0) {
+            cssStr = "danger";
+            tips = $.i18n("failure");
+        }
+        return "<span class='label label-" + cssStr + "'>" + tips + "</span>";
+    };
+	
+	var t_valFormat = function (value, tips) {
+        
+        return "<span class='label label-" + csssStrArray[value] + "'>" + tips + "</span>";
+    };
+    
+    var valFormat_dlvRst = function (value, tips) {
+        return "<span class='label label-" + csssStrArray[value] + "'>" + tips + "</span>";
+    };
+    
+    var valFormat_chargecnt = function (value) {
+        if(value && value >=2){
+            return "<span style='color:red;font-weight:bold;font-size:14px;'>" + value + "</span>";
+        }
+        return value;
+    };
+    
+    var valFormat_sf = function (tableId, value, s, f){
+        return s +"/" + f;
+    };
+    
+    var valFormat_deliverDuration = function (tableId, value, deliver_result, delivertm, createtm){
+        var html = '&nbsp;';
+        if((deliver_result == 3 || deliver_result == 6) &&delivertm && createtm && delivertm >0 && createtm >0){
+            var x = 0;
+            var csssStrArrayx = ["success","danger"];
+            var dur = delivertm - createtm;
+            if(dur > 60){
+                x = 1;
+            }
+            return "<span class='label label-" + csssStrArrayx[x] + "' style='min-width:50px;'>" + dur + "</span>";
+        }
+        return html;
+    };
+    
+    var valFormat_mmsfiles = function (tipValue, width, value, tableId, rowData) {
+        if(rowData.smstype == 0 || tipValue == ""){
+             return "";
+        }
+		return "<a class='nav-link dropdown-toggle dropdown-toggle-nocaret position-relative' href='javascript:viewMmsfilesInfo(\""+tableId+"\",\""+tipValue+"\",\""+rowData.id+"\")' role='button' data-bs-toggle='dropdown' aria-expanded='false'>"+$.i18n("mmsFile.list_clk_info_tip")+"</a>";
+	};
+	
+	var tableItem_sendRcd = {
+    		tableKey: "id", i18nPrefix: "db.tbSMSRcd.", trs:[
+    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE'],searchQuestionTip:true},
+	        {name: "id", pk: true, disabled: "A", width:60, advQry: ['EQ']},
+	        {name: "user", vali: {stringLength: 64}, width:100, noSort:true, advQry: ['LIKE'],comType:"select",comData: "consumerNameSelectVals", isNotLoopGetVal: true,topSearch:true, listReadField:"user"},
+	        {name: "alias", vali: {stringLength: 64}, width:100, noSort:true, advQry: ['LIKE']},
+	        {name: "srctype", vali: {stringLength: 64}, width:100,comType:"select", advQry: ['LIKE'],topSearch:true},
+	        {name: "smstype", vali: {stringLength: 64}, width:100,comType:"select", advQry: ['LIKE'], valFormat : "t_valFormat",topSearch:true},
+	        {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE'],topSearch:true},
+	        {name: "sendtype", vali: {stringLength: 64}, width:100,comType:"select",topSearch:true},
+	        {name: "job", vali: {stringLength: 64}, width:100, advQry: ['LIKE'], isIdField:true},
+	        
+	        {name: "submitsf", width:140,show:false, valFormat : "valFormat_sf", noSort:true,paramArray:["submits","submitf"]},
+	        {name: "deliversf", width:140,show:false, valFormat : "valFormat_sf", noSort:true,paramArray:["delivers","deliverf"]},
+	        
+	        {name: "cost", type: "I",ratio:window.RATIO, vali: {lessThan:1000000}, width:60, amountField:true},
+	        {name: "pay", type: "I",ratio:window.RATIO, vali: {lessThan:1000000}, width:100, amountField:true, i18n_name: window.UTYPE == window.CONSUMER_TYPE ? "amount_consumption": "pay"},
+	        
+	        {name: "routeid", vali: {stringLength: 64}, width:100,comType:"select", advQry: ['LIKE'],comData: "routeSelectVals",isIdField:true, listReadField:"route"},
+	        {name: "chanid", type: "S", vali: {stringLength: 11}, width:140, advQry: ['LIKE'],comType:"select",comData: "channelSelectVals",isIdField:true, listReadField:"channel"},
+	        {name: "goipid", vali: {stringLength: 64}, width:100,comType:"select", advQry: ['LIKE'],comData: "devSelectVals",isIdField:true, listReadField:"goip"},
+	        {name: "portnum", type: "I", vali: {stringLength: 11, required:false}, advQry: ['LIKE'], width:60},
+	        {name: "slot", type: "I", vali: {stringLength: 11, required:false}, advQry: ['LIKE'], width:60},
+	        {name: "iccid", vali: {stringLength: 24, required:false}, advQry: ['LIKE'], noSort:true,show:false, width:145},
+	        {name: "chargecnt", width:100, advQry: ['LIKE'], valFormat : "valFormat_chargecnt"},
+	        {name: "result", width:100, advQry: ['LIKE'],comType:"select", valFormat : "sr_result"},
+	        {name: "reason", hideEdit: "A",noSort:true, width:100, advQry: ['LIKE']},
+	        {name: "deliver_result", hideEdit: "A",noSort:true, width:120, advQry: ['LIKE'],comType:"select",comData: "deliver_resultSelectVals", valFormat : "valFormat_dlvRst"},
+	        {name: "deliver_fail_rsn", hideEdit: "A",noSort:true, width:120, advQry: ['LIKE']},
+	        {name: "delivertm",comType: "timestamp",type: "T", width:140},
+	        {name: "delivery_usetime", width:100,questionTip:true, noSort:true, valFormat : "valFormat_deliverDuration",paramArray:["deliver_result", "delivertm", "createtm"]},
+	        {name: "minDelivery_usetime", vali: {digits: true}, type: "I",width:140, advQry: ['LIKE'],show:false,lastShow:false,detailShow:false},
+            
+	        {name: "orireceiver", vali: {stringLength: 32, required:false}, noSort:true, width:140},
+	        {name: "sender", vali: {stringLength: 32, required:false}, advQry: ['LIKE'], noSort:true, width:140},
+	        {name: "receiver", vali: {stringLength: 32, required:false}, advQry: ['LIKE'], noSort:true, width:140},
+	        {name: "dstreceiver", vali: {stringLength: 32, required:false}, noSort:true, width:140},
+	        {name: "mcc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:120,valFormat : "_valFormatMcc_img",topSearch:true},
+            {name: "mnc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:120, valFormat : "formatShowMnc",paramArray:["mcc", "operator"],topSearch:true},
+	        {name: "maxDelivery_usetime", vali: {digits: true}, type: "I",width:140, advQry: ['LIKE'],show:false,lastShow:false,detailShow:false},
+            
+	        {name: "sendtm",comType: "timestamp",type: "T", width:140},
+	        {name: "donetm",comType: "timestamp",type: "T", width:140},
+	        {name: "duration", width:100,questionTip:true},
+	        
+	        {name: "supplier", vali: {stringLength: 64}, width:100, advQry: ['LIKE']},
+	        {name: "agentid", vali: {maxlength: 64,required:false},advQry:["LIKE"],hideEdit:"E",comType:"select",comData: "agentIdSelectVals",width:130,isIdField:true, listReadField:"agent"}, 
+    		
+	        {name: "inmsgid", vali: {stringLength: 64}, advQry: ['LIKE'], width:100},
+	        {name: "outmsgid", vali: {stringLength: 64}, advQry: ['LIKE'], width:100},
+	        
+	        {name: "mmsfiles", vali: {required:true, file:{extension:"png,jpg,jpeg",type: "image/*,audio/mpeg,video/wav,text/plain,application/pdf"},fileCnt:5, fileTotSize: 100 *1024}, width: 160,comType : "upload_preview", questionTip:true, valFormat : "valFormat_mmsfiles"},
+	        {name: "mmstitle",vali: {stringLength: 256}, advQry: ['LIKE'],show:false, tip:true},
+	        {name: "sms",noSort:true,advQry: ['LIKE'],show:false, width:140, valFormat : "valFormat_compareDifferent", noSort:true,paramArray:["dest_sms"]},
+	        {name: "sms_bytes", width:120},
+	        {name: "dest_sms",noSort:true,advQry: ['LIKE'],show:false, width:140, questionTip:true, valFormat : "valFormat_compareDifferent", noSort:true,paramArray:["sms"]},
+	        {name: "dest_sms_bytes", width:120},
+	        {name: "createtm",comType: "timestamp",type: "T", width:140},
+	        {name: "ipaddr", vali: {stringLength: 32, required:false}, advQry: ['LIKE'],noSort:true, width:140}
+        ]};
+	var sendRcdUrl = "/bill/sendRcd/";
+	var sendRcdPermi = permiMerge([ '0', '1', '1', '0', '1', '0', '0' ], permi);
+	
+	if(window.BK_SERVER_RESEND == 1){
+	    sendRcdPermi[3] = '1';
+	    $("#sendRcdTab2-layout-builder,.layout-builder-btn,#sendRcdTab2-tools-autoRefresh").remove();
+	    tableItem_sendRcd = {
+    		tableKey: "id", i18nPrefix: "db.tbSMSRcd.", trs:[
+    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE'],searchQuestionTip:true},
+	        {name: "id", pk: true, disabled: "A", width:60, advQry: ['EQ']},
+	        {name: "user", vali: {stringLength: 64}, width:200, noSort:true, advQry: ['LIKE'],comType:"select",comData: "consumerNameSelectVals", isNotLoopGetVal: true,topSearch:true},
+	        
+	        {name: "result", width:100, advQry: ['LIKE'],comType:"select", valFormat : "sr_result"},
+	        {name: "orireceiver", vali: {stringLength: 32, required:false}, noSort:true, width:140},
+	        {name: "mcc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:120,valFormat : "_valFormatMcc_img",topSearch:true},
+            {name: "mnc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:120, valFormat : "formatShowMnc",paramArray:["mcc", "operator"],topSearch:true},
+	        {name: "sendtm",comType: "timestamp",type: "T", width:140},
+	        {name: "donetm",comType: "timestamp",type: "T", width:140},
+	        
+	        {name: "sms",noSort:true, advQry: ['LIKE'], width:340, valFormat : "valFormat_compareDifferent", noSort:true,paramArray:["dest_sms"]},
+	        {name: "createtm",comType: "timestamp",type: "T", width:140}
+        ]};
+	}else{
+	    $("#sendRcdTab2-tools-resendAllSms").remove();
+	}
+	sendRcdPermi[3] == '1'  ? $("#sendRcdTab2-tools-clearAll").hide() : "";
+	
+	var consumer_hide_field = ["user","alias","supplier","routeid","iccid","dstreceiver","outmsgid","dest_sms","dest_sms_bytes","sms_bytes","sendtype","chanid","goipid","portnum", "slot","cost", "deliver_fail_rsn", "deliverDuration"];
+	var supplier_hide_field = ["pay", "smstype", "user","alias", "srctype", "job", "routeid", "inmsgid", "ipaddr","dest_sms_bytes","sms_bytes"];
+	var agent_hide_field    = ["iccid", "smstype","supplier","outmsgid", "srctype", "job", "routeid", "inmsgid", "ipaddr","chanid","goipid","portnum", "deliver_fail_rsn", "sendtype","dest_sms_bytes","sms_bytes"];
+	var salesman_hide_field = ["iccid", "smstype","supplier","outmsgid", "routeid","chanid","goipid","portnum", "sendtype", "sender", "slot","dest_sms_bytes","sms_bytes"];
+	
+	if(window.IS_VIEW_DR_ENABLE == 0 || window.IS_VIEW_DR_ENABLE == 2 || window.UTYPE == window.ADMIN_TYPE){
+	   consumer_hide_field.push("deliver_result"); 
+	   consumer_hide_field.push("delivertm"); 
+	   consumer_hide_field.push("delivery_usetime"); 
+	}
+	if(window.ENABLE_AGENT == 1){
+       consumer_hide_field.push("agent"); 
+       consumer_hide_field.push("agentid"); 
+       supplier_hide_field.push("agentid"); 
+       agent_hide_field.push("agentid"); 
+    }
+
+    var _consumer_hide_ = g_var.view["consumer_hide"];
+    if(_consumer_hide_ && _consumer_hide_!=""){
+       var _consumer_hide_array = _consumer_hide_.split(",");
+       consumer_hide_field.push(..._consumer_hide_array); 
+    }
+     
+    
+	var hiddenItemArrays = [[window.CONSUMER_TYPE,consumer_hide_field],[window.SUPPLIER_TYPE,supplier_hide_field],[window.AGENT_TYPE,agent_hide_field],[window.SALESMAN_TYPE,salesman_hide_field]];
+	if(window.SIMPLE == window.SIMPLE_VER){
+	    var simple_consumer_hide_field = ["user","alias","sendtype","srctype","submitsf","deliversf","cost","pay","routeid","chanid","mcc","mnc","supplier","inmsgid","outmsgid"];
+	    if(window.ENABLE_AGENT == 1){
+	       simple_consumer_hide_field.push("agent"); 
+	       simple_consumer_hide_field.push("agentid"); 
+	    }
+	    hiddenItemArrays = [[window.CONSUMER_TYPE,simple_consumer_hide_field]];
+	}
+	if(window.LOGIN_USER_NAME != 'admin'){
+	    reomveTableItem(tableItem_sendRcd, ["srctype", "btype"]);
+	}
+    if(window.ENABLE_AGENT == 0){
+	    reomveTableItem(tableItem_sendRcd, ["agentid", "agent"]);
+	}
+	if(window.HIDE_INCOME_COST == 1){
+	   reomveTableItem(tableItem_sendRcd, ["cost"]);
+	}
+	if(window.HIDE_INCOME_TURNOVER == 1){
+	   reomveTableItem(tableItem_sendRcd, ["pay"]);
+	}
+	
+    InitTableMoudle("sendRcdTab2", "sendRcdTool2", sendRcdUrl, userTypeHiddenItemFun(tableItem_sendRcd, hiddenItemArrays), sendRcdPermi, "1",false, (window.BK_SERVER_RESEND == 0),false,false,false,true); 
+	
+	if(window.SIMPLE == window.SIMPLE_VER){
+	   document.getElementById("sendRcdTab2-tools-autoRefresh").style.display = "";
+	}
+	/******************************* sendRcd  end   ***************************************/
+ 
+    function refreshModal(tableId){
+        selectFastDate(tableId, 'search-'+tableId+'-beginTime','search-'+tableId+'-endTime','0','0');
+        var btn_f = $("#"+tableId+"-tools-autoRefresh").find("i").hasClass('fa-spin');
+        var __search_startEndTime = $("#search-"+tableId+"-startEndTime");
+        if(btn_f){
+           __search_startEndTime.removeAttr("disabled");
+        }else{
+           __search_startEndTime.attr({"disabled":"disabled"});
+        }
+        autoRefreshModal(tableId);
+    }
+    
+    function valFormat_compareDifferent(tableId, value, compareContent){
+        var result = getHighLightDifferent(value, compareContent);
+        return result[0];
+    }
+    
+    $("#sendRcdTab2-layout-builder").width($("#sendRcdTab2").width());
+    $(window).resize(function() {
+	    $("#sendRcdTab2-layout-builder").width($("#sendRcdTab2").width());
+	    initTablePositionModel("sendRcdTab2");
+	});
+     
+    $("#sidebar-collapse").find("a.button-menu-mobile").click(function(){
+        var w = $("#sendRcdTab2").width();
+        if($(this).hasClass("open")){
+            w -= 140;
+        }else{
+            w += 140;
+        }
+        $("#sendRcdTab2-layout-builder").width(w);
+    });
+    
+    function sendRcdOperationModal(oldTableId){
+        var recharge_str = "send";
+	    var items ={
+			        i18nPrefix: "resendSms_prefix",
+			        sbmtBtn: recharge_str,
+			        label_name_prefix:true,
+			        trs:[
+			           {name: "resendCnt", vali: {required:false,digits:true}},
+			           {name: "content", vali: {required:true,stringLength: 256},labelType:"textarea", textarea_rows: 5}
+			        ]
+			};
+        var tableId = "sc-"+oldTableId;
+	    setLocalStorageModel(tableId, "tableParams", items);
+	    setLocalStorageModel(tableId, "requestUrl", sendRcdUrl);
+	    var type = "new";
+	    initAddHtml(tableId,items);
+	    showDialogModelCom(tableId, recharge_str, initEditFormValidatoraCom(tableId, type, function(){toolSaveSmsRecResend(tableId, oldTableId);}));
+	    $("#"+tableId+"-edit-header").html("<i class='fa fa-send' aria-hidden='true' /></i>&nbsp;&nbsp;"+$.i18n("resendSms"));
+    }
+    
+	
+    function initTurnoverStatModel(tableId, contentStat){
+    	var userType = window.UTYPE;
+		var stat = $("#"+tableId+"-stat");
+		var currency_type_icon = "";
+		if(window.IS_SHOW_CUR_ICON){
+			currency_type_icon = currency_type_icon_html();
+		}
+		var com_html = '';
+		if("sendRcdTab2" == tableId){
+			var com_array =[[["sent","#EEC900"],["success","#63B8FF"],["fail","#EE6363"],["resent","#EE6363"],["success_rate","#00CD66"]],[["drsent","#EEC900"],["drsuccess","#63B8FF"],["drfail","#EE6363"],["dr_success_rate","#00CD66"]]];
+			if(userType == window.CONSUMER_TYPE && (window.IS_VIEW_DR_ENABLE ==0 || window.IS_VIEW_DR_ENABLE ==2)){
+				com_array =[[["sent","#EEC900"],["success","#63B8FF"],["fail","#EE6363"],["resent","#EE6363"],["success_rate","#00CD66"]]];
+			}
+			for ( var i = 0; i < com_array.length; i++) {
+				var row_data = com_array[i];
+				com_html += '<div class="row">';
+				for ( var x = 0; x < row_data.length; x++) {
+					var leb = row_data[x][0];
+					var color = row_data[x][1];
+					com_html += '<div class="col-md-2"><span style="width:100px;display:inline-block;text-align:right;">'+$.i18n("db.tbSMSRcd."+ leb)+': </span> <strong style="font-family: Arial;font-size: 20px;font-weight: 400;margin-left: 15px;margin-right: 10px;vertical-align: middle;color:'+color+';">'+contentStat[leb].toLocaleString()+'</strong></div>';
+				}
+				com_html+= '</div>';
+			}
+		}
+		var html = '';
+		
+		var arrayLeb = [];
+		var arrayColor = [];
+		
+		if(window.HIDE_INCOME_TURNOVER == 0){
+			arrayLeb.push("pay");
+			arrayColor.push("#EEC900");
+		}
+		if(window.HIDE_INCOME_COST == 0){
+			arrayLeb.push("cost");
+			arrayColor.push("#EEC900");
+		}
+		if(window.HIDE_INCOME_GIFT == 0){
+			arrayLeb.push("gift");
+			arrayColor.push("#EEC900");
+		}
+			
+		if(userType > 0){
+			if(userType == window.CONSUMER_TYPE){
+				arrayLeb = ["amount_consumption"];
+				arrayColor = ["#EEC900"];
+			}else if(userType == window.SUPPLIER_TYPE){
+				arrayLeb = ["cost"];
+				arrayColor = ["#EEC900"];
+			}
+		}
+		if(arrayLeb.length > 0){
+			html+= '<div class="row">';
+			for ( var j = 0; j < arrayLeb.length; j++) {
+				html += '<div class="col-md-4"><span style="width:100px;display:inline-block;text-align:right;">'+$.i18n("db.tbSMSRcd."+ arrayLeb[j])+': </span> <strong style="font-family: Arial;font-size: 20px;font-weight: 400;margin-left: 15px;margin-right: 10px;vertical-align: middle;color:'+arrayColor[j]+';">'+currency_type_icon + contentStat[arrayLeb[j] =="amount_consumption" ? "pay" : arrayLeb[j]].toLocaleString()+'</strong></div>';
+			}
+			html+= '</div>';
+		}
+		
+		html+= com_html;
+		stat.html(html);
+    }
+    
+    function toolSaveSmsRecResend(tableId, oldTabId){
+	    var idList = deleteRowsList(oldTabId);
+	    var params = getSearchParams(oldTabId);
+	    var $resendCnt = $("#edit-"+tableId+"-resendCnt");  
+	    var $content = $("#edit-"+tableId+"-content"); 
+	    var temp = "based_on_search_criteria_tip";
+	    params.idList = idList;
+	    if(idList && idList.length > 0){
+	        temp = "based_on_the_selected_option.tip";
+	    }
+	    params.token = window.token;
+	   	params.resendCnt = $.trim($resendCnt.val());
+	   	params.content = $.trim($content.val());
+	   	params.actionName = $.i18n("resendSms");
+	   	if(params.resendCnt == ""){
+	   	    params.resendCnt = 0;
+	   	}
+   		 
+        layer.confirm($.i18n(temp) + "," +$.i18n("frame.from.tips.confirmResendAll"), function (idx) {
+            var loadInx = layer.load(2);
+	   		$.ajax({
+	    	    url: window.PATH+ getLocalStorageModel(tableId, "requestUrl")+ "resendSms.ajax",     
+	    	    dataType: "json",    
+	    	    async: true, 
+	    	    data: params ,   
+	    	    type:"POST",  
+	    	    success:function(res){ 
+			    	if(res.state==0){
+			    	    layer.msg.success(res.message);	
+			    	}else{
+			    		layer.msg.error(res.message);	
+			    	}
+			    	removeModal(tableId, "edit", true);
+	    	    }, 
+	    	    error:function(){  
+	    	    }
+	     	});
+	     	layer.close(loadInx);
+        });
+	}
+	</script>
+ </body>

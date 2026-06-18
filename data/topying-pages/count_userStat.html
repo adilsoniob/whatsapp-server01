@@ -1,0 +1,1098 @@
+
+
+
+
+
+
+
+
+
+
+ <style>
+.cr_card{
+position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-clip: border-box;
+	border: 0 solid transparent;
+	border-radius: .25rem;
+	margin-bottom: 1.5rem;
+	box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
+.cr_widget-header{
+	position: relative;
+	min-height: 35px;
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+	box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+	color: #555;
+	text-align: center;
+}
+.cr_widget-header > .widget-caption {
+	line-height: 34px;
+	padding: 0;
+	margin: 0;
+	font-weight: 400 !important;
+	font-size: 14px;
+}
+.stat_title_text_number{
+    color: #4cabce;
+    font-weight: bold;
+    padding: 0 10px 0 2px;
+}
+</style>
+<body> 
+  <div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="userStatBtn1">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('userStatTab1','userStatTool1')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Consumer User Stat</span></a> 
+	                  </li>
+	                  <li class="flag-tabs-btn tab-blue" id="userStatBtn2"><a
+							data-toggle="tab" href="javaScript:void(0)"
+							onclick="switchTabAndTools('userStatTab2','userStatTool2')"><i
+								class="fa fa-list font14"></i> <span class="tab-title">Supplier User Stat
+							</span>
+					  </a></li>
+					  <li class="flag-tabs-btn tab-blue" id="userStatBtn3"><a
+							data-toggle="tab" href="javaScript:void(0)"
+							onclick="switchTabAndTools('userStatTab3','userStatTool3')"><i
+								class="fa fa-list font14"></i> <span class="tab-title">Agent User Stat
+							</span>
+					  </a></li>
+					  <li class="flag-tabs-btn tab-blue" id="userStatBtn4"><a
+							data-toggle="tab" href="javaScript:void(0)"
+							onclick="switchTabAndTools('userStatTab4','userStatTool4')"><i
+								class="fa fa-list font14"></i> <span class="tab-title">Saler User Stat
+							</span>
+					  </a></li>
+	                  <!-- tab2-工具按钮组 -->
+	                  <li class="head-tools-r navbar-right flag-tools"  id="userStatTool1">
+	                      <div class="btn f-p-tips darkorange" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="userStatTab1-tools-dataAnalysis" onclick="dataAnalysisModal('userStatTab1')"><i class="fa fa-bar-chart" aria-hidden="true"></i><div class="f-t-tips">Data analysis</div></div>
+	                  </li>
+	                  <li class="head-tools-r navbar-right flag-tools" style="display:none;" id="userStatTool2">
+	                      <div class="btn f-p-tips darkorange" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="userStatTab2-tools-dataAnalysis" onclick="dataAnalysisModal('userStatTab2')"><i class="fa fa-bar-chart" aria-hidden="true"></i><div class="f-t-tips">Data analysis</div></div> 
+					  </li>
+					  <li class="head-tools-r navbar-right flag-tools" style="display:none;" id="userStatTool3">
+					      <div class="btn f-p-tips darkorange" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="userStatTab3-tools-dataAnalysis" onclick="dataAnalysisModal('userStatTab3')"><i class="fa fa-bar-chart" aria-hidden="true"></i><div class="f-t-tips">Data analysis</div></div>
+					  </li>
+					  <li class="head-tools-r navbar-right flag-tools" style="display:none;" id="userStatTool4">
+					      <div class="btn f-p-tips darkorange" style="font-size: 14px;padding: 4px 12px;margin-left:3.56px;" id="userStatTab4-tools-dataAnalysis" onclick="dataAnalysisModal('userStatTab4')"><i class="fa fa-bar-chart" aria-hidden="true"></i><div class="f-t-tips">Data analysis</div></div>
+					  </li>
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+						<div id="userStatTab1" class="flag-tabs tab-pane  in active summary-tab no-padding" style="border-radius:0;"></div>
+	                    <div id="userStatTab2" class="flag-tabs tab-pane" style="border-radius:0;"></div>
+	                    <div id="userStatTab3" class="flag-tabs tab-pane" style="border-radius:0;"></div>
+	                    <div id="userStatTab4" class="flag-tabs tab-pane" style="border-radius:0;"></div>
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>  
+	  <script>
+	g_var.view = {"permissions":["0","1","1","1","1","1"]};
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + "/count/userStat/getView.ajax", 
+				data : {}, 
+				type : "post", 
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				        g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) {
+				}
+			});
+	}
+    try {
+        var selectPermissionsInfo = JSON.parse('{"permissions":["0","1","1","1","1","1"]}' || '{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    
+    var myChart9;
+    var toolbox = {
+		        show: !window.IS_MOBILE,
+		        orient: 'horizontal',
+		        right: 25,
+		        feature: {
+		            mark: {show: false},
+		            magicType: {show: false, type: ['line', 'bar'],title:{line:$.i18n("switch_to_line_chart"),bar:$.i18n("switch_to_bar_chart")}}
+		        }
+		    }
+	var option_grid =  window.IS_MOBILE ? {x: 40,x2: 70,y2:100} : (window.LANGUAGE == 'en_US' ? {x: 155, x2: 150, y2:100} : {x: 100, x2: 100, y2:100});
+    
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = ['0', '0', '0', '1', '1', '1'];
+    	permi = ['0', '0', '0', '1', '1', '1'];
+    }
+    
+    var ss_type = function (value) {
+        var tips = matchComdata2Alias("db.tbUserStat.type.comData",
+            value);
+        var cssStr = "primary";
+        if (value == 1) {
+            cssStr = "default";
+        }
+        return "<span class='label label-" + cssStr + "'>" + tips + "</span>";
+    }
+	
+    var view_tab = 0;         
+    /******************************* user Stat    begin 	******************************/
+	if(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.CONSUMER_TYPE || window.UTYPE == window.AGENT_TYPE || window.UTYPE == window.SALESMAN_TYPE){
+		var tableItem_consumeruserStat = {
+	    		tableKey: "idxUserID", i18nPrefix: "db.tbUserStat.", trs:[
+	    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+	    		{name: "user",comType:"select",comData : "consumerAgentUserSelectVals",width:140, advQry: ['LIKE'],topSearch:true, isNotLoopGetVal: true},
+	            {name: "alias",width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            {name: "utype",comType:"select",width:100,topSearch:true},
+	            /* {name: "agentid", vali: {maxlength: 64,required:false},advQry:["LIKE"],topSearch:true,hideEdit:"E",comType:"select",comData: "agentIdSelectVals",width:130}, 
+    		 */
+	            {name: "stattype",comType: "select",width:90, advQry: ['LIKE'],topSearch:true},
+	            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+	            {name: "salerid", vali: {maxlength: 64,required:false},advQry:["LIKE"],topSearch:true, isIdField:true,comType:"select",comData: "salerIdSelectVals",width:130}, 
+	            /* {name: "timeid",width:110}, */
+	            {name: "starttm",width:120,comType: "timestamp"},
+	            {name: "endtm",width:120,comType: "timestamp"},
+	            {name: "mcc", type: "I",advQry:['LIKE'],topSearch:true, vali: {digitsOne:true,lessThan:1000},  width:70,valFormat : "_valFormatMcc_img"},
+	            {name: "mnc", type: "I",advQry:['LIKE'],topSearch:true, vali: {digitsOne:true,lessThan:1000},  width:70 , valFormat : "formatShowMnc",paramArray:["mcc", "operator"]},
+	            {name: "sent",width:120, valFormat : "valFormat_merge", paramArray:["sent","billsent"], questionTip:true},
+	            {name: "succ",width:120, valFormat : "valFormat_merge", paramArray:["succ","billsucc"], questionTip:true},
+	            {name: "fail",width:120, valFormat : "valFormat_merge", paramArray:["fail","billfail"], questionTip:true},
+	            {name: "sendingSuccessRate",width:140, valFormat : "valFormat_percentage", paramArray:["billsucc","billfail", "retry"]},
+	            
+	            {name: "backfill",width:100},
+	            
+	            {name: "retry",width:90, questionTip:true},
+	            /* {name: "drsent",width:120, noSort:true}, */
+	            
+	            {name: "drsent",width:120, questionTip:true},
+	            {name: "drsucc",width:120, questionTip:true},
+	            {name: "drfail",width:120, questionTip:true},
+	            {name: "drSuccessRate",width:140, valFormat : "valFormat_percentageTotal", paramArray:["drsucc","drsent"]},
+	            
+	            {name: "recv",width:120, valFormat : "valFormat_merge", paramArray:["recv","billrecv"], questionTip:true},
+	            {name: "turnover",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "cost",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "gift", width:140,ratio:window.RATIO, amountField:true, valFormat : "valFormat_gift", noSort:true,paramArray:["turnover","cost"]}
+	        ]};
+		
+		var consumeruserStatUrl = "/count/userStat/consumeruser";
+		permi = ['0', '1', '1', '1', '1', '0']; 
+		
+		var c_removeItemArr = [];
+		if(window.BACK_FILL_ENABLE == 0){
+		   c_removeItemArr.push("backfill");
+		}
+		if(window.HIDE_INCOME_TURNOVER == 1){
+		   c_removeItemArr.push("turnover");
+		}
+		if(window.HIDE_INCOME_COST == 1){
+		   c_removeItemArr.push("cost");
+		}
+		if(window.HIDE_INCOME_GIFT == 1){
+		   c_removeItemArr.push("gift");
+		}
+		if(c_removeItemArr.length > 0){
+		   reomveTableItem(tableItem_consumeruserStat, c_removeItemArr);
+		}
+	
+		//tableItem_userStat = isEnableOperHiddenItemFun(tableItem_userStat, ["btype"]);
+		var consumer_hide_field = ["user","alias","utype","salerid","cutype","cost","gift", "agentid"];
+		if(window.IS_VIEW_DR_ENABLE == 0 || window.IS_VIEW_DR_ENABLE == 2 || window.UTYPE == window.ADMIN_TYPE){
+		   consumer_hide_field.push("drsent"); 
+		   consumer_hide_field.push("drsucc"); 
+		   consumer_hide_field.push("drfail"); 
+		   consumer_hide_field.push("drSuccessRate"); 
+		}
+		var hiddenItemArrays = [[window.CONSUMER_TYPE,consumer_hide_field],[window.SUPPLIER_TYPE,["user","alias","utype","salerid","cutype","turnover", "gift", "agentid"]],[window.AGENT_TYPE,["agentid","salerid","cutype"]]];
+		InitTableMoudle("userStatTab1", "userStatTool1", consumeruserStatUrl, userTypeHiddenItemFun(tableItem_consumeruserStat,hiddenItemArrays), permi, "1",false,true,false,false,true);
+	    view_tab = 1; 
+	    
+	    if(!(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.SALESMAN_TYPE)){
+	        $("#userStatTab1-tools-dataAnalysis").remove();
+	    }
+	}else{
+	    $("#userStatTab1,#userStatTool1,#userStatBtn1").remove();
+	}
+	
+	
+	
+	/******************************* user Stat  end   ***************************************/
+	
+	if(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.SUPPLIER_TYPE || window.UTYPE == window.SALESMAN_TYPE){
+		var tableItem_supplieruserStat = {
+	    		tableKey: "idxUserID", i18nPrefix: "db.tbUserStat.", trs:[
+	    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+	    		{name: "user",comType:"select",comData : "supplierUserSelectVals",topSearch:true,width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            {name: "alias",width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            
+	            {name: "stattype",comType: "select",width:90, advQry: ['LIKE'],topSearch:true},
+	            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+	            {name: "salerid", vali: {maxlength: 64,required:false},advQry:["LIKE"],topSearch:true, isIdField:true,comType:"select",comData: "salerIdSelectVals",width:130}, 
+	            
+	            /* {name: "timeid",width:110}, */
+	            {name: "starttm",width:120,comType: "timestamp"},
+	            {name: "endtm",width:120,comType: "timestamp"},
+	            {name: "mcc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70,valFormat : "_valFormatMcc_img"},
+	            {name: "mnc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70 , valFormat : "formatShowMnc",paramArray:["mcc", "operator"]},
+	            {name: "sent",width:120, valFormat : "valFormat_merge", paramArray:["sent","billsent"], questionTip:true},
+	            {name: "succ",width:120, valFormat : "valFormat_merge", paramArray:["succ","billsucc"], questionTip:true},
+	            {name: "fail",width:120, valFormat : "valFormat_merge", paramArray:["fail","billfail"], questionTip:true},
+	            {name: "sendingSuccessRate",width:140, valFormat : "valFormat_percentage", paramArray:["billsucc","billfail"]},
+	            
+	            {name: "backfill",width:100},
+	            
+	            /* {name: "drsent",width:120, noSort:true}, */
+	            {name: "drsent",width:120, questionTip:true},
+	            {name: "drsucc",width:120, questionTip:true},
+	            {name: "drfail",width:120, questionTip:true},
+	            {name: "drSuccessRate",width:140, valFormat : "valFormat_percentageTotal", paramArray:["drsucc","drsent"]},
+            
+	            
+	            {name: "recv",width:120, valFormat : "valFormat_merge", paramArray:["recv","billrecv"], questionTip:true},
+	            {name: "turnover",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "cost",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "gift", width:140,ratio:window.RATIO, amountField:true, valFormat : "valFormat_gift", noSort:true,paramArray:["turnover","cost"]}
+	        ]};
+		var supplieruserStatUrl = "/count/userStat/supplieruser";
+		permi = ['0', '1', '1', '1', '1', '0']; 
+		
+		if(window.BACK_FILL_ENABLE == 0){
+		   reomveTableItem(tableItem_supplieruserStat, ["backfill"]);
+		}
+		if(window.HIDE_INCOME_TURNOVER == 1){
+		   reomveTableItem(tableItem_supplieruserStat, ["turnover"]);
+		}
+		if(window.HIDE_INCOME_COST == 1){
+		   reomveTableItem(tableItem_supplieruserStat, ["cost"]);
+		}
+		if(window.HIDE_INCOME_GIFT == 1){
+		   reomveTableItem(tableItem_supplieruserStat, ["gift"]);
+		}
+		
+		//tableItem_userStat = isEnableOperHiddenItemFun(tableItem_userStat, ["btype"]);
+		var consumer_hide_field = ["user","salerid","utype","cost","gift"];
+		if(window.IS_VIEW_DR_ENABLE == 0 || window.IS_VIEW_DR_ENABLE == 2 || window.UTYPE == window.ADMIN_TYPE){
+		   consumer_hide_field.push("drsent"); 
+		   consumer_hide_field.push("drsucc"); 
+		   consumer_hide_field.push("drfail"); 
+		   consumer_hide_field.push("drSuccessRate");
+		}
+		var supplier_hide_field = ["salerid","turnover", "gift"];
+		if(!(window.SUPPLIER_TYPE == window.UTYPE && window.IS_PARENT_USER == 1)){
+		    supplier_hide_field.push("user"); 
+		}
+		var hiddenItemArrays = [[window.CONSUMER_TYPE, consumer_hide_field],[window.SUPPLIER_TYPE, supplier_hide_field]];
+		InitTableMoudle("userStatTab2", "userStatTool2", supplieruserStatUrl, userTypeHiddenItemFun(tableItem_supplieruserStat,hiddenItemArrays), permi, "1",false,true,false,false,true);
+	    if(!view_tab)view_tab=2;
+	    if(!(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.SALESMAN_TYPE)){
+	        $("#userStatTab2-tools-dataAnalysis").remove();
+	    }
+	}else{
+	    $("#userStatTab2,#userStatTool2,#userStatBtn2").remove();
+	}
+	
+	function loadListRowCollapseData(btnObj, tableId, rowIdx, collapse, isLoadData, succCallback){
+	    var datas = getLocalStorageModel(tableId, "queryData");
+	    var row_data;
+	    if(datas.length>0){
+	        row_data = datas[rowIdx];
+	    }
+	    var queryParams = {"cx_GTE-|-stattm": row_data.starttm};
+	        queryParams["cx_LTE-|-stattm"] = row_data.endtm;
+	        queryParams["cx_LIKE-|-user"] = row_data.user;
+	        queryParams["cx_LIKE-|-alias"] = row_data.alias;
+	        queryParams["cx_LIKE-|-mcc"] = row_data.mcc;
+	        queryParams["cx_LIKE-|-stattype"] = row_data.stattype;
+	        queryParams["cx_LIKE-|-btype"] = row_data.btype;
+	        queryParams["cx_LIKE-|-group_mcc"] = 0;
+	    if(row_data.salerid){
+	        queryParams["cx_LIKE-|-salerid"] = row_data.salerid;
+	    }
+	    if (row_data.mnc !== null && row_data.mnc !== undefined && row_data.mnc >= -1) {
+	        queryParams["cx_LIKE-|-mnc"] = row_data.mnc;
+	    } 
+	    var secondTrClass = calculateObjectHashMd5(queryParams);    
+	    if(isLoadData){
+		    var loadInx = layer.load(2); 
+		    var url = getLocalStorageModel(tableId, "requestUrl");
+		    var queryUrl = url + "list.ajax";
+	        $.ajax({
+	      	    url:window.PATH + queryUrl,
+	      	    data: queryParams,
+	      	    type:"post",
+	      	    dataType: "json",
+	      	    success:function(req){
+	      	        if(!res_state(req.state)){
+				    	layer.msg.error(req.message);	
+				    }else{
+				        var newResult = req.data.contentList;
+	      	            succCallback(clearJsonDataByKeys(newResult, ["user", "alias", "salerid", "utype", "starttm", "endtm", "stattype", "btype"]), secondTrClass);
+	      	        }
+	      	        layer.close(loadInx); 
+	      	    }, 
+	      	    error: function (xhr, type, exception) {
+	      	    	layer.close(loadInx); 
+	            }
+	      	 });
+      	 }else{
+      	     var $tr_secondTrClass = $("#"+tableId).find("tr."+secondTrClass);
+      	     if(collapse){
+      	         $tr_secondTrClass.show(); 
+      	     }else{
+      	         $tr_secondTrClass.hide(); 
+      	     }
+      	 }
+	}
+	 
+	
+	if(window.ENABLE_AGENT == 1 && (window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.AGENT_TYPE || window.UTYPE == window.SALESMAN_TYPE)){
+		var tableItem_agentuserStat = {
+	    		tableKey: "idxUserID", i18nPrefix: "db.tbUserStat.", trs:[
+	    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+	    		{name: "user",comType:"select",comData : "agentUserSelectVals",topSearch:true,width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            {name: "alias",width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            
+	            {name: "stattype",comType: "select",width:90, advQry: ['LIKE'],topSearch:true},
+	            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+	            
+	            /* {name: "timeid",width:110}, */
+	            {name: "starttm",width:120,comType: "timestamp"},
+	            {name: "endtm",width:120,comType: "timestamp"},
+	            {name: "mcc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70,valFormat : "_valFormatMcc_img"},
+	            {name: "mnc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70 , valFormat : "formatShowMnc",paramArray:["mcc", "operator"]},
+	            {name: "sent",width:120, valFormat : "valFormat_merge", paramArray:["sent","billsent"], questionTip:true},
+	            {name: "succ",width:120, valFormat : "valFormat_merge", paramArray:["succ","billsucc"], questionTip:true},
+	            {name: "fail",width:120, valFormat : "valFormat_merge", paramArray:["fail","billfail"], questionTip:true},
+	            {name: "sendingSuccessRate",width:140, valFormat : "valFormat_percentage", paramArray:["billsucc","billfail"]},
+	            
+	            {name: "backfill",width:100},
+	            
+	            /* {name: "drsent",width:120, noSort:true}, */
+	            {name: "drsent",width:120, questionTip:true},
+	            {name: "drsucc",width:120, questionTip:true},
+	            {name: "drfail",width:120, questionTip:true},
+	            {name: "drSuccessRate",width:140, valFormat : "valFormat_percentageTotal", paramArray:["drsucc","drsent"]},
+            
+	            
+	            {name: "recv",width:120, valFormat : "valFormat_merge", paramArray:["recv","billrecv"], questionTip:true},
+	            {name: "turnover",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "cost",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "gift", width:140,ratio:window.RATIO, amountField:true, valFormat : "valFormat_gift", noSort:true,paramArray:["turnover","cost"]}
+	        ]};
+		var agentuserStatUrl = "/count/userStat/agentruser";
+		permi = ['0', '1', '1', '1', '1', '0']; 
+		
+		var removeItemArr = [];
+		if(window.BACK_FILL_ENABLE == 0){
+		   removeItemArr.push("backfill");
+		}
+		if(window.HIDE_INCOME_TURNOVER == 1){
+		   removeItemArr.push("turnover");
+		}
+		if(window.HIDE_INCOME_COST == 1){
+		   removeItemArr.push("cost");
+		}
+		if(window.HIDE_INCOME_GIFT == 1){
+		   removeItemArr.push("gift");
+		}
+		if(removeItemArr.length > 0){
+		   reomveTableItem(tableItem_agentuserStat, removeItemArr);
+		}
+		
+		//tableItem_userStat = isEnableOperHiddenItemFun(tableItem_userStat, ["btype"]);
+		var consumer_hide_field = ["user","utype","cost","gift"];
+		if(window.IS_VIEW_DR_ENABLE == 0 || window.IS_VIEW_DR_ENABLE == 2 || window.UTYPE == window.ADMIN_TYPE){
+		   consumer_hide_field.push("drsent"); 
+		   consumer_hide_field.push("drsucc"); 
+		   consumer_hide_field.push("drfail"); 
+		   consumer_hide_field.push("drSuccessRate"); 
+		}
+		var hiddenItemArrays = [[window.CONSUMER_TYPE,consumer_hide_field],[window.SUPPLIER_TYPE,["user","turnover", "gift"]],[window.AGENT_TYPE,["user"]]];
+		InitTableMoudle("userStatTab3", "userStatTool3", agentuserStatUrl, userTypeHiddenItemFun(tableItem_agentuserStat,hiddenItemArrays), permi, "1",false,true,false,false,true);
+	    if(!view_tab)view_tab=3;
+	    if(!(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.SALESMAN_TYPE)){
+	        $("#userStatTab3-tools-dataAnalysis").remove();
+	    }
+	}else{
+	    $("#userStatTab3,#userStatTool3,#userStatBtn3").remove();
+	}
+	
+	if(window.UTYPE == window.ADMIN_TYPE && window.ENABLE_SALER == 1){
+		var tableItem_saleruserStat = {
+	    		tableKey: "idxUserID", i18nPrefix: "db.tbUserStat.", trs:[
+	    		{name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+	    		{name: "user",comType:"select",comData : "salerUserSelectVals",topSearch:true,width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            {name: "alias",width:140, advQry: ['LIKE'], isNotLoopGetVal: true},
+	            
+	            {name: "stattype",comType: "select",width:90, advQry: ['LIKE'],topSearch:true},
+	            {name: "btype", vali: {required:false},comType:"select",comData : "btypeVals",width:140, noSort:true, advQry: ['LIKE']},
+	            
+	            {name: "starttm",width:120,comType: "timestamp"},
+	            {name: "endtm",width:120,comType: "timestamp"},
+	            {name: "mcc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70,valFormat : "_valFormatMcc_img"},
+	            {name: "mnc", type: "I",advQry:['LIKE'], vali: {digitsOne:true,lessThan:1000},  width:70 , valFormat : "formatShowMnc",paramArray:["mcc", "operator"]},
+	            {name: "sent",width:120, valFormat : "valFormat_merge", paramArray:["sent","billsent"], questionTip:true},
+	            {name: "succ",width:120, valFormat : "valFormat_merge", paramArray:["succ","billsucc"], questionTip:true},
+	            {name: "fail",width:120, valFormat : "valFormat_merge", paramArray:["fail","billfail"], questionTip:true},
+	            {name: "sendingSuccessRate",width:140, valFormat : "valFormat_percentage", paramArray:["billsucc","billfail"]},
+	            
+	            {name: "drsent",width:120, questionTip:true},
+	            {name: "drsucc",width:120, questionTip:true},
+	            {name: "drfail",width:120, questionTip:true},
+	            {name: "drSuccessRate",width:140, valFormat : "valFormat_percentageTotal", paramArray:["drsucc","drsent"]},
+	            
+	            {name: "recv",width:120, valFormat : "valFormat_merge", paramArray:["recv","billrecv"], questionTip:true},
+	            {name: "turnover",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "cost",width:90,ratio:window.RATIO, amountField:true},
+	            {name: "gift", width:140,ratio:window.RATIO, amountField:true, valFormat : "valFormat_gift", noSort:true,paramArray:["turnover","cost"]}
+	        ]};
+		var saleruserStatUrl = "/count/userStat/saleruser";
+		permi = ['0', '1', '1', '1', '1', '0']; 
+		if(window.HIDE_INCOME_TURNOVER == 1){
+		   reomveTableItem(tableItem_saleruserStat, ["turnover"]);
+		}
+		if(window.HIDE_INCOME_COST == 1){
+		   reomveTableItem(tableItem_saleruserStat, ["cost"]);
+		}
+		if(window.HIDE_INCOME_GIFT == 1){
+		   reomveTableItem(tableItem_saleruserStat, ["gift"]);
+		}
+		InitTableMoudle("userStatTab4", "userStatTool4", saleruserStatUrl, tableItem_saleruserStat, permi, "1",false,true,false,false,true);
+	    if(!view_tab)view_tab=4;
+	    if(!(window.UTYPE == window.ADMIN_TYPE || window.UTYPE == window.SALESMAN_TYPE)){
+	        $("#userStatTab4-tools-dataAnalysis").remove();
+	    }
+	}else{
+	    $("#userStatTab4,#userStatTool4,#userStatBtn4").remove();
+	}
+	
+	if(view_tab > 1){
+	    switchTabAndTools('userStatTab'+view_tab,'userStatTool'+view_tab,'userStatBtn'+view_tab);
+	}
+	
+	var chartModalLock = false;
+    var chartModalCache = {}; 
+
+	function dataAnalysisModal(oldTableId){
+	    var dataAnalysisItems ={
+		        i18nPrefix: "menu.dataAnalysis.",
+		        sbmtBtn: "chart_generation",
+		        trs:[
+		           {name: "chart_type", vali: {required: false}, comType:"radio",width:100,valFormat : "format_chart_type",hideEdit: "E", div_col: 6},
+		           {name: "data_x", vali: {required: false}, comType:"select",width:120,hideEdit: "E"},
+		           {name: "data_y", vali: {required: false}, comType:"select",width:120,hideEdit: "E"}
+		        ]
+		};
+	    var tableId = "sc-"+oldTableId;
+	    setLocalStorageModel(tableId, "tableParams", dataAnalysisItems);
+	    initComHtml(tableId, dataAnalysisItems);
+	    checkedRadio(tableId,"chart_type", "line");
+	    showDialogModelCom(tableId,$.i18n("menu.dataAnalysis"),initEditFormValidatoraCom(tableId, "new",function(){dataAnalysisAjax(tableId,oldTableId);}));
+	    var idList = deleteRowsList(oldTableId);
+	    var header = $("#"+tableId+"-edit-header");
+	    var header_content = header.html();
+	    if(idList.length >0){
+	        header.html(header_content+"<br><font style='color:red;font-size: 12px'>"+$.i18n("data_sources.list")+"</font>");
+	    }else{
+	        header.html(header_content+"<br><font style='color:red;font-size: 12px'>"+$.i18n("data_sources.search")+"</font>");
+	    }
+	}
+	
+	var format_chart_type = function(value, name) {
+		return "<span class='label label-info'><i class='fa fa-"+value+"-chart' aria-hidden='true' /></i>&nbsp;"+name+"</span>";
+	}
+	
+	
+	function formatChartDataBySelected(oldTableId, params){
+	    var data = getLocalStorageModel(oldTableId, "queryData");
+	    var checkedRows_data = [];
+	    var checkedRows = $("input[name*="+ oldTableId+"-rowItems]:checked");
+	    if(checkedRows && checkedRows.length>0){
+	    	for(var c=0;c<checkedRows.length;c++){
+	    		var number = checkedRows[c].value.split("-|-")[1]; 
+	    		checkedRows_data.push(data[number]);
+	    	}
+	    } 
+	    var all_data = {};
+	    if(checkedRows_data.length >0){
+	        checkedRows_data = sortArrayByKey(checkedRows_data, 'starttm');
+	        var data_x = params.data_x;
+	        var data_y = params.data_y;
+	        var x_data_map = {};
+	        var x_key_prefix_sent = "sent_";
+	        var x_key_prefix_succ = "succ_";
+	        var x_key_prefix_fail = "fail_";
+	        var x_key_prefix_drsucc = "drsucc_";
+	        var x_key_prefix_drsent = "drsent_";
+	        for(var p=0; p<checkedRows_data.length; p++){
+	            var row_data = checkedRows_data[p];
+	            var x_label = row_data[data_x]; 
+	            if(data_x == 'mcc' && x_label == 0){
+	                continue;
+	            }
+	            
+	            var stattype = row_data["stattype"];
+	            var stattm = row_data["stattm"];  
+	            var mcc = row_data["mcc"]; 
+	            var user = row_data["user"]; 
+			    if(stattm > 0 && mcc >0 && user!=null && user!=""){
+				   var time_label = stattm + "";
+				   if(data_x == "starttm"){
+		            	if(stattype == 1){
+		            		time_label = dateTimeStamp("yy-MM-dd", x_label);
+		                }else if(stattype == 2){
+		                	time_label = dateTimeStamp("yy-MM-dd hh:00", x_label);
+		                }else if(stattype == 3 || stattype == 4){
+		                	time_label = dateTimeStamp("yy-MM-dd", x_label) +' ~ '+ dateTimeStamp("yy-MM-dd", row_data["endtm"]);
+		                }
+		           }
+				   var key = user + "-|-" +time_label + "-|-" +mcc;
+				   var sent = row_data["sent"]; 
+		           var succ = row_data["succ"]; 
+		           var fail = row_data["fail"]; 
+		           var drsucc = row_data["drsucc"];
+		           var drfail = row_data["drfail"];
+		           var drsent = row_data["drsent"];
+		           var data = {};
+				   if(all_data.hasOwnProperty(key)){
+					   data = all_data[key];
+				   }
+				   data["sent"] = (data.hasOwnProperty("sent") ? data["sent"] : 0) + sent;
+				   data["succ"] = (data.hasOwnProperty("succ") ? data["succ"] : 0) + succ;
+				   data["fail"] = (data.hasOwnProperty("fail") ? data["fail"] : 0) + fail;
+				   data["drsucc"] = (data.hasOwnProperty("drsucc") ? data["drsucc"] : 0) + drsucc;
+				   data["drfail"] = (data.hasOwnProperty("drfail") ? data["drfail"] : 0) + drfail;
+				   data["drsent"] = (data.hasOwnProperty("drsent") ? data["drsent"] : 0) + drsent;
+				   all_data[key] = data;
+			   }
+	        }
+	    }
+	    return all_data;
+	}
+	    
+	function dataAnalysisAjax(tableId, oldTableId){
+	    var idList = deleteRowsList(oldTableId);
+	    var params = getSubmitData(tableId);
+	    removeModal(tableId, "edit", true);
+	    if(idList.length >0){  //表示是根据选中的数据生成视图
+	        var data_json = formatChartDataBySelected(oldTableId, params);
+	        //data_json = {"AHHG2-|-26-03-03 13:00-|-470":{"sent":60833,"succ":59736,"fail":1097,"drsucc":59736,"drfail":0,"drsent":59736},"XJMKT-|-26-03-03 15:00-|-470":{"sent":80000,"succ":79693,"fail":307,"drsucc":79693,"drfail":0,"drsent":79693},"AHHG2-|-26-03-03 20:00-|-470":{"sent":160000,"succ":159143,"fail":857,"drsucc":159143,"drfail":0,"drsent":159143},"AHHG2-|-26-03-03 21:00-|-470":{"sent":493031,"succ":491541,"fail":1490,"drsucc":491541,"drfail":0,"drsent":491541},"SZYouYX-|-26-03-03 21:00-|-470":{"sent":28231,"succ":27995,"fail":236,"drsucc":27995,"drfail":0,"drsent":27995},"AHHG2-|-26-03-03 22:00-|-470":{"sent":155364,"succ":154427,"fail":937,"drsucc":154427,"drfail":0,"drsent":154427},"QidianAGT02-|-26-03-03 22:00-|-470":{"sent":75720,"succ":75362,"fail":358,"drsucc":75362,"drfail":0,"drsent":75362},"AHHG2-|-26-03-04 12:00-|-470":{"sent":35455,"succ":35052,"fail":403,"drsucc":35052,"drfail":0,"drsent":35052},"AHHG2-|-26-03-04 13:00-|-470":{"sent":39354,"succ":38483,"fail":871,"drsucc":38483,"drfail":0,"drsent":38483},"TS_AGT-|-26-03-04 14:00-|-470":{"sent":32620,"succ":32530,"fail":90,"drsucc":32530,"drfail":0,"drsent":32530},"XJMKT-|-26-03-04 15:00-|-470":{"sent":70000,"succ":69685,"fail":315,"drsucc":69685,"drfail":0,"drsent":69685},"XJMKT-|-26-03-04 16:00-|-470":{"sent":90001,"succ":87120,"fail":2881,"drsucc":87120,"drfail":0,"drsent":87120},"AHHG2-|-26-03-04 16:00-|-470":{"sent":21955,"succ":21792,"fail":163,"drsucc":21792,"drfail":0,"drsent":21792},"XJMKT-|-26-03-04 17:00-|-470":{"sent":99998,"succ":97805,"fail":2193,"drsucc":97805,"drfail":0,"drsent":97805},"AHHG2-|-26-03-04 17:00-|-470":{"sent":24766,"succ":13958,"fail":10808,"drsucc":13958,"drfail":0,"drsent":13958},"XJMKT-|-26-03-04 18:00-|-470":{"sent":605004,"succ":603004,"fail":2000,"drsucc":603004,"drfail":0,"drsent":603004},"AHHG2-|-26-03-04 20:00-|-470":{"sent":510817,"succ":508390,"fail":2427,"drsucc":508390,"drfail":0,"drsent":508390},"XJMKT-|-26-03-04 20:00-|-470":{"sent":117472,"succ":116946,"fail":526,"drsucc":116946,"drfail":0,"drsent":116946},"AHHG2-|-26-03-04 21:00-|-470":{"sent":782112,"succ":778970,"fail":3142,"drsucc":778970,"drfail":0,"drsent":778970},"Seven_SIMAGT-|-26-03-04 21:00-|-470":{"sent":208928,"succ":208370,"fail":558,"drsucc":208370,"drfail":0,"drsent":208370},"SZYouYX-|-26-03-04 21:00-|-470":{"sent":35213,"succ":35089,"fail":124,"drsucc":35089,"drfail":0,"drsent":35089},"XJMKT-|-26-03-04 21:00-|-470":{"sent":22528,"succ":22431,"fail":97,"drsucc":22431,"drfail":0,"drsent":22431},"AHHG2-|-26-03-04 22:00-|-470":{"sent":337025,"succ":334672,"fail":2353,"drsucc":334672,"drfail":0,"drsent":334672},"QidianAGT02-|-26-03-04 22:00-|-470":{"sent":89125,"succ":88275,"fail":850,"drsucc":88275,"drfail":0,"drsent":88275},"QidianAGT02-|-26-03-04 23:00-|-470":{"sent":46402,"succ":46289,"fail":113,"drsucc":46289,"drfail":0,"drsent":46289}};
+	        showDataAnalysisChart(oldTableId, params, data_json, 0);
+	    }else{
+	        loadDataAnalysisAjax(oldTableId, params);
+	    }
+	}
+	
+	function showDataAnalysisChart(oldTableId, params, data_json, dataSources){
+	    var tableId = "dataAnalysisChart-"+oldTableId;
+	    var modalId = tableId + "-detail2";
+	    if(chartModalCache[modalId]){
+	        chartModalCache[modalId].modal('destroy').remove();
+	        delete chartModalCache[modalId];
+	    }
+	    if(myChart9){
+	        myChart9.dispose();
+	        myChart9 = null;
+	    }
+    
+	    createDetailDialog_init(tableId, "fa-bar-chart-o");
+	    showDialogModel(tableId, "detail2");
+	    setTimeout(function () {
+		    var option_json = getChartOption(oldTableId, tableId, params, data_json, dataSources); 
+		    var chartDom = document.getElementById('ID_'+tableId);
+		    if(chartDom){
+		        myChart9 = echarts.init(document.getElementById('ID_'+tableId));
+		        myChart9.setOption(option_json, true);
+		        
+	            var $chartContainer = $(chartDom).parent();
+	            var $toggleBtn = $('<button id="toggleAllSeries" style="position:absolute;top:5px;right:5px;padding:5px 12px;background:#007bff;color:#fff;border:none;border-radius:4px;z-index:10;">'+$.i18n("echarts.hideAll")+'</button>');
+	            $chartContainer.css('position', 'relative').prepend($toggleBtn);
+	            
+	            var isAllHidden = false;
+	            $toggleBtn.on('click', function () {
+	                var allSeries = myChart9.getOption().series;
+	                var legendData = myChart9.getOption().legend[0].data;
+	                
+	                if(!isAllHidden){
+	                    legendData.forEach(name => {
+	                        myChart9.dispatchAction({
+	                            type: 'legendToggleSelect',
+	                            name: name
+	                        });
+	                    });
+	                    $(this).text($.i18n("echarts.showAll")).css('background', '#28a745');
+	                    isAllHidden = true;
+	                }else{
+	                    legendData.forEach(name => {
+	                        var isSelected = myChart9.getOption().legend[0].selected[name] !== false;
+	                        if(!isSelected){
+	                            myChart9.dispatchAction({
+	                                type: 'legendToggleSelect',
+	                                name: name
+	                            });
+	                        }
+	                    });
+	                    $(this).text($.i18n("echarts.hideAll")).css('background', '#007bff');
+	                    isAllHidden = false;
+	                }
+	            });
+	            
+	            myChart9.on('legendselectchanged', function () {
+	                var legendSelected = myChart9.getOption().legend[0].selected;
+	                var allHidden = Object.values(legendSelected).every(selected => !selected);
+	                var allShown = Object.values(legendSelected).every(selected => selected);
+	                
+	                if(allHidden){
+	                    $('#toggleAllSeries').text($.i18n("echarts.showAll")).css('background', '#28a745');
+	                    isAllHidden = true;
+	                }else if(allShown){
+	                    $('#toggleAllSeries').text($.i18n("echarts.hideAll")).css('background', '#007bff');
+	                    isAllHidden = false;
+	                }else{
+	                    $('#toggleAllSeries').text($.i18n("echarts.partiallyShown")).css('background', '#ffc107');
+	                    isAllHidden = false;
+	                }
+	            });
+            
+				window.addEventListener("resize", function () {
+				    myChart9.resize();
+				});
+			}
+		}, 50);
+	}
+	
+    function formatChartData(queryParams, dataJson) {
+	    const dataX = queryParams.data_x;
+	    const dataY = queryParams.data_y;
+	    const legendData = [];
+	    const formattedLegendData = [];
+	    const totalData = [];
+	    const xAxisData = [];
+	    const formattedXAxisData = [];
+	    const seriesData = [];
+	    const colors = [];
+	    const dataMap = {};
+	    const xAxisTotalMap = {};
+	    let flag = false;
+	    const formatName = (code, isMcc = false) => {
+	        if (!isMcc) return code;
+	        const countryCode = getCountryByMcc(code);
+	        return countryCode ? (code + "/" + $.i18n("country.name."+countryCode)) : code;
+	    };
+	
+	    const calculateValue = (dataObj) => {
+	        const { succ, fail, drsucc, drsent } = dataObj;
+	        switch (dataY) {
+	            case 'sendingSuccessRate':
+	                return calculatePercentage(succ, succ + fail);
+	            case 'drSuccessRate':
+	                return calculatePercentage(drsucc, drsent);
+	            default:
+	                return dataObj[dataY] || 0;
+	        }
+	    };
+	
+	    Object.entries(dataJson).forEach(([key, data]) => {
+	        const [user, time, mcc] = key.split("-|-");
+	        let legendKey, xAxisKey, comboKey;
+	        if (dataX === 'mcc') {
+	            legendKey = user;
+	            xAxisKey = mcc;
+	        } else if (dataX === 'user') {
+	            legendKey = mcc;
+	            xAxisKey = user;
+	        } else { // dataX === 'starttm'
+	            if(queryParams.mcc && queryParams.mcc!=''){
+	                flag = true;
+	                legendKey = user;
+		            xAxisKey = time;
+	            }else{
+		            legendKey = mcc;
+		            xAxisKey = time;
+	            }
+	            
+	        }
+	        comboKey = legendKey + "-|-" + xAxisKey;
+	        if (!legendData.includes(legendKey)) legendData.push(legendKey);
+	        if (!xAxisData.includes(xAxisKey)) xAxisData.push(xAxisKey);
+	
+	        dataMap[comboKey] = dataMap[comboKey] 
+	            ? sumJson(data, dataMap[comboKey]) 
+	            : Object.assign({}, data);
+	
+	        xAxisTotalMap[xAxisKey] = xAxisTotalMap[xAxisKey]
+	            ? sumJson(data, xAxisTotalMap[xAxisKey])
+	            : Object.assign({}, data);
+	    });
+	
+	    legendData.forEach((legend, idx) => {
+	        colors.push(color16());
+	        const seriesItem = [];
+	
+	        xAxisData.forEach((xAxis, xIdx) => {
+	            if (idx === 0) {
+	                const totalObj = xAxisTotalMap[xAxis];
+	                totalData.push(calculateValue(totalObj));
+	                formattedXAxisData.push(formatName(xAxis, dataX === 'mcc'));
+	            }
+	            const comboKey = legend + "-|-" + xAxis;
+	            const dataObj = dataMap[comboKey] || { succ: 0, fail: 0, drsucc: 0, drsent: 0 };
+	            seriesItem.push(calculateValue(dataObj));
+	        });
+	
+	        const isLegendMcc = dataX === 'user' || dataX === 'starttm';
+	        formattedLegendData.push(formatName(legend, isLegendMcc));
+	        seriesData.push(seriesItem);
+	    });
+	    
+	    if(flag){
+           formattedLegendData.unshift($.i18n("total"));
+           seriesData.unshift(totalData);
+           colors.unshift(color16());
+        }
+	    return {
+	        formattedLegendData,
+	        totalData,
+	        formattedXAxisData,
+	        seriesData,
+	        colors
+	    };
+	}
+	
+    
+	function getChartOption(oldTableId, tableId, query_params, data_json, dataSources){
+	     var x_name = matchComdata2Alias("menu.dataAnalysis.data_x.comData", query_params.data_x);
+	     var y_name = matchComdata2Alias("menu.dataAnalysis.data_y.comData", query_params.data_y);
+	     var legend_data = $.i18n("db.tbUserStat."+query_params.data_y);
+	     var tableItems = getLocalStorageModel(tableId, "tableParams");
+	     var i18nPrefix = tableItems.i18nPrefix;
+         var tot_data_json = {};
+         var winWidth = document.documentElement.clientWidth; 
+         var winHeight = document.documentElement.clientHeight; 
+         var div_width = window.IS_MOBILE ? winWidth - 25 : winWidth - 160;
+         $("#"+tableId+"-detail2").find(".modal-dialog").width(div_width);
+         var html = '<div class="bs-example"><div class="row">';
+         var tot_data = {};
+		 html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+		 html += '<div class="cr_card" style="box-shadow: none;">';
+		 html += '<div class="cr_widget-header">';
+		 html += '<div id="ID_title_'+tableId+'" class="widget-caption"></div>';
+		 html += '</div>';
+		 html += '<div id="ID_'+tableId+'" class="card-body no-padding" style="width: '+div_width+'px;height:'+(winHeight - 250)+'px;"></div>';
+		 html += '</div>';
+		 html += '</div>';
+         html += '</div></div>';
+         $("#"+tableId+"-content").html(html);
+         
+         var search_stattype = $("#search-"+oldTableId+"-stattype").val();
+         if(search_stattype == ""){
+             search_stattype = 2;
+         }
+         var search_stattype_tips = matchComdata2Alias("db.tbUserStat.stattype.comData", search_stattype);
+         var search_beginTime = $("#search-"+oldTableId+"-beginTime").val();
+         var search_endTime = $("#search-"+oldTableId+"-endTime").val();
+         if(search_stattype !=2){
+             search_beginTime = search_beginTime.split(" ")[0] + " 00:00:00";
+             search_endTime = search_endTime.split(" ")[0] + " 23:59:59";
+         }
+         var title_text = '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.common.time"), (search_beginTime+'&nbsp;-&nbsp;' + search_endTime)) + '</div>';
+             title_text+= '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.tbUserStat.stattype"), search_stattype_tips) + '</div>';
+         
+         var array_title = [];
+         
+         var header = $("#"+tableId+"-detail2").find(".modal-header");
+	     var header_content = header.html();
+	     var search_mcc = $("#search-"+oldTableId+"-mcc").val();
+	     query_params.mcc = search_mcc;
+         if(dataSources == 1){
+             header.html(header_content+"<font style='color:red;font-size: 12px'>"+$.i18n("data_sources.search")+"</font>");
+             var search_user = $("#search-"+oldTableId+"-user").val();
+             if(search_user && search_user !=""){
+                 title_text+= '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.tbUserStat.user"), search_user) + '</div>';
+             }
+             var search_salerid = $("#search-"+oldTableId+"-salerid").val();
+             if(search_salerid && search_salerid !=""){
+                 var search_saler = matchServiceData2Alias(g_var.view["salerIdSelectVals"], search_salerid);
+                 title_text+= '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.tbUserStat.salerid"), search_saler) + '</div>';
+             }
+             if(search_mcc && search_mcc !=""){
+                 title_text+= '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.tbUserStat.mcc"), search_mcc) + '</div>';
+             }
+             var search_mnc = $("#search-"+oldTableId+"-mnc").val();
+             if(search_mnc && search_mnc !=""){
+                 title_text+= '<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">'+ label_val_html_span($.i18n("db.tbUserStat.mnc"), search_mnc) + '</div>';
+             } 
+         }else{
+             header.html(header_content+"<font style='color:red;font-size: 12px'>"+$.i18n("data_sources.list")+"</font>");
+         }
+         var h = 0;
+         array_title.forEach(element => {
+             if(h == 0 || h == 2){
+                title_text+= '<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">'+ element + '</div>';
+             }else{
+             	title_text+= '<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">'+ element + '</div>';
+             }
+             h++;
+		 });
+         $("#ID_title_"+tableId).html('<div class="row">' +title_text + '</div>');
+         
+         var f_data = formatChartData(query_params, data_json);
+         f_data = echartsDataSort(f_data);
+         var tot_data = f_data.totalData;
+         var option = {
+                    title:{
+				        text: '',
+				        x: 'center',
+				        y2:0
+				    },
+				    color: f_data.colors,
+				    tooltip: {
+					    trigger: 'axis',
+					    axisPointer: { type: 'shadow' },
+					    formatter: function (params) {
+					        const TOP_N = 10;
+					        const listData = params;
+					        let html = '';
+					        const dataIndex = listData[0].dataIndex;
+					        const tot_cnt = tot_data[dataIndex];
+					        let tooltip_div_width = 300;
+					        if (window.IS_MOBILE) {
+					            tooltip_div_width = 200;
+					        }
+					        
+					        html += '<span>' + params[0].name + '<span>';
+					        html += tooltipdivRowHtml(['&nbsp;', '&nbsp;', y_name]);
+					        if(!(query_params.data_x == 'starttm' && query_params.mcc && query_params.mcc!='')){
+					            const formattedTot_cnt = (query_params.data_y === 'sendingSuccessRate' || query_params.data_y === 'drSuccessRate') 
+						            ? tot_cnt + '%' 
+						            : tot_cnt;
+						        html += tooltipdivRowHtml([
+						            '<i style="display: inline-block;width:10px;height: 10px;background: #777;margin-right: 5px;border-radius: 50%;"></i>', 
+						            $.i18n("total"), 
+						            formattedTot_cnt
+						        ]);
+					        }
+					
+					        const sortedData = [...listData].sort((a, b) => {
+					            const valA = a.data || 0;
+					            const valB = b.data || 0;
+					            return valB - valA;
+					        });
+					        const topNData = sortedData.slice(0, TOP_N);
+					
+					        const background_color = "background-color: #f9f9f9";
+					        topNData.forEach((item, i) => {
+					            const v = item.data || 0;
+					            const series_name = item.seriesName;
+					            const formattedValue = (query_params.data_y === 'sendingSuccessRate' || query_params.data_y === 'drSuccessRate')
+					                ? v + '%'
+					                : v;
+					            const rowStyle = (i === 0 || i % 2 === 0) ? background_color : '';
+					            html += tooltipdivRowHtml([
+					                '<i style="display: inline-block;width:10px;height: 10px;background: '+item.color+';margin-right: 5px;border-radius: 50%;"></i>',
+					                series_name,
+					                formattedValue
+					            ], rowStyle);
+					        });
+					
+					        if (listData.length > TOP_N) {
+					            html += tooltipdivRowHtml([
+					                '<i style="display: inline-block;width:10px;height: 10px;background: transparent;margin-right: 5px;"></i>',
+					                $.i18n("echartsTooltipExceedingDisplayPageTips", (listData.length - TOP_N)),
+					                ''
+					            ]);
+					        }
+					
+					        return '<div class="showBox" style="width:'+tooltip_div_width+'px;">'+html+'</div>';
+					    }
+					},
+				    toolbox:toolbox,
+				    grid: option_grid,
+				    legend: {
+				        type: 'scroll',
+					    orient: 'horizontal',
+					    top: 'top',
+					    right: 10,
+					    button: 30,
+					    left: 10,
+					    itemWidth: 10, 
+					    itemHeight: 10,
+					    itemGap: 15,
+					    textStyle: {
+					        lineHeight: 22,
+					        fontSize: 12,
+					    },
+					    pageButtonItemGap: 5,
+					    pageSize: 10, 
+				        show: true,
+				        data: f_data.formattedLegendData,
+				        y:'top'
+				    },
+				    xAxis: [
+				        {
+				            name: x_name,
+				            type: 'category',
+				            axisTick: {show: false},
+				            data: f_data.formattedXAxisData,
+				            axisLabel: {
+				                rotate: 45,
+                                interval: 0,
+					            formatter: function(value){
+									return value;
+								}
+					        },
+					        nameTextStyle: { color: '#333', fontSize: 16, fontWeight: 'bold'}
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            name: y_name,
+						    nameGap: 17,
+				            type: 'value',
+				            minInterval: 1,
+				            nameTextStyle: { color: '#333', fontSize: 16, fontWeight: 'bold', align: 'right', verticalAlign: 'middle'}
+				        }
+				    ],
+				    series: userSta_series_arr(f_data, query_params)
+				}
+	    return option;
+	}
+	
+	function userSta_series_arr(f_data, query_params){
+	   var legend_data = f_data.formattedLegendData;
+	   var series_datas = f_data.seriesData;
+	   var data_y = query_params.data_y;
+	   var type = query_params.chart_type;
+	   var isPercentage = data_y == 'sendingSuccessRate' || data_y == 'drSuccessRate';
+       var arr = [];
+       var len = series_datas.length;
+       for(var i=0;i<len;i++){
+    	  var series_data = series_datas[i]; 
+          var temp = {
+	            name: legend_data[i],
+	            type: type,
+	            label: {
+				    show: true,
+				    formatter: (isPercentage ? '{c}%' : '{c}'),
+				    fontSize: 16,
+				    distance: 15,
+				    rich: {
+				        name: {
+				            textBorderColor: '#fff'
+				        }
+				    }
+				},
+	            barWidth : 10,
+	            label: {
+	                normal: {
+	                    show: true,
+	                    position: 'top',
+	                    formatter: function (params) {return labelGtZeroDisplay(params, isPercentage)}
+	                }
+	            },
+	            data: series_data
+	        }
+	        if(type == 'bar'){
+                 temp.stack = 'Total';
+             }
+	      arr.push(temp);
+       }
+       return arr;
+    }
+    
+    function labelGtZeroDisplay(params, isPercentage){
+        if (params.value > 0) {
+           return isPercentage ? params.value +'%' : params.value;
+        } else {
+           return '';
+        }
+    }
+	
+	function echartsDataSort(sortData){
+	    const legendData = sortData.formattedLegendData;
+		const seriesData = sortData.seriesData;
+		
+		const countryStats = legendData.map((name, index) => ({
+		  name,
+		  total: seriesData[index].reduce((sum, val) => sum + val, 0),
+		  originalIndex: index
+		}));
+		
+		countryStats.sort((a, b) => b.total - a.total);
+		
+		const sortedLegend = countryStats.map(info => info.name);
+		const sortedSeries = countryStats.map(info => seriesData[info.originalIndex]);
+		
+		sortData.formattedLegendData = sortedLegend;
+		sortData.seriesData = sortedSeries;
+		return sortData;
+	}
+	
+	function loadDataAnalysisAjax(oldTableId, params){
+		if(chartModalLock) return;
+	    chartModalLock = true;
+	    
+	    var queryUrl = getLocalStorageModel(oldTableId, "requestUrl")+ "loadChartData.ajax";
+	    var search_params = getSearchParams(oldTableId);
+  	    search_params["data_x"] = params.data_x;
+  	    search_params["data_y"] = params.data_y;
+  	    search_params["cx_ORDER_LIST"] = '[["starttm",1]]';
+  	    var loadInx = layer.load(2); 
+        $.ajax({
+      	    url:window.PATH + queryUrl,
+      	    data: search_params,
+      	    type:"post",
+      	    dataType: "json",
+      	    success:function(req){
+      	    	if(!res_state(req.state)){
+      	    		layer.msg.error(req.message);	
+      	    	}else{
+      	    		var newResult = req.data;
+	      	    	waitForModalReady(oldTableId, params, newResult, 1);
+      	    	}
+      	    	layer.close(loadInx); 
+      	    }, 
+      	    error: function (xhr, type, exception) {
+      	    	layer.close(loadInx); 
+            }
+      	 });
+	}
+	
+	function waitForModalReady(oldTableId, params, newResult, dataSources) {
+	    var tableId = "dataAnalysisChart-"+oldTableId;
+	    var modalId = tableId + "-detail2";
+	    var checkTimes = 0;
+	
+	    var checkInterval = setInterval(function() {
+	        checkTimes++;
+	        var $modal = $('#' + modalId);
+	        
+	        if($modal.length > 0 || checkTimes >= 10) {
+	            clearInterval(checkInterval);
+	            showDataAnalysisChart(oldTableId, params, newResult, dataSources);
+	            chartModalLock = false;
+	        }
+	    }, 50);
+	}
+	
+	</script>
+ </body>

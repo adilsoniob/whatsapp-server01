@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shortcode DiihJcop</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Envio</p>
+          <h1>Shortcode DiihJcop</h1>
+          <p class="lede">Envio rápido, simples e prático — é só colar e enviar.</p>
+        </div>
+        <aside class="hero-panel">
+          <span id="me-role">-</span>
+          <strong id="me-user">-</strong>
+          <small><span id="me-credits">0</span> creditos • <span id="me-sent">0</span> enviados</small>
+        </aside>
+      </section>
+
+      <section class="send-layout">
+        <form id="sms-form">
+          <section class="card step-card user-compose">
+            <div class="step-title">
+              <span>SMS</span>
+              <div>
+                <h2>Envio rapido</h2>
+                <p>Nesta tela voce so cola a lista, escreve a mensagem e envia.</p>
+              </div>
+            </div>
+
+            <div class="user-metrics">
+              <div class="metric-tile">
+                <span id="creditsRemaining">0</span>
+                <small>Creditos</small>
+              </div>
+              <div class="metric-tile">
+                <span id="sentCount">0</span>
+                <small>SMS enviados</small>
+              </div>
+              <button type="button" class="ghost" id="refresh-btn">Atualizar</button>
+            </div>
+
+            <div class="user-grid">
+              <div class="user-block">
+                <p class="user-step">1. Numeros</p>
+                <textarea id="bulkText" name="bulkText" rows="14" placeholder="5511999999999&#10;5511888888888&#10;5511777777777"></textarea>
+                <label class="file-drop">
+                  Upload TXT
+                  <input id="txtUpload" type="file" accept=".txt,text/plain" />
+                  <span>Escolha um arquivo .txt com um numero por linha</span>
+                </label>
+                <label class="single-line">
+                  Numero rapido opcional
+                  <input id="phone" name="phone" placeholder="5511999999999" />
+                </label>
+              </div>
+
+              <div class="user-block">
+                <p class="user-step">2. Mensagem</p>
+                <textarea id="message" name="message" rows="10" required maxlength="162" placeholder="Seu codigo de validacao e 123456"></textarea>
+                <div class="message-footer">
+                  <small><strong id="char-count">0</strong>/162 caracteres sem pontuacao</small>
+                  <small id="recipient-count">0 destinatarios</small>
+                </div>
+                <p id="message-limit-warning" class="alert" style="display:none;"></p>
+                <div class="template-vars" id="message-variables" aria-label="Variaveis de mensagem">
+                  <small>Variaveis para anexar no final:</small>
+                  <div class="template-vars-actions">
+                    <button type="button" class="ghost template-var" data-token="{{HORA}}">{{HORA}}</button>
+                    <button type="button" class="ghost template-var" data-token="{{DATA}}">{{DATA}}</button>
+                    <button type="button" class="ghost template-var" data-token="{{CUPOM}}">{{CUPOM}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="user-actions">
+              <button type="submit" class="primary-action">Enviar</button>
+              <button type="button" class="ghost" id="logout">Sair</button>
+              <p id="form-result" class="result"></p>
+              <p id="credit-warning" class="alert warn" style="display:none;"></p>
+            </div>
+          </section>
+        </form>
+
+        <aside class="side-column">
+          <section class="card step-card" id="support-card">
+            <div>
+              <p class="eyebrow">Suporte</p>
+              <h2>Falar com o suporte</h2>
+              <p class="lede" style="font-size: 1rem; margin-bottom: 0;">Precisa de ajuda ou quer comprar pacotes? Chame no WhatsApp.</p>
+            </div>
+
+            <div class="storefront-actions">
+              <a id="support-whatsapp" class="button-link whatsapp" href="#" target="_blank" rel="noopener" style="display:none;">Falar com o suporte</a>
+              <p id="support-whatsapp-empty" class="result" style="display:none;">WhatsApp nao configurado pelo admin.</p>
+            </div>
+
+            <div>
+              <p class="eyebrow">Pacotes</p>
+              <div id="support-packages" class="storefront-packages"></div>
+            </div>
+          </section>
+
+          <section class="card recent-card">
+            <div>
+              <p class="eyebrow">Historico</p>
+              <h2>Seus envios</h2>
+            </div>
+            <div style="display:flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+              <button id="clear-history" type="button" class="danger-action">Limpar historico</button>
+            </div>
+            <div id="recent" class="recent"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/user.js"></script>
+  </body>
+</html>

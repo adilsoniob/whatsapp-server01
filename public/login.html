@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Painel SMS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Acesso</p>
+          <h1>PAINEL SHORTCODE</h1>
+          <p class="lede">Use seu usuario e senha para acessar sua pagina de envio.</p>
+        </div>
+      </section>
+
+      <section class="login-layout">
+        <form id="login-form" class="login-form-shell">
+          <section class="card step-card login-card">
+            <div class="step-title">
+              <span>1</span>
+              <div>
+                <h2>Credenciais</h2>
+                <p>Insira seu usuario e senha.</p>
+              </div>
+            </div>
+
+            <label class="single-line">
+              Usuario
+              <input id="username" autocomplete="username" />
+            </label>
+
+            <label class="single-line">
+              Senha
+              <input id="password" type="password" autocomplete="current-password" />
+            </label>
+
+            <button type="submit" class="primary-action">Entrar</button>
+            <p id="form-result" class="result"></p>
+            <p class="result">
+              <a id="setupLink" href="/setup" style="display:none">Criar admin (primeiro acesso)</a>
+            </p>
+          </section>
+        </form>
+
+        <section class="card step-card login-storefront-card" id="storefront-card">
+          <div class="step-title">
+            <span>2</span>
+            <div>
+              <h2>Contato</h2>
+              <p>Se voce ainda nao tem login, fale com a gente para comprar o acesso e os pacotes.</p>
+            </div>
+          </div>
+
+          <div class="storefront-actions">
+            <a id="storefront-whatsapp" class="button-link whatsapp" href="#" target="_blank" rel="noopener" style="display:none;">Comprar pelo WhatsApp</a>
+            <p id="storefront-whatsapp-empty" class="result" style="display:none;">WhatsApp nao configurado pelo admin.</p>
+          </div>
+
+          <div>
+            <p class="eyebrow">Planos e pacotes</p>
+            <div id="storefront-packages" class="storefront-packages"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/login.js"></script>
+  </body>
+</html>

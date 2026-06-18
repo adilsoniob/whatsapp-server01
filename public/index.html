@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel de envio shortcode DiihCop ElitePrev8</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Central de envio shortcode</p>
+          <h1>Painel de envio shortcode DiihJcop ElitePrev8.</h1>
+          <p class="lede">Cole sua lista de numeros, escreva a mensagem limpa e selecione uma, duas, tres ou todas as contas. O sistema alterna somente entre as contas marcadas.</p>
+        </div>
+        <aside class="hero-panel">
+          <span id="providerMode">mock</span>
+          <strong id="currentAccount">-</strong>
+          <small>conta atual da rotacao geral</small>
+        </aside>
+      </section>
+
+      <section class="send-layout">
+        <form id="sms-form" class="composer">
+          <section class="card step-card step-numbers">
+            <div class="step-title">
+              <span>1</span>
+              <div>
+                <h2>Lista de numeros</h2>
+                <p>Um numero por linha, com DDI e DDD.</p>
+              </div>
+            </div>
+            <textarea id="bulkText" name="bulkText" rows="14" placeholder="5511999999999&#10;5511888888888&#10;5511777777777"></textarea>
+            <label class="file-drop">
+              Upload TXT
+              <input id="txtUpload" type="file" accept=".txt,text/plain" />
+              <span>Escolha um arquivo .txt com um numero por linha</span>
+            </label>
+            <label class="single-line">
+              Numero rapido opcional
+              <input id="phone" name="phone" placeholder="5511999999999" />
+            </label>
+          </section>
+
+          <section class="card step-card step-message">
+            <div class="step-title">
+              <span>2</span>
+              <div>
+                <h2>Mensagem</h2>
+                <p>Texto que sera enviado para todos os numeros do lote.</p>
+              </div>
+            </div>
+            <textarea id="message" name="message" rows="8" required maxlength="162" placeholder="Seu codigo de validacao e 123456"></textarea>
+            <div class="message-footer">
+              <small><strong id="char-count">0</strong>/162 caracteres sem pontuacao</small>
+              <small id="recipient-count">0 destinatarios</small>
+            </div>
+          </section>
+
+          <section class="card step-card step-accounts">
+            <div class="step-title">
+              <span>3</span>
+              <div>
+                <h2>Contas para este envio</h2>
+                <p>Marque so as contas que devem participar da rotacao deste lote.</p>
+              </div>
+            </div>
+
+            <div class="account-actions">
+              <button type="button" class="ghost" id="select-all">Selecionar todas</button>
+              <button type="button" class="ghost" id="select-none">Limpar</button>
+              <button type="button" class="ghost" id="check-accounts">Verificar conexoes</button>
+            </div>
+
+            <div id="account-list" class="account-list"></div>
+
+            <label class="rotation-control">
+              Trocar de conta a cada
+              <input id="rotationLimitInput" name="rotationLimit" type="number" min="1" step="1" value="10" />
+              <span>SMS enviados com sucesso</span>
+            </label>
+
+            <div class="send-summary">
+              <div><span id="selected-count">0</span><small>contas selecionadas</small></div>
+              <div><span id="rotationLimit">-</span><small>SMS por conta</small></div>
+              <div><span id="sentInCurrentSlot">-</span><small>ciclo atual</small></div>
+            </div>
+
+            <button type="submit" class="primary-action">Adicionar lote na fila</button>
+            <p id="form-result" class="result"></p>
+          </section>
+        </form>
+
+        <aside class="side-column">
+          <section class="card status-card">
+            <div>
+              <p class="eyebrow">Monitor</p>
+              <h2>Fila de envio</h2>
+            </div>
+            <div class="stats">
+              <article><span id="queued">0</span><small>Na fila</small></article>
+              <article><span id="sent">0</span><small>Enviados</small></article>
+              <article><span id="failed">0</span><small>Falhas</small></article>
+            </div>
+            <button id="process-btn" type="button" class="secondary">Processar fila</button>
+            <button id="clear-completed-btn" type="button" class="danger-action">Limpar mensagens enviadas</button>
+          </section>
+
+          <section class="card recent-card">
+            <div>
+              <p class="eyebrow">Historico</p>
+              <h2>Ultimos registros</h2>
+            </div>
+            <div id="recent" class="recent"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

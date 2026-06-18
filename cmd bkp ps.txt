@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File .\tools\vps-download-backup.ps1 -HostIp 64.20.56.107 -RemotePattern "manual-now-*"

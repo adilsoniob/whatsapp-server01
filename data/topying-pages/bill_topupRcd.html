@@ -1,0 +1,98 @@
+
+
+
+
+
+
+
+
+
+
+<body> 
+  <div class="bs-example">
+   <div class="row">
+     <div class="col-xs-12 col-md-12">
+       <div class="widget no-margin-bottom">
+         <div class="widget-body no-padding">
+           <div id="searchable_wrapper">
+	         <div class="tabbable">
+	               <ul class="nav nav-tabs">
+	                  <!-- tab标签组 -->    
+	                  <li class="flag-tabs-btn tab-blue active" id="topupRcdBtn1">
+	                     <a data-toggle="tab" href="javaScript:void(0)" onclick="switchTabAndTools('topupRcdTab1','topupRcdTool1')"><i class="fa fa-list font14"></i>
+	                     <span class="tab-title">Payment Completed Record</span></a> 
+	                  </li>
+	                  <!-- tab2-工具按钮组 -->
+	                  <li class="head-tools-r navbar-right flag-tools" id="topupRcdTool1"></li>
+	                </ul>
+	                <!-- tab页面组 -->
+	                <div class="tab-content no-padding tabs-flat " style="border-radius:0;">
+						<div id="topupRcdTab1" class="flag-tabs tab-pane  in active summary-tab">
+	                </div>
+	             </div>   
+	           </div>
+	         </div>
+	       </div>
+	     </div>
+	   </div>
+	</div>   
+	  <script>
+    g_var.view = '';
+	getView();  
+	function getView() {
+			$.ajax({
+				url : window.PATH + "/bill/topupRcd/getView.ajax", 
+				data : {}, 
+				type : "post", 
+				dataType : "json",
+				async: false,
+				success : function success(req) {
+				     g_var.view = req.data; 
+				},
+				error : function error(xhr, type, exception) { 
+				}
+			});
+	}
+    try {
+       var selectPermissionsInfo =  g_var.view || JSON.parse('{"permissions":[]}');
+    } catch (e) {
+        throw new Error("js视图数据,解析错误,请检测!~!");
+    }
+    var permi = selectPermissionsInfo.permissions;
+    if (!permi || permi.length < 4) {
+    	selectPermissionsInfo.permissions = ['1', '1', '1', '1', '1', '1'];
+    	permi = ['1', '1', '1', '1', '1', '1'];
+    }
+    
+    /******************************* topupRcd  begin 	******************************/
+    var topupRcd_state = function(value, tips) {
+	    var array =["success","danger","warning","info","default","default"];
+		return "<span class='label label-"+array[value]+"'>"+tips+"</span>";
+	}
+		
+	var tableItem_topupRcd = {
+    		tableKey: "id", i18nPrefix: "db.tbTopupRcd.", trs:[
+    		{name: "id", type: "I", pk: true, hideEdit: "A", vali: {stringLength: 11},show:false},
+            {name: "startEndTime", vali: {date: true},type: "D",show:false,lastShow:false,detailShow:false,hideEdit:"A",theadSearchDef:true,topSearch:true,iptTime:true,timeLimit:['beginTime','endTime'],width:140, advQry: ['LIKE']},
+            {name: "orderid", vali: {stringLength: 128}, width:180, noSort:true, advQry: ['LIKE'],topSearch:true},
+            {name: "exid", vali: {stringLength: 128}, width:170, noSort:true, advQry: ['LIKE'],show:false},
+            
+            {name: "oper_user", vali: {stringLength: 128},width:115, advQry: ['LIKE'],topSearch:true,comType:"select",comData: "operUserSelectVals", noSort:true, isNotLoopGetVal: true},
+            {name: "user", vali: {stringLength: 128},width:115, advQry: ['LIKE'],topSearch:true,comType:"select",comData: "usersSelectVals", noSort:true, isNotLoopGetVal: true},
+            {name: "alias", vali: {stringLength: 64}, width:100, noSort:true},
+            
+            {name: "rectype", vali: {stringLength: 128}, advQry: ['LIKE'], comType:"select", width:120, noSort:true},
+            {name: "recstatus", vali: {stringLength: 1}, width:115, comType:"select",valFormat : "topupRcd_state", advQry: ['LIKE'], noSort:true},
+            {name: "amount", ratio:window.RATIO,type:"I", vali: {stringLength: 11}, width:115, amountField:true, noSort:true},
+            {name: "befbal", ratio:window.RATIO,type:"I", vali: {stringLength: 11}, width:115, amountField:true, noSort:true},
+            {name: "aftbal", ratio:window.RATIO,type:"I", vali: {stringLength: 11}, width:115, amountField:true, noSort:true},
+            {name: "ipaddr", vali: {stringLength: 32}, width:100, noSort:true, advQry: ['LIKE']},
+            {name: "rectm",comType: "timestamp",width:140},
+            {name: "remarks", vali: {stringLength: 256}, width:260, noSort:true}
+        ]};
+	var topupRcdUrl = "/bill/topupRcd/";
+	var topupRcdPermi = permiMerge([ '0', '1', '1', '1', '1', '0' ], permi);
+	InitTableMoudle("topupRcdTab1", "topupRcdTool1", topupRcdUrl, userTypeHiddenItemFun(tableItem_topupRcd,[[window.CONSUMER_TYPE,["user", "oper_user"]], [window.SUPPLIER_TYPE,["user", "oper_user"]],[window.AGENT_TYPE,["user", "oper_user"]], [window.SALESMAN_TYPE,["user", "oper_user"]]]), topupRcdPermi, "1",false,true,false,false,false,true);
+	
+	</script>
+ </body>

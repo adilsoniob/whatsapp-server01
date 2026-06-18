@@ -1,0 +1,106 @@
+(function($) {
+	$.datepickerjQ = function(tableId) {
+		$("#" + tableId).find(".ui-datepicker-time").on("click", function() {
+			$("#" + tableId).find(".ui-datepicker-css").css("display", "block");
+		});
+		$("#" + tableId).find(".ui-kydtype li").on("click", function() {
+			$("#" + tableId).find(".ui-kydtype li").removeClass("on").filter($(this)).addClass("on");
+		});
+		$("#" + tableId).find(".ui-close-date").on("click", function() {
+			$("#" + tableId).find(".ui-datepicker-css").css("display", "none");
+			$("#" + tableId).find("#ui-datepicker-div").css("display", "none");
+		});
+	}
+
+})(jQuery);
+	
+	const getDateTimeStr = (date = new Date()) => {
+		const year = date.getFullYear();
+		const month = completionTen(date.getMonth() + 1);
+		const day = completionTen(date.getDate());
+		const hour = completionTen(date.getHours());
+		const minute = completionTen(date.getMinutes());
+		const second = completionTen(date.getSeconds());
+		return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+	};
+	
+	const formatTime_share = (date, fmt = "yyyy-MM-dd hh:mm:ss") => dateToString(date, fmt);
+	const formatDate_share = (fmt, dateStr) => {
+		try {
+			const date = new Date(dateStr.replace(/-/g, "/"));
+			return dateFtt(fmt, date);
+		} catch (e) {
+			console.warn(`日期解析失败：${dateStr}，使用当前日期兜底`, e);
+			return dateFtt(fmt, new Date());
+		}
+	};
+	
+	const getDefaultDateTime = () => getDateTimeStr(new Date());
+ 
+	function dayOffset(offsetDay) {
+		const currentDate = new Date();
+		currentDate.setDate(currentDate.getDate() + parseInt(offsetDay || 0));
+		return getDateTimeStr(currentDate);
+	}
+	
+	function datePickersDay(tableId, beginTimeId, endTimeId) {
+		const $beginInput = $(beginTimeId);
+		const $endInput = $(endTimeId);
+		let startDate = $beginInput.val().trim();
+		let endDate = $endInput.val().trim();
+		const currentDateStr = getDateTimeStr().split(' ')[0];
+		startDate = startDate || currentDateStr;
+		endDate = endDate || currentDateStr;
+		$beginInput.val(formatDate_share("yyyy-MM-dd", startDate));
+		$endInput.val(formatDate_share("yyyy-MM-dd", endDate));
+	}
+	
+	function datePickers(tableId, beginTimeId, endTimeId, initBeginTime, initEndTime) {
+		const viewFormat = "yy-MM-dd hh:mm:ss";
+		const $table = $(`#${tableId}`);
+		const $beginInput = $(beginTimeId);
+		const $endInput = $(endTimeId);
+		const finalBeginTime = initBeginTime
+			? formatDate_share(viewFormat, initBeginTime)
+			: ($beginInput.val().trim()
+				? formatDate_share(viewFormat, $beginInput.val())
+				: formatDate_share(viewFormat, getDefaultDateTime())
+			);
+		const finalEndTime = initEndTime
+			? formatDate_share(viewFormat, initEndTime)
+			: ($endInput.val().trim()
+				? formatDate_share(viewFormat, $endInput.val())
+				: formatDate_share(viewFormat, getDefaultDateTime())
+			);
+	
+		const dateList = `${finalBeginTime} - ${finalEndTime}`;
+		$table.find(".ui-datepicker-time")
+			.attr("temp_time", dateList)
+			.val(dateList);
+		$table.find(".ui-datepicker-css").hide();
+	}
+	
+	function getOffsetTimeArray(offsetVal, type) {
+		const localDate = getAfterConversionDateTime(new Date().getTime() / 1000);
+		const offsetDate = new Date(localDate);
+		if (type === "0") { //hour
+			offsetDate.setHours(offsetDate.getHours() + parseInt(offsetVal || 0));
+		} else if (type === "1") { //day
+			offsetDate.setDate(offsetDate.getDate() + parseInt(offsetVal || 0));
+		}
+		const offsetDateStr = `${offsetDate.getFullYear()}-${completionTen(offsetDate.getMonth() + 1)}-${completionTen(offsetDate.getDate())} ${type === "0" ? `${completionTen(offsetDate.getHours())}:00:00` : '00:00:00'}`;
+		const endOfDayStr = `${localDate.getFullYear()}-${completionTen(localDate.getMonth() + 1)}-${completionTen(localDate.getDate())} 23:59:59`;
+		return [ new Date(offsetDateStr.replace(/-/g, "/")), new Date(endOfDayStr.replace(/-/g, "/")) ];
+	}
+	
+	function selectFastDate(tableId, searchStartTimeId, searchEndTimeId, selFastDateVal, selFastDateType) {
+		const dateList = getOffsetTimeArray(selFastDateVal, selFastDateType);
+		const [startDate, endDate] = dateList;
+		const dateListStr = `${formatTime_share(startDate, 'yy-MM-dd hh:mm:ss')} - ${formatTime_share(endDate, 'yy-MM-dd hh:mm:ss')}`;
+		const $table = $(`#${tableId}`);
+		$table.find(".ui-datepicker-time").attr("temp_time", dateListStr).val(dateListStr);
+		$(`#${searchStartTimeId}`).val(formatTime_share(startDate));
+		$(`#${searchEndTimeId}`).val(formatTime_share(endDate));
+		$table.find(".ui-datepicker-css").hide();
+		$("#ui-datepicker-div").hide();
+	}

@@ -1,0 +1,652 @@
+
+
+
+
+
+
+
+
+
+
+<script>
+    g_var.view = {"homePage":"redirectHome","serviceSysTimeZone":"480","simple":0,"webSvnVer":"1037","authInfo":{"authname":"0122C371A","authpwd":""},"userBalance":-24000,"eimsVer":"991.4.147","ReleaseTime":"2026-03-24 10:19"};
+</script>
+
+<div class="home-div bs-example content-inner">
+	<div class="row">
+	    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        <div class="row">
+	             <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12 dash-xl-50">
+			       <div class="card profile-greeting">
+			         <div class="card-body" style="padding: 30px">
+			           <div class="media">
+			             <div class="media-body"> 
+			               <div class="greeting-user">
+			                 <h1>Hello,&nbsp;0122C371A</h1>
+			                 <p style="padding: 20px 0px;">Welcome back</p><a class="btn btn-info" href="javascript:void(0)" onclick="clk_toSendSMSPage()">Get started<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+			               </div>
+			             </div>
+			           </div>
+			           <div class="cartoon-img" style="width: 290px;" ><img class="img-fluid" src="/assets/images/images.svg" alt=""></div>
+			         </div>
+			       </div>
+			       </div>
+			       <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6 dash-xl-70">
+				       <div class="card">
+                             <div class="card-body">
+                                 <div class="d-flex align-items-center justify-content-center hp-dashboard-feature-card-icon hp-bg-black-20 hp-bg-dark-80" style="height: 48px;background: #ebfafa;color: #0010f7;border-radius: 10px !important;">
+                                     <span style="margin: 0 auto;">HTTP auth password</span>
+                                 </div>
+                                 <div style="padding-top: 40px;">
+							          <div>
+							              <input id="http_authpwd" disabled="disabled" type="text" class="user-authpwd language-html" value="">
+							          </div>
+							     </div>
+							     <div style="bottom: 10px;position: absolute;right: 10px;">
+						            <span class="svg-icon popper-icon" onclick="auto_generation_authpwd('http_authpwd')" style="font-size: 14px;">Regenerate</span>
+						         </div>
+                             </div>
+                         </div>
+			       </div>
+			       <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6 dash-xl-70">
+			             <div class="card">
+                             <div class="card-body">
+                                 <div class="d-flex align-items-center justify-content-center hp-dashboard-feature-card-icon hp-bg-black-20 hp-bg-dark-80" style="height: 48px;background: #ebfafa;color: #0010f7;border-radius: 10px !important;">
+                                     <span style="margin: 0 auto;">SMPP auth password</span>
+                                 </div>
+                                 <div style="padding-top: 40px;">
+							          <div>
+							              <input id="smpp_authpwd" disabled="disabled" type="text" class="user-authpwd language-html" value="">
+							          </div>
+							     </div>
+							     <div style="bottom: 10px;position: absolute;right: 10px;">
+						            <span class="svg-icon popper-icon" onclick="auto_generation_authpwd('smpp_authpwd')" style="font-size: 14px;">Regenerate</span>
+						         </div>
+                             </div>
+                         </div>
+			       </div>
+			       
+	        </div>
+	        <div class="row">
+			    <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
+			        <div class="card">
+			            <div class="widget-header ">
+			               <span class="widget-caption">SMS statistics in the last 24 hours</span>
+						   <span class="widget-caption swipe_down_to_load_data_1">Swipe down to load data</span>
+			            </div>
+			          <div id="ID_user_sms_24hours" class="card-body no-padding" style="height:400px;"></div>
+			        </div>
+			    </div>
+			    <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
+			        <div class="card">
+			            <div class="widget-header ">
+			              <span class="widget-caption">Statistics for the last 12 months</span>
+			              <span class="widget-caption swipe_down_to_load_data_1">Swipe down to load data</span>
+			            </div>
+			          <div id="ID_user_sms_12month" class="card-body no-padding" style="height:400px;"></div>
+			        </div>
+			    </div>
+			</div>
+			
+			<div class="row">
+			    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        <div class="card">
+			            <div class="widget-header ">
+			              <span class="widget-caption">Daily SMS statistics in the last month</span>
+			              <span class="widget-caption swipe_down_to_load_data_2">Swipe down to load data</span>
+			            </div>
+			          <div id="ID_user_sms_31day" class="card-body no-padding" style="height:400px;"></div>
+			        </div>
+			    </div>
+			</div>
+			
+			<div class="row">
+			    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        <div class="card">
+			            <div class="widget-header ">
+			              <span class="widget-caption">Daily SMS statistics for the last 12 months</span>
+			              <span class="widget-caption swipe_down_to_load_data_2">Swipe down to load data</span>
+			            </div>
+			          <div id="ID_user_sms_12monthEveryDay" class="card-body no-padding" style="height:600px;"></div>
+			        </div>
+			    </div>
+			</div>
+	    </div> 
+	</div> 
+</div>
+<script>
+    $(function(){
+	    $(".user-authpwd").val($.i18n("forgotPassword_pleaseRegenerate"));
+	});
+   var myChart1,myChart2,myChart3,myChart4;
+   var mycolor = ['#4cabce', '#e5323e','#c0e119','#e16e19'];
+   var name_data = [$.i18n("db.tbUserStat.succ"), $.i18n("db.tbUserStat.fail"),$.i18n("db.tbUserStat.billsucc"), $.i18n("db.tbUserStat.billfail")];
+   var toolbox = {
+		        show: !window.IS_MOBILE,
+		        orient: 'horizontal',
+		        right: 25,
+		        feature: {
+		            mark: {show: true},
+		            dataView: {show: true, readOnly: false,title:$.i18n("data_view"),lang:[$.i18n("data_view"), $.i18n("close"), $.i18n("refresh")]},
+		            magicType: {show: true, type: ['line', 'bar'],title:{line:$.i18n("switch_to_line_chart"),bar:$.i18n("switch_to_bar_chart")}}
+		        }
+		    }
+	var option_grid =  window.IS_MOBILE ? {x: 60,x2: 10,y2:80} : {x: 80,x2: 40,y2:80};
+	var dayDataOption_grid =  window.IS_MOBILE ? {x: 60,x2: 10,y2:120} : {x: 80,x2: 40,y2:100};
+   
+   function frmhomeUser24HoursStaFun(datas){
+	 	myChart1 = echarts.init(document.getElementById('ID_user_sms_24hours'));
+		var option = {
+					title:{
+				        text: $.i18n("SMS_statistics_in_the_last_24_hours"),
+				        x: 'center',
+				        y2:0
+				    },
+				    color: mycolor,
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        }
+				    },
+				    grid: option_grid,
+				    legend: {
+				        data: name_data
+				    },
+				    toolbox:toolbox,
+				    xAxis: [
+				        {
+				            type: 'category',
+				            axisTick: {show: false},
+				            axisLabel: {
+					            /* interval: 0,
+					            rotate: 30, */
+					            formatter: function(value){
+									return parseDate(value).format("HH:00 MM-dd").replace(" ", '\n');
+								}
+					        },
+				            data: datas.times
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value',
+				            minInterval: 1
+				            
+				        }
+				    ],
+				    series: userSta_line_series_arr([[$.i18n("db.tbUserStat.succ"), datas.success], [$.i18n("db.tbUserStat.fail"), datas.failure],[$.i18n("db.tbUserStat.billsucc"), datas.bill_success], [$.i18n("db.tbUserStat.billfail"), datas.bill_failure]])
+				}
+		myChart1.setOption(option);
+			window.addEventListener("resize", function () {
+			    myChart1.resize();
+			});
+    } 
+    
+    
+    function frmhomeUser31DayStaFun(datas){
+	 	myChart4 = echarts.init(document.getElementById('ID_user_sms_31day'));
+		var option = {
+					title:{
+				        text: $.i18n("statistics_for_the_last_31_days"),
+				        x: 'center',
+				        y2:0
+				    },
+				    color: mycolor,
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        }
+				    },
+				    grid: option_grid,
+				    legend: {
+				        data: name_data
+				    },
+				    toolbox:toolbox,
+				    xAxis: [
+				        {
+				            type: 'category',
+				            axisTick: {show: false},
+				            data: datas.times,
+				            axisLabel: {
+					            formatter: function(value){
+									return parseDate(value).format("MM-dd");
+								}
+					        },
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value',
+				            minInterval: 1
+				            
+				        }
+				    ],
+				    series: userSta_line_series_arr([[$.i18n("db.tbUserStat.succ"), datas.success], [$.i18n("db.tbUserStat.fail"), datas.failure],[$.i18n("db.tbUserStat.billsucc"), datas.bill_success], [$.i18n("db.tbUserStat.billfail"), datas.bill_failure]])
+				}
+		myChart4.setOption(option);
+			window.addEventListener("resize", function () {
+			    myChart4.resize();
+			});
+    } 
+    
+    function frmhomeUser12MonthStaFun(datas){
+        var temp_grid = option_grid;
+        temp_grid.tooltip = {axisPointer: {
+		                    type: 'shadow',
+		                    label: {
+		                        show: false,
+		                        formatter: function (params) {
+		                            return parseDate(params.value.replace('\n', '')).format("yyyy-MM-dd");
+		                        }
+		                    }
+		                }};
+	 	myChart2 = echarts.init(document.getElementById('ID_user_sms_12month'));
+		var option = {
+					title:{
+				        text: $.i18n("statistics_for_the_last_12_months"),
+				        x: 'center',
+				        y2:0
+				    },
+				    color: mycolor,
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        }
+				    },
+				    grid: temp_grid,
+				    legend: {
+				        data: name_data
+				    },
+				    toolbox:toolbox,
+				    xAxis: [
+				        {
+				            type: 'category',
+				            axisTick: {show: false},
+				            data: datas.times,
+				            axisLabel: {
+					            formatter: function(value){
+									return parseDate(value).format("yyyy-MM");
+								}
+					        },
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value',
+				            minInterval: 1
+				        }
+				    ],
+				    series: userSta_line_series_arr([[$.i18n("db.tbUserStat.succ"), datas.success], [$.i18n("db.tbUserStat.fail"), datas.failure],[$.i18n("db.tbUserStat.billsucc"), datas.bill_success], [$.i18n("db.tbUserStat.billfail"), datas.bill_failure]])
+				}
+		myChart2.setOption(option);
+			window.addEventListener("resize", function () {
+			    myChart2.resize();
+			});
+    }
+    
+    function userSta_line_series_arr(stat_arr){
+       var arr = [];
+       for(var i=0;i<stat_arr.length;i++){
+          var data = stat_arr[i];
+          var temp = {
+	            name: data[0],
+	            type: 'line',
+	            label: {
+				    show: true,
+				    formatter: '{c}  {name|{a}}',
+				    fontSize: 16,
+				    distance: 15,
+				    rich: {
+				        name: {
+				            textBorderColor: '#fff'
+				        }
+				    }
+				},
+	            barWidth : 10,
+	            label: {
+	                normal: {
+	                    show: true,
+	                    position: 'top',
+	                    formatter: function (params) {return labelGtZeroDisplay(params)}
+	                }
+	            },
+	            data: data[1]
+	        }
+	      arr.push(temp);
+       }
+       return arr;
+    }
+    
+    function frmhomeUser12MonthEveryDayStaFun(datas){
+       myChart3 = echarts.init(document.getElementById('ID_user_sms_12monthEveryDay'));
+       var days = datas.days;
+       var months = datas.months;
+       var len_mon = months.length;
+       var last_month = months[len_mon-1];
+       var last_mon = len_mon-1;
+       var last_day = days[days.length-1];
+       var dataMap = {};
+       dataMap.success = dataFormatter(datas.success, months, days);
+       dataMap.failure = dataFormatter(datas.failure, datas.months, days);
+       dataMap.bill_success = dataFormatter(datas.bill_success, months, days);
+       dataMap.bill_failure = dataFormatter(datas.bill_failure, months, days);
+       var option = {
+		    baseOption: {
+		        timeline: {
+		            axisType: 'category',
+		            // realtime: false,
+		            // loop: false,
+		            autoPlay: false,
+		            currentIndex: last_mon,
+		            x:'center',
+		            width : '95%',
+		            playInterval: 1000,
+		            // controlStyle: {
+		            //     position: 'left'
+		            // },
+		            data: datas.months,
+		            label: {
+		                formatter : function(s) {
+		                    return s;
+		                }
+		            }
+		        },
+		        tooltip: {
+		        },
+		        legend: {
+		            left: 'right',
+		            data: name_data
+		        },
+		        calculable : true,
+		        grid: {
+		            top: 180,
+		            tooltip: {
+		                trigger: 'axis',
+		                axisPointer: {
+		                    type: 'shadow',
+		                    label: {
+		                        show: false,
+		                        formatter: function (params) {
+		                            return params.value.replace('\n', '');
+		                        }
+		                    }
+		                }
+		            }
+		        },
+		        color: mycolor,
+		        xAxis: [
+			        {
+			            type: 'category',
+			            axisTick: {show: false},
+			            data: getXAxisData(last_day, last_month)
+			        }
+			    ],
+		        yAxis: [
+		            {
+		                type: 'value',
+		                minInterval: 1
+		            }
+		        ],
+		        series: [
+		            user12MonthEveryDaySta_series_bar($.i18n("db.tbUserStat.succ")),
+		            user12MonthEveryDaySta_series_bar($.i18n("db.tbUserStat.fail")),
+		            user12MonthEveryDaySta_series_bar($.i18n("db.tbUserStat.billsucc")),
+		            user12MonthEveryDaySta_series_bar($.i18n("db.tbUserStat.billfail")),
+		            {
+		                name: $.i18n("sum"),
+		                type: 'pie',
+		                center: ['28%', '15%'],
+		                radius: '15%',
+		                label: user12MonthEveryDaySta_pie_label()
+		            },
+		            {
+		            name: $.i18n("sum"),
+		            type: 'pie',
+		            center: ['75%', '15%'],
+		            radius: '15%',
+		            label: user12MonthEveryDaySta_pie_label()
+		          }
+		        ]
+		    },
+		    options: dayDataOptions(dataMap, datas.months, datas.days)
+		};
+       myChart3.setOption(option);
+	   window.addEventListener("resize", function () {
+		   myChart3.resize();
+	   });
+    }
+    
+    function user12MonthEveryDaySta_series_bar(name){
+        return {name: name, type: 'bar',barGap: '-100%',label: {normal: {
+		                show: true,
+		                position: 'insideRight',
+		                formatter: function (params) {return labelGtZeroDisplay(params)}}
+		            }
+		      };
+    }
+    
+    function user12MonthEveryDaySta_pie_label(){
+       return {
+               formatter: function (params) {
+                      return '{a|'+params.data.mt+ ' ' + params.seriesName+'}{abg|}\n{hr|}\n  {b|'+params.name+'：}'+params.value+'  {per|'+params.percent+'%}'
+                  },
+               borderColor: '#aaa',
+               borderWidth: 1,
+               borderRadius: 4,
+               rich: {
+                   a: {
+                       color: '#999',
+                       lineHeight: 22,
+                       align: 'center'
+                   },
+                   hr: {
+                       borderColor: '#aaa',
+                       width: '100%',
+                       borderWidth: 0.5,
+                       height: 0
+                   },
+                   b: {
+                       fontSize: 16,
+                       lineHeight: 33
+                   },
+                   per: {
+                       color: '#eee',
+                       backgroundColor: '#334455',
+                       padding: [2, 4],
+                       borderRadius: 2
+                   }
+               }
+           }
+    }
+    
+    function dayDataOptions(dataMap, months, days){
+		var datas = [];
+	    for (var i = 0; i < months.length; i++) {
+	        var month = months[i];
+	        var data = {
+	            title: {text: $.i18n("mon_send_SMS_daily").replace("{0}",month+''),
+		            x: 'left',
+				    y2: 55},
+				grid: dayDataOption_grid,
+				xAxis: [
+		            {
+		                'type':'category',
+		                'axisLabel':{'interval':0},
+		                'data': getXAxisData(days[i], month),
+		                splitLine: {show: false},
+		                name: 'Day',
+		                axisLabel: {
+				            formatter: function(value){
+				                var v = value.split("\-");
+								return v[v.length-1];
+							}
+				        }
+		            }
+		        ],
+	            series: [
+	                {data: dataMap.success[month]},
+	                {data: dataMap.failure[month]},
+	                {data: dataMap.bill_success[month]},
+	                {data: dataMap.bill_failure[month]},
+	                {data: [
+	                    {name: $.i18n("db.tbUserStat.succ"), value: dataMap.success[month+'sum'], mt: month},
+	                    {name: $.i18n("db.tbUserStat.fail"), value: dataMap.failure[month+'sum'], mt: month}
+	                ]},
+	                {data: [
+	                    {name: $.i18n("db.tbUserStat.billsucc"), value: dataMap.bill_success[month+'sum'], mt: month},
+	                    {name: $.i18n("db.tbUserStat.billfail"), value: dataMap.bill_failure[month+'sum'], mt: month}
+	                ]}
+	            ]
+	        }
+	        datas.push(data);
+	    }
+	    return datas;
+	}
+	
+	function getXAxisData(d, month){
+	    var pList = new Array(d).toString().split(',').map(function(item, index) {
+	        return month + '-' + ((index + 1)%2 == 0 ? '\n' : '')+ (index + 1);
+	    });
+	    return pList;
+	}
+	
+	function dataFormatter(obj, months, days) {
+	    var temp;
+	    for (var j = 0; j < months.length; j++) {
+	        var month = months[j];
+	        var pList = new Array(days[j]).toString().split(',').map(function(item, index) {
+		        return index + 1;
+		    });
+	        var max = 0;
+	        var sum = 0;
+	        temp = obj[month];
+	        for (var i = 0, l = temp.length; i < l; i++) {
+	            max = Math.max(max, temp[i]);
+	            sum += temp[i];
+	            obj[month][i] = {
+	                name: pList[i],
+	                value: temp[i]
+	            };
+	        }
+	        obj[month + 'max'] = Math.floor(max / 100) * 100;
+	        obj[month + 'sum'] = sum;
+	    }
+	    return obj;
+	}
+    
+    function labelGtZeroDisplay(params){
+        if (params.value > 0) {
+           return params.value;
+        } else {
+           return '';
+        }
+    }
+    
+    function auto_generation_authpwd(type){
+            var oldTableId = "authpwd_tabelId";
+            var user = window.LOGIN_USER_NAME;
+		    var special = false;
+		    var authpwd_len_array = [8, 31];
+		    if(type == "smpp_authpwd"){
+		        authpwd_len_array = [6, 9];
+		        special = true;
+		    }else if(type == "cmpp_authpwd"){
+		        authpwd_len_array = [6, 16];
+		        special = true;
+		    }
+			var pwdModifyItems ={
+			        i18nPrefix: "menu.frame_password",
+			        trs:[
+			           {name: "password_modify", width:120, vali: {required:true,stringLength: authpwd_len_array,regexp:window.LOGIN_PWD_REGEXP, valiRegexpMsg: "login_pwd_rule", special:special}, generateCopyBtn:true}
+			        ]
+			};
+		    var tableId = "sc-"+oldTableId;
+		    setLocalStorageModel(tableId, "tableParams", pwdModifyItems);
+		    initAddHtml(tableId, pwdModifyItems);
+		    
+		    var name = $.i18n("db.tbUser."+type);
+		    showDialogModelCom(tableId,$.i18n("modify_tip").replace("{0}", "["+user+"] " + name),initEditFormValidatoraCom(tableId, "new",function(){toolSavePasswordModify_home(tableId,oldTableId, type);}));
+		    generatePassword("edit-"+tableId+"-password_modify", authpwd_len_array[0], authpwd_len_array[1], special);
+    }
+    
+    function toolSavePasswordModify_home(tableId, oldTabId, type){
+	    var $upwd = $("#edit-"+tableId+"-password_modify");  
+	    var params = {
+	         token : window.token,
+	         type : type || '',
+		     actionName:$.i18n("menu.frame_password")
+		};
+	    params.upwd = getEncryptData($.trim($upwd.val())); 
+	    submitPasswordModify_home(tableId, oldTabId, params, type, $.trim($upwd.val()));
+	}
+	
+	function submitPasswordModify_home(tableId, oldTabId, params, type, pwd){
+    	$.ajax({
+    	    url: window.PATH + "/home/consumer_editauthpwd.ajax",
+    	    dataType: "json",    
+    	    async: true, 
+    	    data: params ,   
+    	    type:"POST",  
+    	    success:function(res){ 
+		    	$("#"+tableId+"-edit").modal('hide');
+		    	setTimeout(function(){
+	  	  			$("#"+tableId+"-edit").remove();
+	  	  			$(".modal-backdrop").remove();
+	  	  		}, 500);
+		    	if(res.state==0){
+    	    		layer.msg.success(res.message);
+    	    		$("#"+type).val(pwd);
+    	    	}else{
+    	    		layer.msg.error(res.message);	
+    	    	}
+    	    }, 
+    	    error:function(){  
+    	    }
+     	});
+    }
+    
+    function switchPwd() {
+	   var passwordeye = $("#passwordeye");
+	   var showPwd = $("#authpwd");
+	      if(showPwd.prop('type') == 'password'){
+	          passwordeye.removeClass().addClass('glyphicon glyphicon-eye-open');
+	          showPwd.prop('type','text');
+	      }else{
+	          passwordeye.removeClass().addClass('glyphicon glyphicon-eye-close');
+	          showPwd.prop('type','password');
+	      };
+	}
+    
+    homePageScrollLoad(function(){
+         loadUserStatData(1);
+    },function(){
+         loadUserStatData(0);
+    });
+    
+    function loadUserStatData(type){
+        $.ajax({
+		        url: window.PATH + "/home/asynGetDatas.ajax",
+		        type:"POST",
+		        data:{type:type},
+		        dataType: "json",
+		        async: false,
+		        success: function success(req) {
+		        	 if(location.href.contains("/home")){
+     	                  if(type == 1){
+     	                      frmhomeUser24HoursStaFun(req.data.user24HoursSta);
+                              frmhomeUser12MonthStaFun(req.data.user12MonthSta);
+     	                  }else{
+     	                      frmhomeUser31DayStaFun(req.data.user31DaySta);
+   	                          frmhomeUser12MonthEveryDayStaFun(req.data.user12MonthEveryDaySta);
+     	                  }
+		            } 
+		        },
+		        error: function error(xhr, type, exception) {
+		        }
+		    });
+    }
+     
+</script>
